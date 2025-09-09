@@ -2,7 +2,15 @@
 const Article = require("../models/Article");
 const slugify = require("slugify");
 
-/* ── PUBLIC HANDLERS ─────────────────────────────────────────────────── */
+/* ── PUBLIC HANDLER// Show "Edit Article" form (GET /admin/blog/:id/edit)
+exports.editForm = async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id);
+    if (!article) return res.redirect("/admin/blog");
+    res.render("admin/blogForm", {
+      title: "Edit Article",
+      user: req.user,
+      article,───────────────────────────────────────────── */
 
 // List all blog posts (GET /blog)
 exports.list = async (req, res) => {
@@ -65,12 +73,14 @@ exports.adminList = async (req, res) => {
       .populate("author", "username");
     res.render("admin/blogList", {
       title: "Manage Articles",
+      user: req.user,
       articles,
     });
   } catch (err) {
     console.error("Admin list error:", err);
     res.status(500).render("admin/blogList", {
       title: "Manage Articles",
+      user: req.user || { username: "Unknown", role: "user" },
       articles: [],
       error: "Unable to load articles.",
     });
@@ -81,6 +91,7 @@ exports.adminList = async (req, res) => {
 exports.newForm = (req, res) => {
   res.render("admin/blogForm", {
     title: "Create New Article",
+    user: req.user,
     article: {}, // empty for the form
   });
 };
@@ -88,19 +99,52 @@ exports.newForm = (req, res) => {
 // Create article (POST /admin/blog/new)
 exports.create = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const article = new Article({
+    const {
+      title,
+      content,
+      excerpt,
+      status,
+      category,
+      metaDescription,
+      keywords,
+      action,
+    } = req.body;
+
+    // Determine final status based on action
+    const finalStatus = action === "publish" ? "published" : "draft";
+
+    const articleData = {
       title,
       slug: slugify(title, { lower: true, strict: true }),
       content,
+      excerpt,
+      status: finalStatus,
+      category,
+      metaDescription,
+      keywords,
       author: req.user._id,
-    });
+    };
+
+    // Handle file upload if present
+    if (req.file) {
+      articleData.featuredImage = `/image/${req.file.filename}`;
+    }
+
+    const article = new Article(articleData);
     await article.save();
+
+    req.flash(
+      "success",
+      `Article ${
+        finalStatus === "published" ? "published" : "saved as draft"
+      } successfully!`
+    );
     res.redirect("/admin/blog");
   } catch (err) {
     console.error("Create article error:", err);
     res.render("admin/blogForm", {
       title: "Create New Article",
+      user: req.user,
       article: req.body,
       error: "Failed to create article. Please try again.",
     });
@@ -125,21 +169,57 @@ exports.editForm = async (req, res) => {
 // Update article (POST /admin/blog/:id/edit)
 exports.update = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const {
+      title,
+      content,
+      excerpt,
+      status,
+      category,
+      metaDescription,
+      keywords,
+      action,
+    } = req.body;
+
     const article = await Article.findById(req.params.id);
     if (!article) return res.redirect("/admin/blog");
+
+    // Determine final status based on action
+    const finalStatus =
+      action === "publish"
+        ? "published"
+        : action === "draft"
+        ? "draft"
+        : status;
 
     article.title = title;
     article.slug = slugify(title, { lower: true, strict: true });
     article.content = content;
+    article.excerpt = excerpt;
+    article.status = finalStatus;
+    article.category = category;
+    article.metaDescription = metaDescription;
+    article.keywords = keywords;
     article.updatedAt = Date.now();
 
+    // Handle file upload if present
+    if (req.file) {
+      article.featuredImage = `/image/${req.file.filename}`;
+    }
+
     await article.save();
+
+    req.flash(
+      "success",
+      `Article ${
+        finalStatus === "published" ? "published" : "updated"
+      } successfully!`
+    );
     res.redirect("/admin/blog");
   } catch (err) {
     console.error("Update article error:", err);
     res.render("admin/blogForm", {
       title: "Edit Article",
+      user: req.user,
       article: { ...req.body, _id: req.params.id },
       error: "Failed to update. Please try again.",
     });

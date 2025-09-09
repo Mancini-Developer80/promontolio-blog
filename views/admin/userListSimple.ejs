@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User List - Simple</title>
+  </head>
+  <body>
+    <h1>User Management</h1>
+    <p>Simple user list page</p>
+
+    <div>
+      <h2>Statistics</h2>
+      <p>Total Users: <%= stats.total %></p>
+      <p>Active Users: <%= stats.active %></p>
+      <p>Inactive Users: <%= stats.inactive %></p>
+    </div>
+
+    <div>
+      <h2>Users</h2>
+      <% if (users && users.length > 0) { %>
+      <table border="1">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+        </tr>
+        <% users.forEach(user => { %>
+        <tr>
+          <td><%= user.firstName %> <%= user.lastName %></td>
+          <td><%= user.email %></td>
+          <td><%= user.role %></td>
+          <td><%= user.status %></td>
+        </tr>
+        <% }) %>
+      </table>
+      <% } else { %>
+      <p>No users found.</p>
+      <% } %>
+    </div>
+
+    <a href="/admin/dashboard">Back to Dashboard</a>
+  </body>
+</html>

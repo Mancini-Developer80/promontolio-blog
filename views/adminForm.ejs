@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/general/head') %>
+  </head>
+
+  <body>
+    <!-- prettier-ignore -->
+    <header class="contact-header login">
+      <%- include('partials/general/navbar.ejs') %>
+      <section class="contact container">
+        <div class="contact-description content login">
+          <h1>Welacome back</h1>
+          
+        </div>
+        <div class="linea login"></div>
+        <div class="contact-form login">
+          <!-- Display error messages -->
+          <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-error">
+              <%= error %>
+            </div>
+          <% } %>
+          
+          <form action="/auth/login" method="POST" class="form login">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+           
+            <button class="btn-form" type="submit">Log In</button>
+          </form>
+           
+    </header>
+    
+   
+  </body>
+</html>

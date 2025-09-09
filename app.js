@@ -5,6 +5,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
+const flash = require("connect-flash");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const compression = require("compression");
@@ -16,10 +17,10 @@ const ensureRole = require("./middleware/ensureRole");
 require("./config/passport");
 
 // Connect to MongoDB
-// mongoose.connect(process.env.MONGO_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const app = express();
 
@@ -37,17 +38,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  "/admin/blog",
-  ensureRole(["author", "admin"]),
-  require("./routes/admin/blog")
-);
-app.use(
-  "/admin/dashboard",
-  ensureRole(["admin"]),
-  require("./routes/admin/dashboard")
-);
-
 // View engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -60,6 +50,7 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -70,6 +61,9 @@ app.use("/auth", require("./routes/auth"));
 
 // Protected admin blog panel
 app.use("/admin/blog", ensureAuth, require("./routes/admin/blog"));
+
+// Protected admin user management
+app.use("/admin/users", ensureAuth, require("./routes/admin/userSimple"));
 
 // Protected admin dashboard
 app.use("/admin/dashboard", ensureAuth, require("./routes/admin/dashboard"));

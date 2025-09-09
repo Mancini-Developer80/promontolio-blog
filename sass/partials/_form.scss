@@ -2,7 +2,6 @@
 @use "./variables" as *;
 
 .contact-header {
-  // background-image: linear-gradient(210deg, $primary-color, $secondary-color);
   background-image: $background-gradient;
   min-height: 130vh;
   padding-bottom: 2rem;
@@ -58,4 +57,35 @@
       background-color: #18984e;
     }
   }
+}
+
+// Alert messages
+.alert {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  font-weight: 500;
+
+  &.alert-error {
+    background-color: #fee;
+    color: #c53030;
+    border: 1px solid #fed7d7;
+  }
+
+  &.alert-success {
+    background-color: #f0fff4;
+    color: #22543d;
+    border: 1px solid #c6f6d5;
+  }
+}
+
+// Login form
+
+.contact-form.login {
+  max-width: 400px;
+  margin: 3rem auto 0 auto; // Center the form horizontally
+}
+
+.contact-description.content.login {
+  padding: 0;
 }

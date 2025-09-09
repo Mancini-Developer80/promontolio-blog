@@ -5,7 +5,12 @@ const router = express.Router();
 
 // Show login form
 router.get("/login", (req, res) => {
-  res.render("auth/login", { title: "Admin Login" });
+  res.render("adminForm", {
+    title: "Admin Login",
+    metaDescription: "",
+    metaKeywords: "",
+    error: req.flash("error")[0], // Get the first error message
+  });
 });
 
 // Process login

@@ -1,15 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include('partials/head') %>
-    <title>Blog - NodePrincipe</title>
+    <%- include('../partials/general/head') %>
+    <title>PromontolioBlog - Dashboard</title>
   </head>
   <body>
-    <%- include('partials/header') %>
-    <main>
-      <h1>Dashboard</h1>
-      <p>Welcome to the admin dashboard. Here you can manage your blog.</p>
-    </main>
-    <%- include('partials/footer') %>
+    <%- include('../partials/general/dashboardNavbar') %>
+
+    <div class="dashboard-container">
+      <!-- Welcome Header -->
+      <div class="welcome-header">
+        <h1>🫒 PromontolioBlog Dashboard</h1>
+        <p>Welcome back! Here's your olive oil blog overview.</p>
+      </div>
+
+      <!-- Key Statistics -->
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <span class="stat-number"
+            ><%= (stats && stats.totalPosts) || 0 %></span
+          >
+          <span class="stat-label">Total Blog Posts</span>
+        </div>
+
+        <div class="dashboard-card">
+          <span class="stat-number"
+            ><%= (stats && stats.totalSubscribers) || 0 %></span
+          >
+          <span class="stat-label">Newsletter Subscribers</span>
+        </div>
+
+        <div class="dashboard-card">
+          <span class="stat-number"
+            ><%= (stats && stats.postsThisMonth) || 0 %></span
+          >
+          <span class="stat-label">Posts This Month</span>
+        </div>
+
+        <div class="dashboard-card">
+          <span class="stat-number"
+            ><%= (stats && stats.recentSubscribers) || 0 %></span
+          >
+          <span class="stat-label">New Subscribers (30 days)</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <section class="dashboard-section">
+        <h2 class="section-title">⚡ Quick Actions</h2>
+        <div class="quick-actions">
+          <a href="/admin/blog/new" class="action-btn create"
+            >✍️ Write New Post</a
+          >
+          <a href="/admin/blog" class="action-btn">📝 Manage Posts</a>
+          <a href="/admin/dashboard/users" class="action-btn"
+            >👥 Manage Users</a
+          >
+          <a href="/blog" class="action-btn view-site" target="_blank"
+            >🌐 View Public Blog</a
+          >
+          <a href="/auth/logout" class="action-btn logout">🚪 Logout</a>
+        </div>
+      </section>
+
+      <!-- Recent Activity Section -->
+      <section class="dashboard-section">
+        <h2 class="section-title">📈 Recent Activity</h2>
+        <div class="dashboard-grid">
+          <div class="recent-section">
+            <div class="recent-items">
+              <h3>📝 Recent Blog Posts</h3>
+              <% if (stats && stats.recentPosts && stats.recentPosts.length > 0)
+              { %> <% stats.recentPosts.forEach(post => { %>
+              <div class="recent-item">
+                <strong><%= post.title %></strong><br />
+                <small
+                  >Published: <%= new Date(post.createdAt).toLocaleDateString()
+                  %></small
+                >
+              </div>
+              <% }) %> <% } else { %>
+              <div class="recent-item">
+                <em
+                  >No posts yet.
+                  <a href="/admin/blog/new">Create your first post!</a></em
+                >
+              </div>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="recent-section">
+            <div class="recent-items">
+              <h3>📧 Recent Subscribers</h3>
+              <% if (stats && stats.recentSubscribersList &&
+              stats.recentSubscribersList.length > 0) { %> <%
+              stats.recentSubscribersList.forEach(subscriber => { %>
+              <div class="recent-item">
+                <strong><%= subscriber.email %></strong><br />
+                <small
+                  >Subscribed: <%= new
+                  Date(subscriber.createdAt).toLocaleDateString() %></small
+                >
+              </div>
+              <% }) %> <% } else { %>
+              <div class="recent-item">
+                <em
+                  >No subscribers yet. Share your blog to grow your
+                  audience!</em
+                >
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Business Tips Section -->
+      <section class="dashboard-section business-tip">
+        <h2 class="section-title">
+          🌱 Content Strategy for Your Olive Oil Business
+        </h2>
+        <div class="tip-grid">
+          <div class="tip-card">
+            <h4>📝 Content Ideas</h4>
+            <p>
+              Write about olive harvesting seasons, health benefits of extra
+              virgin olive oil, traditional vs modern pressing methods.
+            </p>
+          </div>
+          <div class="tip-card">
+            <h4>👥 Audience Engagement</h4>
+            <p>
+              Share behind-the-scenes content from your olive groves, recipe
+              tutorials, and customer testimonials.
+            </p>
+          </div>
+          <div class="tip-card">
+            <h4>📊 SEO Tips</h4>
+            <p>
+              Use keywords like "extra virgin olive oil", "organic olives",
+              "Mediterranean recipes" to improve search rankings.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Simple Admin Footer -->
+    <footer class="admin-footer">
+      <div class="admin-footer-content">
+        <p>
+          &copy; 2025 PromontolioBlog Admin Panel |
+          <a href="/blog" target="_blank">View Public Site</a>
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

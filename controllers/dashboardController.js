@@ -5,21 +5,56 @@ const Subscriber = require("../models/Subscriber");
 // Render the Dashboard page (GET /admin/dashboard)
 exports.viewDashboard = async (req, res) => {
   try {
-    // Basic counts for display
+    // Basic counts
     const totalPosts = await Article.countDocuments();
     const totalSubscribers = await Subscriber.countDocuments();
 
+    // Posts this month
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const postsThisMonth = await Article.countDocuments({
+      createdAt: { $gte: startOfMonth },
+    });
+
+    // Recent subscribers (last 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const recentSubscribers = await Subscriber.countDocuments({
+      createdAt: { $gte: thirtyDaysAgo },
+    });
+
+    // Recent posts (last 5)
+    const recentPosts = await Article.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .select("title createdAt");
+
+    // Recent subscribers list (last 5)
+    const recentSubscribersList = await Subscriber.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .select("email createdAt");
+
     res.render("admin/dashboard", {
-      title: "Dashboard",
+      title: "PromontolioBlog Dashboard",
+      user: req.user, // Pass the authenticated user
       stats: {
         totalPosts,
         totalSubscribers,
+        postsThisMonth,
+        recentSubscribers,
+        recentPosts,
+        recentSubscribersList,
       },
     });
   } catch (err) {
     console.error("Dashboard render error:", err);
     res.status(500).render("admin/dashboard", {
       title: "Dashboard",
+      user: req.user || { username: "Unknown", role: "user" },
       stats: {},
       error: "Unable to load dashboard.",
     });

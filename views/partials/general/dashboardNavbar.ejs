@@ -1,0 +1,171 @@
+<!-- Font Awesome CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<!-- Dashboard Navbar -->
+<nav class="dashboard-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <img
+        src="/image/logo-promontolio.png"
+        alt="Promontolio Logo"
+        class="dashboard-logo"
+      />
+      <div class="brand-info">
+        <span class="brand-text">PromontolioBlog</span>
+        <span class="brand-subtitle">Admin Panel</span>
+      </div>
+    </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-links">
+        <a
+          href="/admin/dashboard"
+          class="nav-link <%= currentRoute === '/admin/dashboard' ? 'active' : '' %>"
+          title="Dashboard Overview"
+        >
+          <i class="fas fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+        <a
+          href="/admin/blog"
+          class="nav-link <%= currentRoute.startsWith('/admin/blog') ? 'active' : '' %>"
+          title="Manage Blog Posts"
+        >
+          <i class="fas fa-edit"></i>
+          <span>Blog Posts</span>
+        </a>
+        <a
+          href="/admin/users"
+          class="nav-link <%= currentRoute.startsWith('/admin/users') ? 'active' : '' %>"
+          title="User Management"
+        >
+          <i class="fas fa-users"></i>
+          <span>Users</span>
+        </a>
+        <a
+          href="/blog"
+          class="nav-link view-site"
+          target="_blank"
+          title="View Public Website"
+        >
+          <i class="fas fa-external-link-alt"></i>
+          <span>View Site</span>
+        </a>
+      </div>
+
+      <div class="user-info">
+        <div class="user-avatar">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="user-details">
+          <span class="user-name">
+            <i class="fas fa-user"></i>
+            <%= user.username %>
+          </span>
+          <span class="user-role">
+            <i class="fas fa-crown" style="color: #ffd700"></i>
+            <%= user.role.toUpperCase() %>
+          </span>
+        </div>
+        <div class="user-actions">
+          <div class="dropdown">
+            <button class="dropdown-toggle" id="userDropdown">
+              <i class="fas fa-cog"></i>
+            </button>
+            <div class="dropdown-menu">
+              <a href="/admin/profile" class="dropdown-item">
+                <i class="fas fa-user-edit"></i>
+                Profile Settings
+              </a>
+              <a href="/admin/settings" class="dropdown-item">
+                <i class="fas fa-cogs"></i>
+                System Settings
+              </a>
+              <hr class="dropdown-divider" />
+              <a href="/auth/logout" class="dropdown-item logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <div class="mobile-menu-toggle">
+      <button class="mobile-toggle-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-links">
+      <a href="/admin/dashboard" class="mobile-nav-link">
+        <i class="fas fa-tachometer-alt"></i>
+        Dashboard
+      </a>
+      <a href="/admin/blog" class="mobile-nav-link">
+        <i class="fas fa-edit"></i>
+        Blog Posts
+      </a>
+      <a href="/admin/dashboard/users" class="mobile-nav-link">
+        <i class="fas fa-users"></i>
+        Users
+      </a>
+      <a href="/blog" class="mobile-nav-link" target="_blank">
+        <i class="fas fa-external-link-alt"></i>
+        View Site
+      </a>
+      <hr class="mobile-divider" />
+      <a href="/admin/profile" class="mobile-nav-link">
+        <i class="fas fa-user-edit"></i>
+        Profile
+      </a>
+      <a href="/auth/logout" class="mobile-nav-link logout">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener("DOMContentLoaded", function () {
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const userDropdown = document.getElementById("userDropdown");
+
+    // Mobile menu toggle
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener("click", function () {
+        mobileMenu.classList.toggle("active");
+        const icon = mobileMenuBtn.querySelector("i");
+        icon.classList.toggle("fa-bars");
+        icon.classList.toggle("fa-times");
+      });
+    }
+
+    // User dropdown toggle
+    if (userDropdown) {
+      userDropdown.addEventListener("click", function (e) {
+        e.preventDefault();
+        const dropdown = this.parentElement;
+        dropdown.classList.toggle("active");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!userDropdown.contains(e.target)) {
+          userDropdown.parentElement.classList.remove("active");
+        }
+      });
+    }
+  });
+</script>

@@ -9,7 +9,4 @@ router.get("/", dashboardController.viewDashboard);
 // API endpoint for chart data
 router.get("/stats", dashboardController.fetchStats);
 
-// User management
-router.use("/users", require("./user"));
-
 module.exports = router;
