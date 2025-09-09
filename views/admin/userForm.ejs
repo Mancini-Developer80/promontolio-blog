@@ -1,28 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include('partials/head') %>
-    <title>Blog - NodePrincipe</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= userToEdit ? 'Edit' : 'Create' %> User - PromontolioBlog Admin</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <style>
+      /* Fix navbar user text visibility */
+      .dashboard-navbar .user-info,
+      .dashboard-navbar .user-info *,
+      .dashboard-navbar .user-details,
+      .dashboard-navbar .user-details *,
+      .dashboard-navbar .user-name,
+      .dashboard-navbar .user-role {
+        color: white !important;
+      }
+      
+      .dashboard-navbar .dropdown-toggle {
+        color: white !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      }
+      
+      .dashboard-navbar .user-info i {
+        color: white !important;
+      }
+
+      .user-form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      
+      .form-header {
+        background: linear-gradient(135deg, #3498db, #5dade2);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      
+      .form-grid {
+        display: grid;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      
+      .form-section {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-left: 4px solid #3498db;
+      }
+      
+      .form-section h3 {
+        color: #3498db;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+      }
+      
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e9ecef;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+        box-sizing: border-box;
+      }
+      
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+      
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-top: 2rem;
+      }
+      
+      .btn {
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .btn-primary {
+        background: #3498db;
+        color: white;
+      }
+      
+      .btn-primary:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+      }
+      
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+      }
+      
+      .btn-secondary:hover {
+        background: #5a6268;
+      }
+
+      .alert {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        border-left: 4px solid;
+      }
+
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border-left-color: #28a745;
+      }
+
+      .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border-left-color: #dc3545;
+      }
+      
+      @media (max-width: 768px) {
+        .user-form-container {
+          padding: 1rem;
+        }
+        
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        
+        .form-actions {
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
   <body>
-    <%- include('partials/header') %>
-    <main>
-      <h1>User Form</h1>
-      <p>Here you can add or edit users roles</p>
-      <form method="POST" action="/admin/users/<%= user._id %>/edit">
-        <label>Username: <%= user.username %></label><br>
-        <label>Email: <%= user.email %></label><br>
-        <label for="role">Role:</label>
-        <select name="role" id="role">
-          <option value="author" <%= user.role === 'author' ? 'selected' : '' %>>Author</option>
-          <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
-          <% if (currentUser.role === 'super' && String(currentUser._id) !== String(user._id)) { %>
-            <option value="super" <%= user.role === 'super' ? 'selected' : '' %>>Super</option>
-          <% } %>
-        </select><br>
-        <button type="submit">Update Role</button>
+    <%- include('../partials/general/dashboardNavbar') %>
+    
+    <div class="user-form-container">
+      <div class="form-header">
+        <h1>
+          <i class="fas fa-user-plus"></i>
+          <%= userToEdit ? 'Edit User' : 'Create New User' %>
+        </h1>
+        <p>Manage user account and permissions</p>
+      </div>
+
+      <!-- Flash Messages -->
+      <% if (success_msg && success_msg.length > 0) { %>
+        <div class="alert alert-success">
+          <i class="fas fa-check-circle"></i>
+          <%= success_msg %>
+        </div>
+      <% } %>
+      
+      <% if (error_msg && error_msg.length > 0) { %>
+        <div class="alert alert-danger">
+          <i class="fas fa-exclamation-circle"></i>
+          <%= error_msg %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="<%= formAction || (userToEdit ? `/admin/users/${userToEdit._id}/edit` : '/admin/users/new') %>">
+        <div class="form-grid">
+          <!-- Personal Information -->
+          <div class="form-section">
+            <h3>
+              <i class="fas fa-user"></i>
+              Personal Information
+            </h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name *</label>
+                <input 
+                  type="text" 
+                  id="firstName" 
+                  name="firstName" 
+                  value="<%= userToEdit ? userToEdit.firstName : '' %>"
+                  required 
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="lastName">Last Name *</label>
+                <input 
+                  type="text" 
+                  id="lastName" 
+                  name="lastName" 
+                  value="<%= userToEdit ? userToEdit.lastName : '' %>"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="username">Username *</label>
+              <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                value="<%= userToEdit ? userToEdit.username : '' %>"
+                required 
+                minlength="3"
+                maxlength="30"
+              />
+              <small style="color: #666; font-size: 0.9rem;">3-30 characters, will be used for login</small>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                value="<%= userToEdit ? userToEdit.email : '' %>"
+                required 
+              />
+            </div>
+            
+            <% if (!userToEdit) { %>
+            <div class="form-group">
+              <label for="password">Password *</label>
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                required 
+                minlength="6"
+              />
+              <small style="color: #666; font-size: 0.9rem;">Minimum 6 characters</small>
+            </div>
+            <% } %>
+          </div>
+
+          <!-- Account Settings -->
+          <div class="form-section">
+            <h3>
+              <i class="fas fa-cog"></i>
+              Account Settings
+            </h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="role">User Role *</label>
+                <select id="role" name="role" required>
+                  <option value="">Select Role</option>
+                  <option value="author" <%= userToEdit && userToEdit.role === 'author' ? 'selected' : '' %>>Author</option>
+                  <option value="admin" <%= userToEdit && userToEdit.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                  <% if (userToEdit && userToEdit.role === 'super') { %>
+                    <option value="super" selected>Super Admin</option>
+                  <% } %>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                  <option value="active" <%= userToEdit && userToEdit.status === 'active' ? 'selected' : (!userToEdit ? 'selected' : '') %>>Active</option>
+                  <option value="inactive" <%= userToEdit && userToEdit.status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="bio">Bio (Optional)</label>
+              <textarea 
+                id="bio" 
+                name="bio" 
+                rows="4" 
+                placeholder="Brief description about the user..."
+              ><%= userToEdit ? userToEdit.bio || '' : '' %></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="/admin/users" class="btn btn-secondary">
+            <i class="fas fa-times"></i>
+            Cancel
+          </a>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i>
+            <%= userToEdit ? 'Update User' : 'Create User' %>
+          </button>
+        </div>
       </form>
-    </main>
-    <%- include('partials/footer') %>
+    </div>
   </body>
 </html>

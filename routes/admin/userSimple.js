@@ -24,6 +24,7 @@ router.get("/", async (req, res) => {
     res.render("admin/userListSimple", {
       users,
       stats,
+      user: req.user,
       currentPage: 1,
       totalPages: 1,
       limit: 20,
@@ -41,7 +42,8 @@ router.get("/", async (req, res) => {
 // Show new user form
 router.get("/new", (req, res) => {
   res.render("admin/userForm", {
-    user: null,
+    user: req.user,
+    userToEdit: null,
     formAction: "/admin/users/new",
     pageTitle: "Nuovo Utente",
     success_msg: req.flash("success"),
@@ -53,6 +55,7 @@ router.get("/new", (req, res) => {
 router.post("/new", async (req, res) => {
   try {
     const {
+      username,
       firstName,
       lastName,
       email,
@@ -62,14 +65,17 @@ router.post("/new", async (req, res) => {
       status = "active",
     } = req.body;
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    // Check if user already exists (email or username)
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }],
+    });
     if (existingUser) {
-      req.flash("error", "Un utente con questa email esiste già");
+      req.flash("error", "Un utente con questa email o username esiste già");
       return res.redirect("/admin/users/new");
     }
 
     const userData = {
+      username,
       firstName,
       lastName,
       email,
@@ -82,7 +88,10 @@ router.post("/new", async (req, res) => {
     const user = new User(userData);
     await user.save();
 
-    req.flash("success", `Utente ${firstName} ${lastName} creato con successo`);
+    req.flash(
+      "success",
+      `Utente ${username} (${firstName} ${lastName}) creato con successo`
+    );
     res.redirect("/admin/users");
   } catch (error) {
     console.error("Error creating user:", error);
