@@ -61,15 +61,58 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-  mobileHamburger.addEventListener("click", toggleMenu);
-  navOverlay.addEventListener("click", toggleMenu);
+  if (mobileHamburger) {
+    mobileHamburger.addEventListener("click", toggleMenu);
+  }
+  if (navOverlay) {
+    navOverlay.addEventListener("click", toggleMenu);
+  }
 
   // Optional: close menu when a nav link is clicked (for mobile)
-  navLinks.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      if (navLinks.classList.contains("active")) {
-        toggleMenu();
+  if (navLinks) {
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (navLinks.classList.contains("active")) {
+          toggleMenu();
+        }
+      });
+    });
+  }
+
+  // Admin Dashboard Dropdown Functionality
+  const userDropdown = document.getElementById("userDropdown");
+  if (userDropdown) {
+    console.log("✓ Admin dropdown found");
+
+    userDropdown.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("✓ Admin dropdown clicked");
+
+      const dropdown = this.parentElement;
+      const isActive = dropdown.classList.contains("active");
+
+      // Close all other dropdowns first
+      document.querySelectorAll(".dropdown.active").forEach((d) => {
+        if (d !== dropdown) d.classList.remove("active");
+      });
+
+      // Toggle this dropdown
+      if (!isActive) {
+        dropdown.classList.add("active");
+        console.log("✓ Dropdown opened");
+      } else {
+        dropdown.classList.remove("active");
+        console.log("✓ Dropdown closed");
       }
     });
-  });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function (e) {
+      const dropdown = userDropdown.parentElement;
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove("active");
+      }
+    });
+  }
 });

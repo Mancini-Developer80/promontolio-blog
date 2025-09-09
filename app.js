@@ -65,6 +65,12 @@ app.use("/admin/blog", ensureAuth, require("./routes/admin/blog"));
 // Protected admin user management
 app.use("/admin/users", ensureAuth, require("./routes/admin/userSimple"));
 
+// Protected admin profile settings
+app.use("/admin/profile", ensureAuth, require("./routes/admin/profile"));
+
+// Protected admin system settings
+app.use("/admin/settings", ensureAuth, require("./routes/admin/settings"));
+
 // Protected admin dashboard
 app.use("/admin/dashboard", ensureAuth, require("./routes/admin/dashboard"));
 

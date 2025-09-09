@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Settings - PromontolioBlog Admin</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    
+    <style>
+      /* Fix navbar user text visibility */
+      .dashboard-navbar .user-info,
+      .dashboard-navbar .user-info *,
+      .dashboard-navbar .user-details,
+      .dashboard-navbar .user-details *,
+      .dashboard-navbar .user-name,
+      .dashboard-navbar .user-role {
+        color: white !important;
+      }
+      
+      .dashboard-navbar .dropdown-toggle {
+        color: white !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      }
+      
+      .dashboard-navbar .user-info i {
+        color: white !important;
+      }
+
+      .settings-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      
+      .page-header {
+        background: linear-gradient(135deg, #3498db, #5dade2);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      
+      .settings-grid {
+        display: grid;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      
+      .form-section {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-left: 4px solid #3498db;
+      }
+      
+      .form-section h3 {
+        color: #3498db;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+      }
+      
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e9ecef;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+        box-sizing: border-box;
+      }
+      
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+      
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .checkbox-group input[type="checkbox"] {
+        width: auto;
+        margin: 0;
+      }
+      
+      .checkbox-group label {
+        margin: 0;
+        font-weight: normal;
+      }
+      
+      .btn {
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .btn-primary {
+        background: #3498db;
+        color: white;
+      }
+      
+      .btn-primary:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+      }
+      
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+      }
+      
+      .alert {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        border-left: 4px solid;
+      }
+
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border-left-color: #28a745;
+      }
+
+      .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border-left-color: #dc3545;
+      }
+      
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-top: 2rem;
+      }
+      
+      .help-text {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.25rem;
+      }
+      
+      @media (max-width: 768px) {
+        .settings-container {
+          padding: 1rem;
+        }
+        
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        
+        .form-actions {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../partials/general/dashboardNavbar') %>
+    
+    <div class="settings-container">
+      <div class="page-header">
+        <h1>
+          <i class="fas fa-cogs"></i>
+          System Settings
+        </h1>
+        <p>Configure site-wide settings and preferences</p>
+      </div>
+
+      <!-- Flash Messages -->
+      <% if (success_msg && success_msg.length > 0) { %>
+        <div class="alert alert-success">
+          <i class="fas fa-check-circle"></i>
+          <%= success_msg %>
+        </div>
+      <% } %>
+      
+      <% if (error_msg && error_msg.length > 0) { %>
+        <div class="alert alert-danger">
+          <i class="fas fa-exclamation-circle"></i>
+          <%= error_msg %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/admin/settings">
+        <div class="settings-grid">
+          <!-- Site Configuration -->
+          <div class="form-section">
+            <h3>
+              <i class="fas fa-globe"></i>
+              Site Configuration
+            </h3>
+            
+            <div class="form-group">
+              <label for="siteTitle">Site Title</label>
+              <input 
+                type="text" 
+                id="siteTitle" 
+                name="siteTitle" 
+                value="<%= settings.site.title %>"
+                required 
+              />
+              <div class="help-text">This will appear in the browser title and search results</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="siteDescription">Site Description</label>
+              <textarea 
+                id="siteDescription" 
+                name="siteDescription" 
+                rows="3"
+                required
+              ><%= settings.site.description %></textarea>
+              <div class="help-text">Brief description for SEO and social media</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="siteKeywords">SEO Keywords</label>
+              <input 
+                type="text" 
+                id="siteKeywords" 
+                name="siteKeywords" 
+                value="<%= settings.site.keywords %>"
+              />
+              <div class="help-text">Comma-separated keywords for search engines</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="contactEmail">Contact Email</label>
+              <input 
+                type="email" 
+                id="contactEmail" 
+                name="contactEmail" 
+                value="<%= settings.site.contactEmail %>"
+                required 
+              />
+            </div>
+          </div>
+
+          <!-- Social Media -->
+          <div class="form-section">
+            <h3>
+              <i class="fas fa-share-alt"></i>
+              Social Media Links
+            </h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="facebook">Facebook URL</label>
+                <input 
+                  type="url" 
+                  id="facebook" 
+                  name="facebook" 
+                  value="<%= settings.site.socialMedia.facebook %>"
+                  placeholder="https://facebook.com/yourpage"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="instagram">Instagram URL</label>
+                <input 
+                  type="url" 
+                  id="instagram" 
+                  name="instagram" 
+                  value="<%= settings.site.socialMedia.instagram %>"
+                  placeholder="https://instagram.com/yourprofile"
+                />
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="twitter">Twitter URL</label>
+                <input 
+                  type="url" 
+                  id="twitter" 
+                  name="twitter" 
+                  value="<%= settings.site.socialMedia.twitter %>"
+                  placeholder="https://twitter.com/yourprofile"
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="youtube">YouTube URL</label>
+                <input 
+                  type="url" 
+                  id="youtube" 
+                  name="youtube" 
+                  value="<%= settings.site.socialMedia.youtube %>"
+                  placeholder="https://youtube.com/yourchannel"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Settings -->
+          <div class="form-section">
+            <h3>
+              <i class="fas fa-edit"></i>
+              Content Settings
+            </h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="defaultPostStatus">Default Post Status</label>
+                <select id="defaultPostStatus" name="defaultPostStatus">
+                  <option value="draft" <%= settings.content.defaultPostStatus === 'draft' ? 'selected' : '' %>>Draft</option>
+                  <option value="published" <%= settings.content.defaultPostStatus === 'published' ? 'selected' : '' %>>Published</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="postsPerPage">Posts Per Page</label>
+                <input 
+                  type="number" 
+                  id="postsPerPage" 
+                  name="postsPerPage" 
+                  value="<%= settings.content.postsPerPage %>"
+                  min="1"
+                  max="50"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div class="checkbox-group">
+              <input 
+                type="checkbox" 
+                id="commentsEnabled" 
+                name="commentsEnabled" 
+                <%= settings.content.commentsEnabled ? 'checked' : '' %>
+              />
+              <label for="commentsEnabled">Enable Comments</label>
+            </div>
+            
+            <div class="checkbox-group">
+              <input 
+                type="checkbox" 
+                id="moderateComments" 
+                name="moderateComments" 
+                <%= settings.content.moderateComments ? 'checked' : '' %>
+              />
+              <label for="moderateComments">Moderate Comments Before Publishing</label>
+            </div>
+            
+            <div class="checkbox-group">
+              <input 
+                type="checkbox" 
+                id="allowGuestComments" 
+                name="allowGuestComments" 
+                <%= settings.content.allowGuestComments ? 'checked' : '' %>
+              />
+              <label for="allowGuestComments">Allow Guest Comments</label>
+            </div>
+          </div>
+
+          <!-- Upload Settings -->
+          <div class="form-section">
+            <h3>
+              <i class="fas fa-upload"></i>
+              File Upload Settings
+            </h3>
+            
+            <div class="form-group">
+              <label for="maxFileSize">Maximum File Size (MB)</label>
+              <input 
+                type="number" 
+                id="maxFileSize" 
+                name="maxFileSize" 
+                value="<%= settings.uploads.maxFileSize %>"
+                min="1"
+                max="50"
+                required 
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="allowedImageTypes">Allowed Image Types</label>
+              <input 
+                type="text" 
+                id="allowedImageTypes" 
+                name="allowedImageTypes" 
+                value="<%= settings.uploads.allowedImageTypes.join(', ') %>"
+                placeholder="jpg, jpeg, png, webp"
+              />
+              <div class="help-text">Comma-separated file extensions</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="allowedDocTypes">Allowed Document Types</label>
+              <input 
+                type="text" 
+                id="allowedDocTypes" 
+                name="allowedDocTypes" 
+                value="<%= settings.uploads.allowedDocTypes.join(', ') %>"
+                placeholder="pdf, doc, docx"
+              />
+              <div class="help-text">Comma-separated file extensions</div>
+            </div>
+          </div>
+
+          <!-- Security Settings -->
+          <div class="form-section">
+            <h3>
+              <i class="fas fa-shield-alt"></i>
+              Security Settings
+            </h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="sessionTimeout">Session Timeout (hours)</label>
+                <input 
+                  type="number" 
+                  id="sessionTimeout" 
+                  name="sessionTimeout" 
+                  value="<%= settings.security.sessionTimeout %>"
+                  min="1"
+                  max="168"
+                  required 
+                />
+              </div>
+              
+              <div class="form-group">
+                <label for="passwordMinLength">Minimum Password Length</label>
+                <input 
+                  type="number" 
+                  id="passwordMinLength" 
+                  name="passwordMinLength" 
+                  value="<%= settings.security.passwordMinLength %>"
+                  min="6"
+                  max="20"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="maxLoginAttempts">Maximum Login Attempts</label>
+              <input 
+                type="number" 
+                id="maxLoginAttempts" 
+                name="maxLoginAttempts" 
+                value="<%= settings.security.maxLoginAttempts %>"
+                min="3"
+                max="10"
+                required 
+              />
+            </div>
+            
+            <div class="checkbox-group">
+              <input 
+                type="checkbox" 
+                id="requireStrongPasswords" 
+                name="requireStrongPasswords" 
+                <%= settings.security.requireStrongPasswords ? 'checked' : '' %>
+              />
+              <label for="requireStrongPasswords">Require Strong Passwords</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="/admin/dashboard" class="btn btn-secondary">
+            <i class="fas fa-times"></i>
+            Cancel
+          </a>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i>
+            Save Settings
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

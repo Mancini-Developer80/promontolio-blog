@@ -31,6 +31,82 @@
         gap: 0.5rem;
       }
 
+      /* Fix dropdown functionality */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+        padding: 0.75rem;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .dropdown-toggle:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        transform: rotate(90deg);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        min-width: 200px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        margin-top: 0.5rem;
+      }
+
+      .dropdown.active .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+
+      .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: #3498db;
+      }
+
+      .dropdown-item.logout {
+        color: #dc3545;
+      }
+
+      .dropdown-item.logout:hover {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .dropdown-divider {
+        margin: 0.5rem 0;
+        border: none;
+        border-top: 1px solid #eee;
+      }
+
       .filter-tabs {
         display: flex;
         gap: 1rem;
@@ -556,6 +632,32 @@
 
           row.style.display = showRow ? "" : "none";
         });
+      }
+
+      // Dropdown functionality
+      const userDropdown = document.getElementById("userDropdown");
+      console.log("User dropdown element:", userDropdown);
+
+      if (userDropdown) {
+        console.log("Dropdown found, adding event listener");
+        userDropdown.addEventListener("click", function (e) {
+          console.log("Dropdown clicked!");
+          e.preventDefault();
+          const dropdown = this.parentElement;
+          console.log("Dropdown parent:", dropdown);
+          dropdown.classList.toggle("active");
+          console.log("Active class toggled, classes:", dropdown.className);
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function (e) {
+          const dropdown = userDropdown.parentElement;
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove("active");
+          }
+        });
+      } else {
+        console.log("Dropdown element not found!");
       }
     </script>
   </body>
