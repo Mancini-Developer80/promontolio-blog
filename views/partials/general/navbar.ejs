@@ -1,0 +1,51 @@
+<% const normRoute = currentRoute && currentRoute.replace(/\/$/, ''); %>
+<nav class="navbar" id="main-navbar" aria-label="Main navigation">
+  <div class="flex-container container">
+    <div class="logo">
+      <img
+        class="logo-img"
+        src="../image/logo-promontolio.png"
+        alt="Promontolio Extravergin Olive Oil from Italy"
+        loading="lazy"
+      />
+    </div>
+    <div class="hamburger" id="navbar-hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="navbar-overlay" id="navbar-overlay"></div>
+    <div class="list-menu">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a
+            href="/"
+            class="<%= (normRoute === '' || normRoute === '/') ? 'active' : '' %>"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            href="/about"
+            class="<%= normRoute && normRoute.startsWith('/about') ? 'active' : '' %>"
+            >About</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            href="/product"
+            class="<%= normRoute && normRoute.startsWith('/product') ? 'active' : '' %>"
+            >Product</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            href="/blog"
+            class="<%= normRoute && normRoute.startsWith('/blog') ? 'active' : '' %>"
+            >Blog</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

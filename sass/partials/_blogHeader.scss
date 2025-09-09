@@ -1,0 +1,83 @@
+@use "./variables" as *;
+
+.blog-header {
+  // background-image: $background-gradient;
+  color: white;
+  // min-height: 90vh;
+}
+
+.blog-logo-img {
+  max-width: 75px;
+  height: auto;
+}
+
+.blog-logo-img:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.nav-form {
+  display: flex;
+  align-items: center;
+}
+
+.blog-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 4rem;
+  background-color: rgb(21, 136, 92);
+  color: white;
+
+  border-bottom: 2px solid white;
+
+  a {
+    font-size: 1.2rem;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: rgb(9, 167, 106);
+      border: 1px solid white;
+    }
+  }
+}
+
+.blog-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+
+  li {
+    margin-right: 2rem;
+  }
+}
+
+.blog-search {
+  display: flex;
+  align-items: center;
+
+  input {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    background-color: rgb(11, 192, 123);
+    color: white;
+    border: none;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: rgb(9, 167, 106);
+      border: 1px solid white;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/general/head') %>
+  </head>
+
+  <body>
+    <!-- prettier-ignore -->
+    <header class="contact-header">
+      <%- include('partials/general/navbar.ejs') %>
+      <section class="contact container">
+        <div class="contact-description content">
+          <h1>Contact Us</h1>
+          <p>
+            We would love to hear from you! Whether you have questions about our products, need assistance with an order or simply want to share your feedback, our team is here to help. Please fill out the form below or reach us through the provided contact details. We look forward to connecting with you!
+          </p>
+        </div>
+        <div class="linea"></div>
+        <div class="contact-form">
+          <form action="">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button class="btn-form" type="submit">Send Message</button>
+          </form>
+           
+    </header>
+    
+   
+  </body>
+</html>

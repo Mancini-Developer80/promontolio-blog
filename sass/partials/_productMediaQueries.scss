@@ -1,0 +1,93 @@
+@media (max-width: 900px) {
+  .header-product {
+    min-height: 60vh;
+    padding-bottom: 2rem;
+  }
+  .product-description {
+    max-width: 100%;
+    padding: 1rem;
+  }
+  .product-image-text-1 {
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+  .product-image-text-2 {
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 0;
+  }
+  .product-text {
+    max-width: 100%;
+    padding: 1rem 0;
+    text-align: center;
+  }
+  .logo-ulivo img {
+    margin: 2rem 0 0 0;
+    height: 15rem;
+  }
+  .product-values {
+    padding: 2rem 0;
+  }
+  .navbar .nav-list {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(34, 37, 35, 0.97);
+    width: 100vw;
+    height: 100vh;
+    z-index: 200;
+    margin: 0;
+    overflow-y: auto;
+  }
+  .navbar.open .nav-list {
+    display: flex;
+  }
+  .hamburger {
+    display: block;
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    z-index: 300;
+    cursor: pointer;
+  }
+  .navbar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 150;
+  }
+  .navbar.open .navbar-overlay {
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-product {
+    min-height: 38vh;
+    padding-bottom: 1rem;
+  }
+  .product-image-text {
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+  .product-text {
+    max-width: 100%;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+  }
+  .logo-ulivo img {
+    height: 14rem;
+    margin: 1rem 0 0 0;
+  }
+  .product-values {
+    padding: 1rem 0;
+  }
+}

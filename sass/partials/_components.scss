@@ -1,0 +1,474 @@
+@use "./variables" as *;
+// Header
+
+.home-header {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  position: relative;
+}
+
+.home-header {
+  background-image: url("../image/organic-olive-harvest-extra-virgin-oil.webp");
+}
+
+.about-header {
+  min-height: 90vh;
+  background-size: cover;
+  background-position: center;
+  background-image: linear-gradient(to right, rgb(34, 219, 83), rgb(1, 83, 13));
+}
+
+.about-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 75%;
+  padding: 4rem 0;
+}
+
+.flex-about {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 3rem 0;
+  // width: 100%;
+}
+
+.img-about {
+  width: 30rem;
+  border-radius: 10px;
+  box-shadow: 4px 10px 14px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.img-about:hover {
+  transform: scale(1.1);
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // text-align: right;
+  padding: 2rem;
+  width: 40%;
+  // flex:1;
+}
+
+.about-section-2 {
+  padding: 4rem 0;
+  background-image: url(../image/fresh-olive-harvest-on-wooden-table.webp);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
+  // margin: 0 0;
+}
+.product-values::before,
+.about-section-2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.about-section-2 > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.product-values > *,
+.home-header > * {
+  position: relative;
+  z-index: 2;
+}
+
+.header-product {
+  background-image: $background-gradient;
+  // background-color: #fff;
+  min-height: 90vh;
+  padding-bottom: 4rem;
+}
+
+.linea {
+  height: 2px;
+  background-color: #fff;
+  margin: 0 auto 2rem;
+  width: 30%;
+  // text-align: center;
+}
+
+.linea-description {
+  height: 2px;
+  background-color: #fff;
+  margin: 2rem auto;
+  width: 30%;
+  // text-align: center;
+}
+
+.product-description {
+  // padding: 2rem;
+  text-align: center;
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+.product-image-text-1,
+.product-image-text-2 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 3rem 0;
+}
+
+.product-text {
+  max-width: 30%;
+  text-align: center;
+}
+
+.logo-ulivo {
+  img {
+    max-width: 100%;
+    height: 20rem;
+    margin-right: 4rem;
+  }
+}
+
+.product-values {
+  background-image: url(../image/stone-olive-press-in-olive-grove.webp);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.5;
+}
+
+.navbar {
+  background-color: transparent;
+  padding: 1rem 0;
+  transition: background 0.3s, box-shadow 0.3s, height 0.3s;
+
+  .nav-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .nav-item {
+      a {
+        color: #fff;
+        padding: 0.5rem 1rem;
+        text-transform: uppercase;
+        border-bottom: 2px solid transparent;
+
+        &:hover {
+          border-bottom: 2px solid #fff;
+        }
+      }
+    }
+  }
+}
+
+.navbar .nav-list .nav-item a.active {
+  border-bottom: 2px solid #fff !important;
+}
+
+.scroll {
+  backdrop-filter: blur(10px);
+  background-color: #2325238c;
+  position: fixed;
+  top: 0;
+  left: 0.5rem;
+  right: 0.5rem;
+  z-index: 100;
+  border-bottom: 2px solid #fff;
+  // width: 100%;
+}
+
+.hamburger {
+  width: 32px;
+  height: 32px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 300;
+  span {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: #fff;
+    margin: 5px 0;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 2rem;
+
+  h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #fff;
+    max-width: 600px;
+  }
+}
+.highlight-brand {
+  display: block;
+  font-family: "Playfair Display", serif;
+  background-image: linear-gradient(
+    135deg,
+    rgb(243, 227, 124),
+    rgb(243, 211, 74)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+  font-size: 6rem;
+  letter-spacing: 13px;
+  margin: 0;
+  animation: fadeSlideUp 1s ease-out;
+}
+
+.highlight-main {
+  font-weight: 400;
+  display: block;
+  font-size: 2rem;
+  margin: 0;
+  text-transform: capitalize;
+  animation: opacityIn 2s 0.3s ease-out backwards;
+}
+
+.highlight-slogan {
+  font-weight: 300;
+  font-style: italic;
+  font-size: 2rem;
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #fff;
+  animation: scaleIn 1s 0.5s ease-out backwards;
+}
+
+.highlight-description {
+  font-weight: 300;
+  word-spacing: 4px;
+  // line-height: 2;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  animation: slideInLeft 1s 0.5s ease-out backwards;
+}
+
+.logo-img {
+  width: 80px;
+  cursor: pointer;
+}
+
+// Index main
+.index-main {
+  padding: 2rem 0;
+  text-align: center;
+  color: $font-dark;
+
+  .text-main {
+    font-size: 2rem;
+    background-image: $background-gradient;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: all 0.3s ease;
+  }
+
+  .text-main:hover {
+    transform: scale(1.05);
+  }
+
+  .text-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+
+    .img {
+      // flex: 1;
+      background-image: url("../image/promontolio-olive-oil-bottles.webp");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 30rem;
+
+      // width: 100%;
+    }
+
+    .img.left {
+      border-right: 1px solid $font-dark;
+      width: 50%;
+    }
+
+    .img.right {
+      width: 50%;
+      background-image: url("../image/hilltop-olive-grove-overlooking-sea.webp");
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+    }
+
+    .img.left.list {
+      background-image: url("../image/ancient-olive-grove-path.webp");
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+    }
+
+    .img.right,
+    .img.left.list {
+      box-shadow: 4px 10px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    .text.right {
+      // flex: 1;
+      width: 50%;
+      padding: 2rem 0 0 3rem;
+      // text-align: right;
+
+      p {
+        margin: 0;
+      }
+    }
+    .text {
+      // flex: 1;
+      // padding: 2rem 3rem 0 2rem  ;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .text.left {
+      // background-color: brown;
+      width: 50%;
+    }
+
+    .banner-img {
+      margin-top: 2.2rem;
+    }
+  }
+}
+
+.main-content:last-of-type {
+  margin-bottom: 0;
+}
+
+.sustainability-section {
+  background-image: url("../image/rustic-stone-mills-in-olive-grove.webp");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 6rem 2rem;
+  text-align: center;
+  position: relative;
+  // margin-bottom: 0;
+
+  h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.sustainability-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+.sustainability-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.organicLogo {
+  width: 180px;
+  height: auto;
+}
+
+.reasons-section {
+  // background-color: $primary-light;
+  background-image: url("../image/alberoSfondo.webp");
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+  padding: 5rem 0;
+  margin: 0 0;
+
+  .reasons-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: $font-dark;
+  }
+
+  .reasons-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .reasons-item {
+    margin: 1rem 0;
+    // text-align: center;
+  }
+}

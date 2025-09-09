@@ -1,0 +1,39 @@
+<header class="blog-header">
+  <nav class="blog-nav">
+    <div class="logo">
+      <img
+        class="blog-logo-img"
+        src="../image/logo-promontolio.png"
+        alt="Promontolio blog logo"
+        loading="lazy"
+      />
+    </div>
+    <div
+      class="hamburger"
+      id="hamburger"
+      aria-label="Open menu"
+      aria-expanded="false"
+      tabindex="0"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-form">
+      <ul class="blog-nav-list" id="navLinks">
+        <li class="blog-nav-item"><a href="/">Home page</a></li>
+        <li class="blog-nav-item"><a href="/blog">Blog Home</a></li>
+      </ul>
+      <form class="blog-search" action="/blog" method="get">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search blog posts..."
+          aria-label="Search blog posts"
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    <div class="blog-nav-overlay" id="navOverlay"></div>
+  </nav>
+</header>

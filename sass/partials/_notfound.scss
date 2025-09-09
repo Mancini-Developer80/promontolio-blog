@@ -1,0 +1,18 @@
+@use "./variables";
+
+.not-found {
+  background-color: #232523;
+  color: #fff;
+  text-align: center;
+  //   padding: 4rem 2rem;
+  min-height: 80vh;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+}

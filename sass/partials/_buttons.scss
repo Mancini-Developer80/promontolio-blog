@@ -1,0 +1,43 @@
+//main button
+.btn-container {
+  overflow: hidden;
+  padding: 1rem 0;
+}
+
+.btn-container .btn-main {
+  background-color: transparent;
+  color: #fff;
+  padding: 1rem 2rem;
+  border: 2px solid #fff;
+  /* border-radius: 0.5rem; */
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.slideInDown {
+  animation: slideInDown 1s ease-out;
+}
+
+.btn-container .btn-main:hover {
+  background-color: rgb(38, 141, 107);
+}
+
+.btn-container .btn-main:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 25px;
+  background-color: #fff;
+  transform: translateX(-100%) rotate(45deg);
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+
+.btn-container .btn-main:hover:before {
+  transform: translateX(100%) rotate(45deg);
+}

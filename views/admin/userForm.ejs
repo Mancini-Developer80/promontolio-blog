@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+    <title>Blog - NodePrincipe</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+    <main>
+      <h1>User Form</h1>
+      <p>Here you can add or edit users roles</p>
+      <form method="POST" action="/admin/users/<%= user._id %>/edit">
+        <label>Username: <%= user.username %></label><br>
+        <label>Email: <%= user.email %></label><br>
+        <label for="role">Role:</label>
+        <select name="role" id="role">
+          <option value="author" <%= user.role === 'author' ? 'selected' : '' %>>Author</option>
+          <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+          <% if (currentUser.role === 'super' && String(currentUser._id) !== String(user._id)) { %>
+            <option value="super" <%= user.role === 'super' ? 'selected' : '' %>>Super</option>
+          <% } %>
+        </select><br>
+        <button type="submit">Update Role</button>
+      </form>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>
