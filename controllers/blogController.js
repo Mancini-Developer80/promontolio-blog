@@ -237,23 +237,98 @@ exports.remove = async (req, res) => {
   }
 };
 
-// In controllers/blogController.js
+// Mock view for testing formatted content
 exports.view = (req, res) => {
-  // Mock data for testing
+  // Mock data with formatted HTML content to demonstrate improvements
   const article = {
-    title: "Test Article Title",
-    content:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic wordsThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words",
-    author: { username: "TestUser" },
-    date: new Date(),
+    title: "Gli Ulivi del Gargano - Tradizione e Qualità",
+    excerpt:
+      "Scopri la storia millenaria dei nostri uliveti e il processo di produzione del nostro olio extravergine di oliva biologico, nel cuore del Parco Nazionale del Gargano.",
+    content: `
+      <h1>La Storia degli Ulivi del Gargano</h1>
+      
+      <p>Nel cuore del Parco Nazionale del Gargano, tra le rocce calcaree e il profumo del mare Adriatico, crescono da secoli gli ulivi più antichi d'Italia. Questi alberi millenari raccontano una storia di tradizione, passione e dedizione che si tramanda di generazione in generazione.</p>
+
+      <p>I nostri uliveti si estendono per oltre 200 ettari in una delle zone più incontaminate della Puglia, dove il clima mediterraneo e la particolare composizione del terreno creano le condizioni ideali per la produzione di un olio extravergine di oliva di qualità superiore.</p>
+
+      <h2>Il Processo di Produzione Tradizionale</h2>
+
+      <p>La raccolta delle olive avviene esclusivamente a mano, seguendo i metodi tradizionali tramandati dai nostri antenati. Questo processo, seppur più laborioso, garantisce la massima qualità del prodotto finale e il rispetto dell'ambiente.</p>
+
+      <blockquote>
+        "L'olio d'oliva non è solo un alimento, ma un patrimonio culturale che racchiude in sé secoli di storia, tradizione e amore per la terra."
+      </blockquote>
+
+      <h3>Le Fasi della Produzione</h3>
+
+      <p>Il nostro processo produttivo segue rigorosamente questi passaggi:</p>
+
+      <ol>
+        <li><strong>Raccolta a mano</strong> - Le olive vengono raccolte esclusivamente a mano per preservarne l'integrità</li>
+        <li><strong>Trasporto immediato</strong> - Dalla pianta al frantoio in meno di 4 ore</li>
+        <li><strong>Spremitura a freddo</strong> - Temperatura sempre inferiore ai 27°C</li>
+        <li><strong>Filtrazione naturale</strong> - Senza l'uso di sostanze chimiche</li>
+        <li><strong>Conservazione ottimale</strong> - In contenitori di acciaio inox</li>
+      </ol>
+
+      <h2>Le Varietà Coltivate</h2>
+
+      <p>Nel nostro uliveto coltiviamo diverse varietà autoctone pugliesi, ognuna con le sue caratteristiche organolettiche uniche:</p>
+
+      <ul>
+        <li><strong>Coratina</strong> - Caratterizzata da un sapore intenso e piccante</li>
+        <li><strong>Ogliarola Garganica</strong> - Dal gusto delicato e fruttato</li>
+        <li><strong>Peranzana</strong> - Con note dolci e aroma persistente</li>
+        <li><strong>Frantoio</strong> - Equilibrata tra amaro e piccante</li>
+      </ul>
+
+      <h2>Sostenibilità e Biologico</h2>
+
+      <p>La nostra azienda è certificata biologica dal 1995. Utilizziamo esclusivamente metodi di coltivazione sostenibili che rispettano l'ambiente e la biodiversità del territorio. Non impieghiamo pesticidi, fertilizzanti chimici o OGM.</p>
+
+      <h3>Il Nostro Impegno per l'Ambiente</h3>
+
+      <p>Crediamo fermamente che la qualità del nostro olio sia strettamente legata alla salute del nostro territorio. Per questo motivo:</p>
+
+      <ul>
+        <li>Utilizziamo energie rinnovabili per il 100% dei nostri consumi</li>
+        <li>Pratichiamo l'agricoltura rigenerativa per migliorare la fertilità del suolo</li>
+        <li>Manteniamo corridoi ecologici per proteggere la fauna locale</li>
+        <li>Utilizziamo tecniche di irrigazione a goccia per ottimizzare l'uso dell'acqua</li>
+      </ul>
+
+      <blockquote>
+        "Ogni goccia del nostro olio racchiude l'essenza del Gargano: il sole, il vento, la terra e l'amore di chi ha dedicato la vita a questa antica arte."
+      </blockquote>
+
+      <h2>Riconoscimenti e Certificazioni</h2>
+
+      <p>La qualità del nostro olio extravergine di oliva è stata riconosciuta a livello nazionale e internazionale:</p>
+
+      <ul>
+        <li><strong>Medaglia d'Oro</strong> - Concorso Internazionale di Roma 2024</li>
+        <li><strong>Certificazione DOP Dauno</strong> - Denominazione di Origine Protetta</li>
+        <li><strong>Biologico Certificato</strong> - IT-BIO-007</li>
+        <li><strong>Premio Qualità</strong> - Slow Food Presidio</li>
+      </ul>
+
+      <p>Ogni bottiglia che lascia la nostra azienda porta con sé non solo un prodotto di eccellenza, ma anche la storia di una famiglia che da quattro generazioni si dedica con passione alla coltivazione degli ulivi.</p>
+
+      <p><em>Scopri il gusto autentico del Gargano, assapora la tradizione.</em></p>
+    `,
+    author: { username: "Giuseppe Mancini" },
+    createdAt: new Date(),
+    featuredImage: "/image/organic-olive-harvest-extra-virgin-oil.webp",
+    keywords:
+      "olio d'oliva, extravergine, biologico, Gargano, tradizione, qualità",
     metaDescription:
-      "Learn more about Promontolio and our organic olive oil production.",
-    metaKeywords: "about, olive oil, organic, Promontolio",
+      "Scopri la storia e la tradizione dei nostri uliveti nel Gargano. Olio extravergine di oliva biologico di qualità superiore, prodotto con metodi tradizionali.",
   };
+
   res.render("blogSingleArticle", {
     title: article.title,
     article,
     metaDescription: article.metaDescription,
-    metaKeywords: article.metaKeywords,
+    metaKeywords: article.keywords,
   });
 };

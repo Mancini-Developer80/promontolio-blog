@@ -131,3 +131,120 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 }
+
+// Pagination Styles
+.pagination-nav {
+  display: flex;
+  justify-content: center;
+  margin: 4rem 0 2rem 0;
+  padding: 0 2rem;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: $secondary-color;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: darken($secondary-color, 10%);
+    transform: translateY(-2px);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  &.pagination-prev {
+    margin-right: 0.5rem;
+  }
+
+  &.pagination-next {
+    margin-left: 0.5rem;
+  }
+}
+
+.pagination-numbers {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pagination-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0.5rem;
+  text-decoration: none;
+  color: $font-dark;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+    color: $secondary-color;
+    text-decoration: none;
+  }
+
+  &.active {
+    background-color: $secondary-color;
+    color: #fff;
+    font-weight: 600;
+  }
+}
+
+// No articles state
+.no-articles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  text-align: center;
+}
+
+.no-articles-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  color: $font-dark;
+
+  .no-articles-icon {
+    font-size: 4rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: $font-dark;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 400px;
+    line-height: 1.6;
+  }
+}

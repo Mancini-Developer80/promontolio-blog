@@ -123,31 +123,129 @@
         margin-top: 2rem;
       }
       
-      /* Rich Text Editor Styling */
+      /* Enhanced Rich Text Editor Styling */
       #editor-container {
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
         background: white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       }
       
       #quill-toolbar {
-        border-bottom: 1px solid #ddd;
+        border-bottom: 2px solid #e9ecef;
         background: #f8f9fa;
+        padding: 12px;
+        border-radius: 8px 8px 0 0;
       }
       
       #quill-editor {
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        line-height: 1.6;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        border-radius: 0 0 8px 8px;
+      }
+      
+      .ql-container {
+        border: none;
+        font-family: inherit;
       }
       
       .ql-editor {
-        min-height: 350px;
-        padding: 1rem;
+        min-height: 400px;
+        padding: 2rem;
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+      
+      /* Style content in the editor to match frontend */
+      .ql-editor h1 {
+        font-size: 2rem;
+        color: #2ecc71;
+        margin: 2.5rem 0 1.5rem 0;
+        font-weight: 600;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 0.5rem;
+      }
+      
+      .ql-editor h2 {
+        font-size: 1.7rem;
+        color: #2ecc71;
+        margin: 2rem 0 1rem 0;
+        font-weight: 600;
+        position: relative;
+        padding-left: 1rem;
+      }
+      
+      .ql-editor h2::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: #2ecc71;
+        border-radius: 2px;
+      }
+      
+      .ql-editor h3 {
+        font-size: 1.4rem;
+        color: #2ecc71;
+        margin: 1.5rem 0 0.75rem 0;
+        font-weight: 600;
+      }
+      
+      .ql-editor p {
+        margin-bottom: 1.5rem;
+        line-height: 1.8;
+        color: #444;
+      }
+      
+      .ql-editor blockquote {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-left: 4px solid #2ecc71;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        font-style: italic;
+        color: #2ecc71;
+        border-radius: 0 8px 8px 0;
+        position: relative;
+      }
+      
+      .ql-editor blockquote::before {
+        content: '"';
+        font-size: 3rem;
+        color: #2ecc71;
+        position: absolute;
+        top: -0.5rem;
+        left: 1rem;
+        opacity: 0.3;
+      }
+      
+      .ql-editor ul, .ql-editor ol {
+        margin: 1.5rem 0;
+        padding-left: 2rem;
+      }
+      
+      .ql-editor li {
+        margin-bottom: 0.75rem;
+        line-height: 1.7;
+        color: #444;
+      }
+      
+      .ql-editor strong {
+        color: #2ecc71;
+        font-weight: 600;
+      }
+      
+      .ql-editor a {
+        color: #2ecc71;
+        text-decoration: underline;
       }
       
       .ql-editor.ql-blank::before {
         color: #999;
+        font-style: normal;
+        white-space: pre-line;
         font-style: italic;
       }
       
@@ -318,33 +416,47 @@
               <div id="editor-container">
                 <div id="quill-toolbar">
                   <span class="ql-formats">
-                    <select class="ql-header">
+                    <select class="ql-header" title="Text Format">
                       <option value="1">Heading 1</option>
                       <option value="2">Heading 2</option>
                       <option value="3">Heading 3</option>
-                      <option selected>Normal</option>
+                      <option selected>Normal Text</option>
                     </select>
                   </span>
                   <span class="ql-formats">
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                    <button class="ql-strike"></button>
+                    <button class="ql-bold" title="Bold"></button>
+                    <button class="ql-italic" title="Italic"></button>
+                    <button class="ql-underline" title="Underline"></button>
+                    <button class="ql-strike" title="Strikethrough"></button>
                   </span>
                   <span class="ql-formats">
-                    <select class="ql-color"></select>
-                    <select class="ql-background"></select>
+                    <select class="ql-color" title="Text Color"></select>
+                    <select class="ql-background" title="Background Color"></select>
                   </span>
                   <span class="ql-formats">
-                    <button class="ql-list" value="ordered"></button>
-                    <button class="ql-list" value="bullet"></button>
+                    <button class="ql-list" value="ordered" title="Numbered List"></button>
+                    <button class="ql-list" value="bullet" title="Bullet List"></button>
+                    <button class="ql-indent" value="-1" title="Decrease Indent"></button>
+                    <button class="ql-indent" value="+1" title="Increase Indent"></button>
                   </span>
                   <span class="ql-formats">
-                    <button class="ql-link"></button>
-                    <button class="ql-image"></button>
+                    <button class="ql-blockquote" title="Blockquote"></button>
+                    <button class="ql-code-block" title="Code Block"></button>
                   </span>
                   <span class="ql-formats">
-                    <button class="ql-clean"></button>
+                    <select class="ql-align" title="Text Alignment">
+                      <option selected></option>
+                      <option value="center"></option>
+                      <option value="right"></option>
+                      <option value="justify"></option>
+                    </select>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-link" title="Insert Link"></button>
+                    <button class="ql-image" title="Insert Image"></button>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-clean" title="Remove Formatting"></button>
                   </span>
                 </div>
                 <div id="quill-editor" style="height: 400px; margin-bottom: 1rem;"></div>
@@ -444,13 +556,13 @@
         }
 
         try {
-          // Initialize Quill editor with custom toolbar
+          // Initialize Quill editor with enhanced configuration
           const quill = new Quill('#quill-editor', {
             modules: {
               toolbar: '#quill-toolbar'
             },
             theme: 'snow',
-            placeholder: 'Start writing your blog post...'
+            placeholder: 'Start writing your blog post...\n\nTips:\n• Use headings to structure your content\n• Add empty lines between paragraphs for better spacing\n• Use bold and italic for emphasis\n• Create lists to organize information\n• Add blockquotes for important statements'
           });
 
           // Get the hidden textarea

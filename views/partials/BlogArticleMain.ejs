@@ -1,47 +1,286 @@
 <main class="single-article">
-  <div class="container card-article">
-    <img
-      class="img-article"
-      src="/image/organic-olive-harvest-extra-virgin-oil.webp"
-      alt="<%= article.title %> - Promontolio organic olive oil"
-      loading="lazy"
-    />
-    <div class="card-content">
-      <!-- <h1 class="single-article-title"><%= article.title %></h1> -->
-      <h1 class="single-article-title">Gli Ulivi</h1>
-      <div class="article-meta">
-        <span class="article-author">Giuseppe Mancini</span>
-        <span class="article-date">04/09/2025</span>
-      </div>
-      <!-- <div class="single-article-content"><%- article.content %></div> -->
-      <div class="single-article-content">
-        <p class="single-article-intro">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad
-          dignissimos provident error, consequuntur necessitatibus illum
-          consequatur possimus ea sapiente quam, suscipit impedit nulla
-          reprehenderit.
-        </p>
-        <br />
-        <p class="single-article-excerpt">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad
-          dignissimos provident error, consequuntur necessitatibus illum
-          consequatur possimus ea sapiente quam, suscipit impedit nulla
-          reprehenderit, voluptatibus at vitae corporis doloremque atque. Fuga
-          veritatis harum numquam doloremque illo quasi at reprehenderit
-          consequuntur consequatur excepturi, pariatur accusantium maiores quo
-          cumque nobis delectus, ea nulla quam fugit voluptas error maxime?
-          Culpa sunt id doloremque nostrum nisi cumque sint eum adipisci, ut
-          laboriosam soluta earum quidem sapiente excepturi nobis pariatur,
-          optio laudantium! Deserunt quisquam quo aspernatur consequatur
-          repudiandae ipsam ipsa magnam perferendis exercitationem dolorem
-          quibusdam libero iusto nobis, earum, eaque et, facilis tempore. Harum
-          deleniti sint
-        </p>
+  <!-- Hero Section -->
+  <div class="article-hero">
+    <div class="hero-content">
+      <nav class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="separator">/</span>
+        <a href="/blog">Blog</a>
+        <span class="separator">/</span>
+        <span class="current"><%= article.title %></span>
+      </nav>
+      <h1 class="article-hero-title"><%= article.title %></h1>
+      <div class="article-hero-meta">
+        <div class="author-info">
+          <div class="author-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="author-details">
+            <span class="author-name"><%= article.author ? article.author.username : 'Promontolio Team' %></span>
+            <span class="author-role">Olivicoltore</span>
+          </div>
+        </div>
+        <div class="article-date-info">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="publish-date">
+            <%= new Date(article.createdAt || article.date || Date.now()).toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+          </span>
+        </div>
+        <div class="read-time">
+          <i class="fas fa-clock"></i>
+          <span><%= Math.ceil((article.content ? article.content.replace(/<[^>]*>/g, '').split(' ').length : 100) / 200) %> min di lettura</span>
+        </div>
       </div>
     </div>
-    <div class="buttons-link">
-      <a class="btn-article" href="/blog">Back </a>
-      <a class="btn-article" href="/contact">Buy It</a>
+  </div>
+
+  <!-- Article Container -->
+  <div class="article-container">
+    <div class="container">
+      <div class="article-layout">
+        <!-- Main Content -->
+        <article class="article-main">
+          <div class="article-content">
+            <div class="article-body">
+              <% if (article.excerpt) { %>
+              <p class="article-lead"><%= article.excerpt %></p>
+              <% } %>
+
+              <!-- Featured Image -->
+              <div class="article-featured-image">
+                <img
+                  src="<%= article.featuredImage ? article.featuredImage : '/image/organic-olive-harvest-extra-virgin-oil.webp' %>"
+                  alt="<%= article.title %> - Promontolio organic olive oil"
+                  loading="lazy"
+                />
+                <figcaption class="image-caption">
+                  Olio extravergine di oliva biologico del Gargano - Tradizione
+                  e qualità nella produzione artigianale
+                </figcaption>
+              </div>
+
+              <div class="article-content-main"><%- article.content %></div>
+            </div>
+          </div>
+
+          <!-- Article Footer -->
+          <footer class="article-footer">
+            <div class="article-tags">
+              <span class="tag-label">Tags:</span>
+              <% if (article.keywords) { %>
+                <% article.keywords.split(',').forEach(function(keyword) { %>
+                  <span class="tag"><%= keyword.trim() %></span>
+                <% }); %>
+              <% } else { %>
+              <span class="tag">Olio d'Oliva</span>
+              <span class="tag">Tradizione</span>
+              <span class="tag">Gargano</span>
+              <span class="tag">Biologico</span>
+              <% } %>
+            </div>
+
+            <div class="social-share">
+              <span class="share-label">Condividi:</span>
+              <a
+                href="#"
+                class="share-btn facebook"
+                title="Condividi su Facebook"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="share-btn twitter"
+                title="Condividi su Twitter"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="share-btn linkedin"
+                title="Condividi su LinkedIn"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a
+                href="#"
+                class="share-btn whatsapp"
+                title="Condividi su WhatsApp"
+              >
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+
+            <div class="article-navigation">
+              <a href="/blog" class="nav-btn back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Torna al Blog</span>
+              </a>
+              <a href="/contact" class="nav-btn cta-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Acquista Ora</span>
+              </a>
+            </div>
+          </footer>
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="article-sidebar">
+          <div class="sidebar-widget author-widget">
+            <h3>L'Autore</h3>
+            <div class="author-card">
+              <div class="author-avatar-large">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <h4><%= article.author ? article.author.username : 'Promontolio Team' %></h4>
+              <p class="author-bio">
+                <% if (article.author && article.author.bio) { %>
+                  <%= article.author.bio %>
+                <% } else { %>
+                  Olivicoltore con oltre 30 anni di esperienza nella produzione di olio extravergine di oliva biologico nel Gargano.
+                <% } %>
+              </p>
+              <div class="author-social">
+                <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-widget toc-widget">
+            <h3>Indice</h3>
+            <ul class="table-of-contents" id="table-of-contents">
+              <!-- Table of contents will be generated dynamically by JavaScript -->
+            </ul>
+          </div>
+
+          <div class="sidebar-widget related-widget">
+            <h3>Articoli Correlati</h3>
+            <div class="related-articles">
+              <article class="related-article">
+                <img
+                  class="related-image"
+                  src="/image/ancient-olive-grove-path.webp"
+                  alt="Sentiero uliveto"
+                />
+                <div class="related-content">
+                  <h4>
+                    <a href="#" class="related-title">I Segreti dell'Olio Biologico</a>
+                  </h4>
+                  <span class="related-date">28 Agosto 2025</span>
+                </div>
+              </article>
+              <article class="related-article">
+                <img
+                  class="related-image"
+                  src="/image/rustic-stone-mills-in-olive-grove.webp"
+                  alt="Frantoio"
+                />
+                <div class="related-content">
+                  <h4>
+                    <a href="#" class="related-title">Dal Frantoio alla Tavola</a>
+                  </h4>
+                  <span class="related-date">15 Agosto 2025</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   </div>
 </main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Generate Table of Contents
+    generateTableOfContents();
+
+    // Setup social sharing
+    setupSocialSharing();
+
+    // Setup smooth scrolling for TOC links
+    setupSmoothScrolling();
+  });
+
+  function generateTableOfContents() {
+    const contentArea = document.querySelector(".article-content-main");
+    const tocContainer = document.getElementById("table-of-contents");
+
+    if (!contentArea || !tocContainer) return;
+
+    const headings = contentArea.querySelectorAll("h1, h2, h3");
+
+    if (headings.length === 0) {
+      // If no headings found, hide the TOC widget
+      document.querySelector(".toc-widget").style.display = "none";
+      return;
+    }
+
+    headings.forEach((heading, index) => {
+      // Create unique ID for heading
+      const id = `heading-${index}`;
+      heading.id = id;
+
+      // Create TOC link
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = `#${id}`;
+      a.textContent = heading.textContent;
+      a.className = `toc-${heading.tagName.toLowerCase()}`;
+      li.appendChild(a);
+      tocContainer.appendChild(li);
+    });
+  }
+
+  function setupSocialSharing() {
+    const shareButtons = document.querySelectorAll(".share-btn");
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+    const text = encodeURIComponent("Scopri questo articolo su Promontolio");
+
+    shareButtons.forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        let shareUrl = "";
+        const platform = this.classList[1]; // facebook, twitter, etc.
+
+        switch (platform) {
+          case "facebook":
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            break;
+          case "twitter":
+            shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+            break;
+          case "linkedin":
+            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+            break;
+          case "whatsapp":
+            shareUrl = `https://wa.me/?text=${title}%20${url}`;
+            break;
+        }
+
+        if (shareUrl) {
+          window.open(shareUrl, "_blank", "width=600,height=400");
+        }
+      });
+    });
+  }
+
+  function setupSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute("href"));
+        if (target) {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      });
+    });
+  }
+</script>
