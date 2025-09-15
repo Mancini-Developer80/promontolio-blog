@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Pagination Links</title>
+  </head>
+  <body>
+    <h1>Test Pagination</h1>
+
+    <!-- Test the exact same HTML structure as our pagination -->
+    <nav class="pagination" aria-label="Blog pagination">
+      <div class="pagination-container">
+        <!-- Previous Page -->
+        <a href="/blog" class="pagination-btn pagination-prev"> Previous </a>
+
+        <!-- Page Numbers -->
+        <div class="pagination-numbers">
+          <span class="pagination-number active">1</span>
+          <a href="/blog/page/2" class="pagination-number">2</a>
+        </div>
+
+        <!-- Next Page -->
+        <a href="/blog/page/2" class="pagination-btn pagination-next"> Next </a>
+      </div>
+    </nav>
+
+    <p>Click the links above to test pagination navigation.</p>
+  </body>
+</html>

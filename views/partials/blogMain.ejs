@@ -1,75 +1,231 @@
 <main class="blog-home">
-  <div class= "container container-blog">
-    <h1 class="blog-title ">
+  <div class="container container-blog">
+    <h1 class="blog-title">
       <i class="fas fa-newspaper"></i>
       News, updates, and interesting information
     </h1>
-    <div class="articles-list">
-      <div class="article-card">
-        <div class="article-img">
-          <img class="blod-card-img" src="./image/UlivoBlogCard.webp" alt="Olive tree blog card - Promontolio" loading="lazy">
-        </div>
-        <div class="article-content">
-          <h2 class="article-title">Article Title - 1</h2>
-          <p class="article-excerpt">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure, eius, accusamus ratione a voluptate ducimus et voluptates nihil vero illum vel modi fuga, quaerat minima alias perspiciatis delectus. Doloribus quam minima, aspernatur ut quos voluptate quidem expedita iusto hic! Officiis corporis magnam consequatur velit suscipit deserunt assumenda veritatis unde aliquid.</p>
-        </div>
-        <div class="blog-btn-container">
-            <a class="blog-btn-main" href="/blog/article-title-1">Read More</a>
-        </div>
-      </div>
-      <div class="article-card">
-        <div class="article-img">
-          <img class="blod-card-img" src="./image/stone-olive-press-in-olive-grove.webp" alt="Olive oil container blog card - Promontolio" loading="lazy">
-        </div>
-        <div class="article-content">
-          <h2 class="article-title">Article Title - 2</h2>
-          <p class="article-excerpt">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure, eius, accusamus ratione a voluptate ducimus et voluptates nihil vero illum vel modi fuga, quaerat minima alias perspiciatis delectus. Doloribus quam minima, aspernatur ut quos voluptate quidem expedita iusto hic! Officiis corporis magnam consequatur velit suscipit deserunt assumenda veritatis unde aliquid.</p>
-        </div>
-        <div class="blog-btn-container">
-            <a class="blog-btn-main" href="/blog/article-slug">Read More</a>
-        </div>
-      </div>
-      <div class="article-card">
-        <div class="article-img">
-          <img class="blod-card-img" src="./image/ScoglieraGargano.webp" alt="Gargano cliff blog card - Promontolio" loading="lazy">
-        </div>
-        <div class="article-content">
-          <h2 class="article-title">Article Title - 3</h2>
-          <p class="article-excerpt">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure, eius, accusamus ratione a voluptate ducimus et voluptates nihil vero illum vel modi fuga, quaerat minima alias perspiciatis delectus. Doloribus quam minima, aspernatur ut quos voluptate quidem expedita iusto hic! Officiis corporis magnam consequatur velit suscipit deserunt assumenda veritatis unde aliquid.</p>
-        </div>
-        <div class="blog-btn-container">
-            <a class="blog-btn-main" href="/blog/article-slug">Read More</a>
-        </div>
-      </div>
-      <div class="article-card">
-        <div class="article-img">
-          <img class="blod-card-img" src="./image/ancient-olive-grove-path.webp" alt="Olive path blog card - Promontolio" loading="lazy">
-        </div>
-        <div class="article-content">
-          <h2 class="article-title">Article Title - 4</h2>
-          <p class="article-excerpt">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure, eius, accusamus ratione a voluptate ducimus et voluptates nihil vero illum vel modi fuga, quaerat minima alias perspiciatis delectus. Doloribus quam minima, aspernatur ut quos voluptate quidem expedita iusto hic! Officiis corporis magnam consequatur velit suscipit deserunt assumenda veritatis unde aliquid.</p>
-        </div>
-        <div class="blog-btn-container">
-            <a class="blog-btn-main" href="/blog/article-slug">Read More</a>
-        </div>
-      </div>
-      <div class="article-card">
-        <div class="article-img">
-          <img class="blod-card-img" src="./image/CroceNelSole.webp" alt="Cross in the sun blog card - Promontolio" loading="lazy">
-        </div>
-        <div class="article-content">
-          <h2 class="article-title">Article Title - 5</h2>
-          <p class="article-excerpt">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure, eius, accusamus ratione a voluptate ducimus et voluptates nihil vero illum vel modi fuga, quaerat minima alias perspiciatis delectus. Doloribus quam minima, aspernatur ut quos voluptate quidem expedita iusto hic! Officiis corporis magnam consequatur velit suscipit deserunt assumenda veritatis unde aliquid.</p>
-        </div>
-        <div class="blog-btn-container">
-            <a class="blog-btn-main" href="/blog/article-slug">Read More</a>
-        </div>
-      </div>
-      
 
-      
+    <% if (typeof error !== 'undefined' && error) { %>
+    <div class="error-message">
+      <p><%= error %></p>
     </div>
-   
+    <% } %> <% if (articles && articles.length > 0) { %>
+    <div class="articles-list">
+      <% articles.forEach(article => { %>
+      <div class="article-card">
+        <div class="article-img">
+          <% if (article.imageUrl) { %>
+          <img
+            class="blog-card-img"
+            src="<%= article.imageUrl %>"
+            alt="<%= article.title %> - Promontolio"
+            loading="lazy"
+          />
+          <% } else { %>
+          <img
+            class="blog-card-img"
+            src="/image/UlivoBlogCard.webp"
+            alt="<%= article.title %> - Promontolio"
+            loading="lazy"
+          />
+          <% } %>
+        </div>
+        <div class="article-content">
+          <h2 class="article-title"><%= article.title %></h2>
+          <div class="article-meta">
+            <% if (article.author) { %>
+            <span class="article-author"
+              >By <%= article.author.username %></span
+            >
+            <% } %>
+            <span class="article-date"
+              ><%= article.createdAt.toLocaleDateString() %></span
+            >
+            <% if (article.viewCount) { %>
+            <span class="article-views"><%= article.viewCount %> views</span>
+            <% } %>
+          </div>
+          <p class="article-excerpt">
+            <% if (article.excerpt) { %> <%= article.excerpt %> <% } else { %>
+            <%= article.content.substring(0, 200).replace(/<[^>]*>/g, '') %>...
+            <% } %>
+          </p>
+        </div>
+        <div class="blog-btn-container">
+          <a class="blog-btn-main" href="/blog/<%= article.slug %>"
+            >Read More</a
+          >
+        </div>
+      </div>
+      <% }) %>
     </div>
+
+    <!-- Enhanced Pagination (CSP Compliant) -->
+    <% if (pagination && pagination.totalPages > 1) { %>
+    <div
+      class="pagination-section"
+      style="
+        background: white;
+        padding: 2rem;
+        margin: 3rem 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <!-- Pagination Header -->
+      <div style="text-align: center; margin-bottom: 1.5rem">
+        <h3 style="margin: 0; color: #333; font-size: 1.1rem">
+          Page <%= pagination.currentPage %> of <%= pagination.totalPages %>
+        </h3>
+        <p style="margin: 0.5rem 0 0 0; color: #666; font-size: 0.9rem">
+          Showing <%= ((pagination.currentPage - 1) * 6) + 1 %>-<%=
+          Math.min(pagination.currentPage * 6, pagination.totalArticles) %> of
+          <%= pagination.totalArticles %> articles
+        </p>
+      </div>
+
+      <!-- Pagination Navigation -->
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+        "
+      >
+        <!-- Previous Button -->
+        <% if (pagination.currentPage > 1) { %>
+        <a
+          href="<%= pagination.currentPage === 2 ? '/blog' : '/blog/page/' + (pagination.currentPage - 1) %>"
+          class="pagination-btn-prev"
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+          "
+        >
+          <i class="fas fa-chevron-left"></i>
+          Previous
+        </a>
+        <% } else { %>
+        <span
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 10px 16px;
+            background: #e9ecef;
+            color: #6c757d;
+            border-radius: 6px;
+            font-weight: 500;
+          "
+        >
+          <i class="fas fa-chevron-left"></i>
+          Previous
+        </span>
+        <% } %>
+
+        <!-- Page Numbers -->
+        <div style="display: flex; gap: 0.5rem">
+          <% for (let i = 1; i <= pagination.totalPages; i++) { %> <% if (i ===
+          pagination.currentPage) { %>
+          <span
+            class="pagination-current"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 44px;
+              height: 44px;
+              background: linear-gradient(135deg, #3498db, #2980b9);
+              color: white;
+              border-radius: 6px;
+              font-weight: bold;
+              font-size: 1.1rem;
+            "
+          >
+            <%= i %>
+          </span>
+          <% } else { %>
+          <a
+            href="<%= i === 1 ? '/blog' : '/blog/page/' + i %>"
+            class="pagination-number"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 44px;
+              height: 44px;
+              background: #f8f9fa;
+              color: #495057;
+              text-decoration: none;
+              border: 2px solid #dee2e6;
+              border-radius: 6px;
+              font-weight: 500;
+              transition: all 0.3s ease;
+            "
+          >
+            <%= i %>
+          </a>
+          <% } %> <% } %>
+        </div>
+
+        <!-- Next Button -->
+        <% if (pagination.currentPage < pagination.totalPages) { %>
+        <a
+          href="/blog/page/<%= pagination.currentPage + 1 %>"
+          class="pagination-btn-next"
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+          "
+        >
+          Next
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        <% } else { %>
+        <span
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 10px 16px;
+            background: #e9ecef;
+            color: #6c757d;
+            border-radius: 6px;
+            font-weight: 500;
+          "
+        >
+          Next
+          <i class="fas fa-chevron-right"></i>
+        </span>
+        <% } %>
+      </div>
+    </div>
+    <% } %> <% } else { %>
+    <div class="no-articles">
+      <div class="no-articles-content">
+        <i class="fas fa-newspaper no-articles-icon"></i>
+        <h2>No Articles Yet</h2>
+        <p>We're working on some great content for you. Check back soon!</p>
+      </div>
+    </div>
+    <% } %>
   </div>
 </main>

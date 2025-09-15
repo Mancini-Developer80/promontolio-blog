@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
+const {
+  userValidation,
+  passwordChangeValidation,
+} = require("../../middleware/validation");
+const { passwordResetLimiter } = require("../../middleware/rateLimiter");
 
 // List users - simple version that works
 router.get("/", async (req, res) => {
@@ -51,8 +56,8 @@ router.get("/new", (req, res) => {
   });
 });
 
-// Create new user - basic version
-router.post("/new", async (req, res) => {
+// Create new user - basic version with validation
+router.post("/new", userValidation.create, async (req, res) => {
   try {
     const {
       username,

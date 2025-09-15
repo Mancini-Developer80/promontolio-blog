@@ -12,20 +12,46 @@ const compression = require("compression");
 const cors = require("cors");
 const ensureAuth = require("./middleware/ensureAuth");
 const ensureRole = require("./middleware/ensureRole");
+const { generalLimiter } = require("./middleware/rateLimiter");
+const connectDB = require("./config/database");
 
 // Passport config
 require("./config/passport");
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// Connect to MongoDB with improved configuration
+connectDB();
 
 const app = express();
 
+// Apply general rate limiting to all requests
+app.use(generalLimiter);
+
 // Middlewares
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.quilljs.com",
+          "https://cdn.jsdelivr.net",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.quilljs.com",
+          "https://cdnjs.cloudflare.com",
+          "https://fonts.googleapis.com",
+        ],
+        fontSrc: ["'self'", "https:", "data:", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'"],
+      },
+    },
+  })
+);
 app.use(compression());
 app.use(morgan("dev"));
 app.use(cors());
@@ -34,6 +60,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
+  console.log(
+    `🌐 REQUEST: ${req.method} ${req.url} - Original: ${req.originalUrl}`
+  );
+  if (req.url.includes("/blog")) {
+    console.log(`📝 BLOG REQUEST DETECTED: ${req.url}`);
+  }
   res.locals.currentRoute = req.path;
   next();
 });
@@ -70,6 +102,9 @@ app.use("/admin/profile", ensureAuth, require("./routes/admin/profile"));
 
 // Protected admin system settings
 app.use("/admin/settings", ensureAuth, require("./routes/admin/settings"));
+
+// Protected admin media
+app.use("/admin/media", ensureAuth, require("./routes/admin/media"));
 
 // Protected admin dashboard
 app.use("/admin/dashboard", ensureAuth, require("./routes/admin/dashboard"));

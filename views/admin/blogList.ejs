@@ -536,20 +536,18 @@
                   >
                     <i class="fas fa-edit"></i>
                   </a>
-                  <form
-                    method="POST"
-                    action="/admin/blog/<%= article._id %>/delete"
-                    style="display: inline"
-                    onsubmit="return confirm('Are you sure you want to delete this article?')"
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm delete-btn"
+                    title="Delete"
+                    data-article-id="<%= article._id %>"
+                    data-article-title="<%= article.title %>"
+                    data-article-status="<%= article.status %>"
+                    data-article-date="<%= new Date(article.createdAt).toLocaleDateString() %>"
+                    data-article-views="<%= article.viewCount || 0 %>"
                   >
-                    <button
-                      type="submit"
-                      class="btn btn-danger btn-sm"
-                      title="Delete"
-                    >
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </form>
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -659,6 +657,318 @@
       } else {
         console.log("Dropdown element not found!");
       }
+    </script>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal-overlay">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h3>
+            <i class="fas fa-exclamation-triangle"></i> Confirm Article Deletion
+          </h3>
+          <button type="button" class="modal-close" id="modalCloseBtn">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="warning-message">
+            <p><strong>⚠️ Warning:</strong> This action cannot be undone!</p>
+            <p>You are about to permanently delete the following article:</p>
+          </div>
+          <div class="article-details">
+            <div class="detail-row">
+              <strong>Title:</strong>
+              <span id="modalArticleTitle"></span>
+            </div>
+            <div class="detail-row">
+              <strong>Status:</strong>
+              <span id="modalArticleStatus" class="status-badge"></span>
+            </div>
+            <div class="detail-row">
+              <strong>Created:</strong>
+              <span id="modalArticleDate"></span>
+            </div>
+            <div class="detail-row">
+              <strong>Views:</strong>
+              <span id="modalArticleViews"></span>
+            </div>
+          </div>
+          <div class="consequences">
+            <p><strong>This will:</strong></p>
+            <ul>
+              <li>✗ Permanently remove the article and all its content</li>
+              <li>✗ Remove all comments and interactions</li>
+              <li>✗ Break any external links to this article</li>
+              <li>✗ Remove the article from search engines over time</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="modalCancelBtn">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button type="button" class="btn btn-danger" id="modalConfirmBtn">
+            <i class="fas fa-trash"></i> Yes, Delete Article
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden form for deletion -->
+    <form id="deleteForm" method="POST" style="display: none"></form>
+
+    <style>
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(3px);
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal-container {
+        background: white;
+        border-radius: 12px;
+        max-width: 550px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        transform: scale(0.9);
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active .modal-container {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .modal-header {
+        padding: 1.5rem;
+        border-bottom: 2px solid #fee;
+        background: #fdf2f2;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .modal-header h3 {
+        margin: 0;
+        color: #dc3545;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .modal-header h3 i {
+        color: #ffc107;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #6c757d;
+        cursor: pointer;
+        padding: 0.25rem;
+        transition: color 0.3s;
+      }
+
+      .modal-close:hover {
+        color: #dc3545;
+      }
+
+      .modal-body {
+        padding: 1.5rem;
+      }
+
+      .warning-message {
+        background: #fff3cd;
+        border: 1px solid #ffecb3;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid #ffc107;
+      }
+
+      .warning-message p {
+        margin: 0.5rem 0;
+        color: #856404;
+      }
+
+      .article-details {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .detail-row:last-child {
+        border-bottom: none;
+      }
+
+      .consequences {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 8px;
+        padding: 1rem;
+        border-left: 4px solid #dc3545;
+      }
+
+      .consequences p {
+        margin: 0 0 0.5rem 0;
+        color: #721c24;
+        font-weight: 600;
+      }
+
+      .consequences ul {
+        margin: 0.5rem 0 0 0;
+        padding-left: 1.5rem;
+        color: #721c24;
+      }
+
+      .consequences li {
+        margin-bottom: 0.25rem;
+      }
+
+      .modal-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        background: #f8f9fa;
+        border-radius: 0 0 12px 12px;
+      }
+
+      .modal-footer .btn {
+        min-width: 120px;
+        justify-content: center;
+      }
+
+      @media (max-width: 600px) {
+        .modal-container {
+          width: 95%;
+          margin: 1rem;
+        }
+
+        .modal-footer {
+          flex-direction: column;
+        }
+
+        .modal-footer .btn {
+          width: 100%;
+        }
+      }
+    </style>
+
+    <script>
+      let currentArticleId = null;
+
+      // Delete button click handlers
+      document.querySelectorAll(".delete-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const articleId = this.dataset.articleId;
+          const articleTitle = this.dataset.articleTitle;
+          const articleStatus = this.dataset.articleStatus;
+          const articleDate = this.dataset.articleDate;
+          const articleViews = this.dataset.articleViews;
+
+          showDeleteModal(
+            articleId,
+            articleTitle,
+            articleStatus,
+            articleDate,
+            articleViews
+          );
+        });
+      });
+
+      // Modal event listeners
+      document
+        .getElementById("modalCloseBtn")
+        .addEventListener("click", hideDeleteModal);
+      document
+        .getElementById("modalCancelBtn")
+        .addEventListener("click", hideDeleteModal);
+      document
+        .getElementById("modalConfirmBtn")
+        .addEventListener("click", confirmDelete);
+
+      function showDeleteModal(articleId, title, status, date, views) {
+        currentArticleId = articleId;
+
+        // Populate modal with article details
+        document.getElementById("modalArticleTitle").textContent = title;
+
+        const statusElement = document.getElementById("modalArticleStatus");
+        statusElement.textContent = status;
+        statusElement.className = `status-badge status-${status}`;
+
+        document.getElementById("modalArticleDate").textContent = date;
+        document.getElementById(
+          "modalArticleViews"
+        ).innerHTML = `<i class="fas fa-eye"></i> ${views}`;
+
+        // Show modal
+        document.getElementById("deleteModal").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function hideDeleteModal() {
+        document.getElementById("deleteModal").classList.remove("active");
+        document.body.style.overflow = "auto";
+        currentArticleId = null;
+      }
+
+      function confirmDelete() {
+        if (currentArticleId) {
+          // Create and submit the delete form
+          const form = document.getElementById("deleteForm");
+          form.action = `/admin/blog/${currentArticleId}/delete`;
+          form.submit();
+        }
+      }
+
+      // Close modal when clicking overlay
+      document
+        .getElementById("deleteModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            hideDeleteModal();
+          }
+        });
+
+      // Close modal with Escape key
+      document.addEventListener("keydown", function (e) {
+        if (
+          e.key === "Escape" &&
+          document.getElementById("deleteModal").classList.contains("active")
+        ) {
+          hideDeleteModal();
+        }
+      });
     </script>
   </body>
 </html>

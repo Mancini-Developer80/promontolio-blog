@@ -1,9 +1,9 @@
 window.addEventListener("scroll", function () {
   const navbar = document.querySelector(".navbar");
-  if (window.scrollY > 450) {
+  if (navbar && window.scrollY > 450) {
     // Adjust 50 to your preferred scroll threshold
     navbar.classList.add("scroll");
-  } else {
+  } else if (navbar) {
     navbar.classList.remove("scroll");
   }
 });
@@ -90,27 +90,31 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("✓ Admin dropdown clicked");
 
       const dropdown = this.parentElement;
-      const isActive = dropdown.classList.contains("active");
+      if (dropdown) {
+        const isActive = dropdown.classList.contains("active");
 
-      // Close all other dropdowns first
-      document.querySelectorAll(".dropdown.active").forEach((d) => {
-        if (d !== dropdown) d.classList.remove("active");
-      });
+        // Close all other dropdowns first
+        document.querySelectorAll(".dropdown.active").forEach((d) => {
+          if (d !== dropdown) {
+            d.classList.remove("active");
+          }
+        });
 
-      // Toggle this dropdown
-      if (!isActive) {
-        dropdown.classList.add("active");
-        console.log("✓ Dropdown opened");
-      } else {
-        dropdown.classList.remove("active");
-        console.log("✓ Dropdown closed");
+        // Toggle current dropdown
+        if (isActive) {
+          dropdown.classList.remove("active");
+          console.log("✓ Dropdown closed");
+        } else {
+          dropdown.classList.add("active");
+          console.log("✓ Dropdown opened");
+        }
       }
     });
 
     // Close dropdown when clicking outside
     document.addEventListener("click", function (e) {
       const dropdown = userDropdown.parentElement;
-      if (!dropdown.contains(e.target)) {
+      if (dropdown && !dropdown.contains(e.target)) {
         dropdown.classList.remove("active");
       }
     });

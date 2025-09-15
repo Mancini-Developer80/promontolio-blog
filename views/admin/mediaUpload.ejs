@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/general/head') %>
+    <title>Upload Media - PromontolioBlog</title>
+    <style>
+      .admin-content {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .page-header {
+        background: linear-gradient(135deg, #3498db, #74b8e6);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(139, 90, 60, 0.3);
+      }
+
+      .page-title {
+        margin: 0;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .back-btn {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .back-btn:hover {
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .upload-form {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .form-header {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .form-header h3 {
+        margin: 0;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .form-body {
+        padding: 2rem;
+      }
+
+      .upload-zone {
+        border: 3px dashed #3498db;
+        border-radius: 12px;
+        padding: 3rem;
+        text-align: center;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .upload-zone.dragover {
+        border-color: #6c4029;
+        background: #f0f7ff;
+        transform: scale(1.02);
+      }
+
+      .upload-zone.uploading {
+        border-color: #28a745;
+        background: #f8fff9;
+      }
+
+      .upload-zone input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .upload-icon {
+        font-size: 4rem;
+        color: #3498db;
+        margin-bottom: 1rem;
+      }
+
+      .upload-zone.dragover .upload-icon {
+        color: #6c4029;
+        transform: scale(1.1);
+      }
+
+      .upload-text {
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .upload-hint {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .upload-progress {
+        display: none;
+        margin-top: 1rem;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: #3498db;
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      .progress-text {
+        text-align: center;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .file-list {
+        display: none;
+        margin-top: 2rem;
+      }
+
+      .file-item {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .file-item.success {
+        border-color: #28a745;
+        background: #f8fff9;
+      }
+
+      .file-item.error {
+        border-color: #dc3545;
+        background: #fff8f8;
+      }
+
+      .file-preview {
+        width: 60px;
+        height: 60px;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .file-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .file-preview i {
+        font-size: 1.5rem;
+        color: #3498db;
+      }
+
+      .file-info {
+        flex: 1;
+      }
+
+      .file-name {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.25rem;
+      }
+
+      .file-details {
+        font-size: 0.8rem;
+        color: #666;
+      }
+
+      .file-status {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .file-status.uploading {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .file-status.success {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .file-status.error {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .metadata-form {
+        display: none;
+        margin-top: 2rem;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-input,
+      .form-select,
+      .form-textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e9ecef;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: #3498db;
+      }
+
+      .form-textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .tag-input {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 6px;
+        padding: 0.5rem;
+        min-height: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        cursor: text;
+      }
+
+      .tag-input:focus-within {
+        border-color: #3498db;
+      }
+
+      .tag {
+        background: #3498db;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .tag-remove {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0;
+        width: 16px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background-color 0.2s ease;
+      }
+
+      .tag-remove:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .tag-input input {
+        border: none;
+        outline: none;
+        flex: 1;
+        min-width: 120px;
+        padding: 0.25rem;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e9ecef;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: #3498db;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #6c4029;
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background: #545b62;
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      .alert {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .alert-info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      @media (max-width: 768px) {
+        .admin-content {
+          padding: 1rem;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .upload-zone {
+          padding: 2rem 1rem;
+        }
+
+        .form-actions {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../partials/general/dashboardNavbar') %>
+
+    <div class="admin-content">
+      <!-- Page Header -->
+      <div class="page-header" style="position: relative">
+        <a href="/admin/media" class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+          Back to Library
+        </a>
+        <h1 class="page-title">
+          <i class="fas fa-cloud-upload-alt"></i>
+          Upload Media
+        </h1>
+      </div>
+
+      <!-- Upload Form -->
+      <div class="upload-form">
+        <div class="form-header">
+          <h3>
+            <i class="fas fa-file-upload"></i>
+            Select Files to Upload
+          </h3>
+        </div>
+
+        <div class="form-body">
+          <!-- Upload Zone -->
+          <div class="upload-zone" id="uploadZone">
+            <input
+              type="file"
+              id="fileInput"
+              multiple
+              accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.csv,.xlsx"
+            />
+            <div class="upload-icon">
+              <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <div class="upload-text">Drag and drop files here</div>
+            <div class="upload-hint">
+              or click to browse (Max 50MB per file)
+            </div>
+
+            <div class="upload-progress" id="uploadProgress">
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div class="progress-text" id="progressText">Uploading...</div>
+            </div>
+          </div>
+
+          <!-- File List -->
+          <div class="file-list" id="fileList">
+            <h4>Selected Files</h4>
+            <div id="fileItems"></div>
+          </div>
+
+          <!-- Metadata Form -->
+          <div class="metadata-form" id="metadataForm">
+            <h4>File Information</h4>
+            <form id="uploadForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Category</label>
+                  <select class="form-select" name="category" required>
+                    <option value="">Auto-detect</option>
+                    <option value="image">Image</option>
+                    <option value="document">Document</option>
+                    <option value="video">Video</option>
+                    <option value="audio">Audio</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Usage</label>
+                  <select class="form-select" name="usage">
+                    <option value="general">General</option>
+                    <option value="blog">Blog Content</option>
+                    <option value="product">Product Images</option>
+                    <option value="hero">Hero Images</option>
+                    <option value="gallery">Gallery</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea
+                  class="form-textarea"
+                  name="description"
+                  placeholder="Brief description of the files..."
+                ></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Tags</label>
+                <div class="tag-input" id="tagInput">
+                  <input
+                    type="text"
+                    placeholder="Add tags and press Enter..."
+                    id="tagInputField"
+                  />
+                </div>
+                <input type="hidden" name="tags" id="tagsHidden" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Alt Text (for images)</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  name="alt"
+                  placeholder="Alternative text for accessibility..."
+                />
+              </div>
+            </form>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <a href="/admin/media" class="btn btn-secondary">
+              <i class="fas fa-times"></i>
+              Cancel
+            </a>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="uploadBtn"
+              disabled
+            >
+              <i class="fas fa-upload"></i>
+              Upload Files
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let selectedFiles = [];
+      let tags = [];
+
+      // DOM elements
+      const uploadZone = document.getElementById("uploadZone");
+      const fileInput = document.getElementById("fileInput");
+      const fileList = document.getElementById("fileList");
+      const fileItems = document.getElementById("fileItems");
+      const metadataForm = document.getElementById("metadataForm");
+      const uploadBtn = document.getElementById("uploadBtn");
+      const uploadProgress = document.getElementById("uploadProgress");
+      const progressFill = document.getElementById("progressFill");
+      const progressText = document.getElementById("progressText");
+
+      // Drag and drop handlers
+      uploadZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadZone.classList.add("dragover");
+      });
+
+      uploadZone.addEventListener("dragleave", (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove("dragover");
+      });
+
+      uploadZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove("dragover");
+        handleFiles(e.dataTransfer.files);
+      });
+
+      // File input handler
+      fileInput.addEventListener("change", (e) => {
+        handleFiles(e.target.files);
+      });
+
+      // Handle selected files
+      function handleFiles(files) {
+        selectedFiles = Array.from(files);
+        displayFiles();
+
+        if (selectedFiles.length > 0) {
+          fileList.style.display = "block";
+          metadataForm.style.display = "block";
+          uploadBtn.disabled = false;
+        }
+      }
+
+      // Display selected files
+      function displayFiles() {
+        fileItems.innerHTML = "";
+
+        selectedFiles.forEach((file, index) => {
+          const fileItem = document.createElement("div");
+          fileItem.className = "file-item";
+          fileItem.innerHTML = `
+            <div class="file-preview">
+              ${
+                file.type.startsWith("image/")
+                  ? `<img src="${URL.createObjectURL(file)}" alt="${
+                      file.name
+                    }" />`
+                  : `<i class="fas fa-${getFileIcon(file.type)}"></i>`
+              }
+            </div>
+            <div class="file-info">
+              <div class="file-name">${file.name}</div>
+              <div class="file-details">
+                ${formatFileSize(file.size)} • ${file.type || "Unknown type"}
+              </div>
+            </div>
+            <div class="file-status" id="status-${index}">Ready</div>
+          `;
+          fileItems.appendChild(fileItem);
+        });
+      }
+
+      // Get file icon based on type
+      function getFileIcon(type) {
+        if (type.includes("pdf")) return "file-pdf";
+        if (type.includes("word") || type.includes("document"))
+          return "file-word";
+        if (type.includes("video")) return "file-video";
+        if (type.includes("audio")) return "file-audio";
+        if (type.includes("excel") || type.includes("spreadsheet"))
+          return "file-excel";
+        return "file";
+      }
+
+      // Format file size
+      function formatFileSize(bytes) {
+        if (bytes === 0) return "0 Bytes";
+        const k = 1024;
+        const sizes = ["Bytes", "KB", "MB", "GB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+      }
+
+      // Tag input handler
+      function handleTagInput(e) {
+        if (e.key === "Enter" && e.target.value.trim()) {
+          e.preventDefault();
+          const tag = e.target.value.trim();
+          if (!tags.includes(tag)) {
+            tags.push(tag);
+            updateTagDisplay();
+            document.getElementById("tagsHidden").value = tags.join(",");
+          }
+          e.target.value = "";
+        }
+      }
+
+      // Initialize event listeners when DOM loads
+      document.addEventListener("DOMContentLoaded", function () {
+        // Tag input handler
+        const tagInputField = document.getElementById("tagInputField");
+        if (tagInputField) {
+          tagInputField.addEventListener("keydown", handleTagInput);
+        }
+      });
+
+      // Update tag display
+      function updateTagDisplay() {
+        const tagInput = document.getElementById("tagInput");
+        const existingTags = tagInput.querySelectorAll(".tag");
+        existingTags.forEach((tag) => tag.remove());
+
+        tags.forEach((tag, index) => {
+          const tagElement = document.createElement("div");
+          tagElement.className = "tag";
+          tagElement.innerHTML = `
+            ${tag}
+            <button type="button" class="tag-remove" data-tag-index="${index}">
+              <i class="fas fa-times"></i>
+            </button>
+          `;
+
+          // Add event listener to remove button
+          const removeBtn = tagElement.querySelector(".tag-remove");
+          removeBtn.addEventListener("click", function () {
+            removeTag(index);
+          });
+
+          tagInput.insertBefore(tagElement, tagInput.querySelector("input"));
+        });
+      }
+
+      // Remove tag
+      function removeTag(index) {
+        tags.splice(index, 1);
+        updateTagDisplay();
+        document.getElementById("tagsHidden").value = tags.join(",");
+      }
+
+      // Upload files
+      uploadBtn.addEventListener("click", async () => {
+        if (selectedFiles.length === 0) return;
+
+        uploadBtn.disabled = true;
+        uploadProgress.style.display = "block";
+        uploadZone.classList.add("uploading");
+
+        const formData = new FormData();
+        const form = document.getElementById("uploadForm");
+        const formDataObj = new FormData(form);
+
+        // Add files
+        selectedFiles.forEach((file) => {
+          formData.append("media", file);
+        });
+
+        // Add metadata
+        for (let [key, value] of formDataObj.entries()) {
+          formData.append(key, value);
+        }
+
+        try {
+          const response = await fetch("/admin/media/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            progressFill.style.width = "100%";
+            progressText.textContent = "Upload complete!";
+
+            setTimeout(() => {
+              window.location.href = "/admin/media";
+            }, 1500);
+          } else {
+            throw new Error("Upload failed");
+          }
+        } catch (error) {
+          progressText.textContent = "Upload failed!";
+          uploadBtn.disabled = false;
+          uploadZone.classList.remove("uploading");
+        }
+      });
+
+      // Simulate upload progress (placeholder)
+      function simulateProgress() {
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.random() * 15;
+          if (progress > 90) progress = 90;
+
+          progressFill.style.width = progress + "%";
+          progressText.textContent = `Uploading... ${Math.round(progress)}%`;
+
+          if (progress >= 90) {
+            clearInterval(interval);
+          }
+        }, 200);
+      }
+    </script>
+  </body>
+</html>

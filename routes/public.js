@@ -1,4 +1,3 @@
-// routes/public.js
 const express = require("express");
 const router = express.Router();
 const blogController = require("../controllers/blogController");
@@ -11,16 +10,10 @@ const {
 } = require("../controllers/publicController");
 
 // Home
-
-// Home
 router.get("/", getHome);
 
-// About Us
-
-// About Us
+// About
 router.get("/about", getAbout);
-
-// Product
 
 // Product
 router.get("/product", getProduct);
@@ -28,14 +21,29 @@ router.get("/product", getProduct);
 // Contact
 router.get("/contact", getContact);
 
-// Blog List
+// SEO-friendly pagination route (MUST come before blog and slug routes)
+router.get("/blog/page/:page", (req, res) => {
+  const page = parseInt(req.params.page);
+
+  if (isNaN(page) || page < 1) {
+    return res.redirect("/blog");
+  }
+
+  req.query.page = page.toString();
+  getBlog(req, res);
+});
 
 // Blog List
-router.get("/blog", getBlog);
+router.get("/blog", (req, res) => {
+  getBlog(req, res);
+});
 
 // Single Blog Post by slug
-
-// Single Blog Post by slug (keep using blogController)
-router.get("/blog/:slug", blogController.view);
+router.get("/blog/:slug", (req, res, next) => {
+  if (req.params.slug === "page") {
+    return next();
+  }
+  blogController.view(req, res, next);
+});
 
 module.exports = router;

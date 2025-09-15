@@ -7,18 +7,6 @@
 <!-- Dashboard Navbar -->
 <nav class="dashboard-navbar">
   <div class="navbar-container">
-    <div class="navbar-brand">
-      <img
-        src="/image/logo-promontolio.png"
-        alt="Promontolio Logo"
-        class="dashboard-logo"
-      />
-      <div class="brand-info">
-        <span class="brand-text">PromontolioBlog</span>
-        <span class="brand-subtitle">Admin Panel</span>
-      </div>
-    </div>
-
     <div class="navbar-menu">
       <div class="navbar-links">
         <a
@@ -36,6 +24,14 @@
         >
           <i class="fas fa-edit"></i>
           <span>Blog Posts</span>
+        </a>
+        <a
+          href="/admin/media"
+          class="nav-link <%= currentRoute.startsWith('/admin/media') ? 'active' : '' %>"
+          title="Media Library"
+        >
+          <i class="fas fa-images"></i>
+          <span>Media</span>
         </a>
         <a
           href="/admin/users"
@@ -57,32 +53,29 @@
       </div>
 
       <div class="user-info">
-        <div class="user-avatar">
-          <i class="fas fa-user-circle"></i>
-        </div>
         <div class="user-details">
-          <span class="user-name">
-            <i class="fas fa-user"></i>
-            <%= user.username %>
-          </span>
-          <span class="user-role">
-            <i class="fas fa-crown" style="color: #ffd700"></i>
-            <%= user.role.toUpperCase() %>
-          </span>
+          <span class="user-name"> <%= user.username %> </span>
         </div>
         <div class="user-actions">
           <div class="dropdown">
-            <button class="dropdown-toggle" id="userDropdown">
-              <i class="fas fa-cog"></i>
+            <button class="dropdown-toggle" id="userDropdown" title="User Menu">
+              <i class="fas fa-chevron-down"></i>
             </button>
             <div class="dropdown-menu">
+              <div class="dropdown-header">
+                <span class="user-role-indicator">
+                  <i class="fas fa-crown" style="color: #ffd700"></i>
+                  <%= user.role.toUpperCase() %>
+                </span>
+              </div>
+              <hr class="dropdown-divider" />
               <a href="/admin/profile" class="dropdown-item">
                 <i class="fas fa-user-edit"></i>
-                Profile Settings
+                Profile
               </a>
               <a href="/admin/settings" class="dropdown-item">
                 <i class="fas fa-cogs"></i>
-                System Settings
+                Settings
               </a>
               <hr class="dropdown-divider" />
               <a href="/auth/logout" class="dropdown-item logout">
@@ -114,6 +107,10 @@
         <i class="fas fa-edit"></i>
         Blog Posts
       </a>
+      <a href="/admin/media" class="mobile-nav-link">
+        <i class="fas fa-images"></i>
+        Media
+      </a>
       <a href="/admin/users" class="mobile-nav-link">
         <i class="fas fa-users"></i>
         Users
@@ -123,10 +120,6 @@
         View Site
       </a>
       <hr class="mobile-divider" />
-      <a href="/admin/profile" class="mobile-nav-link">
-        <i class="fas fa-user-edit"></i>
-        Profile
-      </a>
       <a href="/auth/logout" class="mobile-nav-link logout">
         <i class="fas fa-sign-out-alt"></i>
         Logout
@@ -136,37 +129,39 @@
 </nav>
 
 <script>
-  // Mobile menu toggle
-  document.addEventListener("DOMContentLoaded", function () {
+  // Mobile menu functionality only (dropdown handled by script.js)
+  console.log("Navbar script loading...");
+
+  // Function to initialize mobile menu
+  function initMobileMenu() {
+    console.log("Initializing mobile menu...");
+
     const mobileMenuBtn = document.getElementById("mobileMenuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
-    const userDropdown = document.getElementById("userDropdown");
 
     // Mobile menu toggle
     if (mobileMenuBtn && mobileMenu) {
+      console.log("Mobile menu elements found");
       mobileMenuBtn.addEventListener("click", function () {
         mobileMenu.classList.toggle("active");
         const icon = mobileMenuBtn.querySelector("i");
-        icon.classList.toggle("fa-bars");
-        icon.classList.toggle("fa-times");
-      });
-    }
-
-    // User dropdown toggle
-    if (userDropdown) {
-      userDropdown.addEventListener("click", function (e) {
-        e.preventDefault();
-        const dropdown = this.parentElement;
-        dropdown.classList.toggle("active");
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener("click", function (e) {
-        const dropdown = userDropdown.parentElement;
-        if (!dropdown.contains(e.target)) {
-          dropdown.classList.remove("active");
+        if (icon) {
+          icon.classList.toggle("fa-bars");
+          icon.classList.toggle("fa-times");
         }
       });
+    } else {
+      console.log("Mobile menu elements not found");
     }
-  });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileMenu);
+  } else {
+    // DOM is already ready
+    setTimeout(initMobileMenu, 100);
+  }
+
+  console.log("Navbar script loaded - dropdown handled by script.js");
 </script>

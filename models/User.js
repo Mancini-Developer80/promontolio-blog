@@ -61,6 +61,16 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  passwordResetToken: {
+    type: String,
+  },
+  passwordResetExpires: {
+    type: Date,
+  },
+  mustChangePassword: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -114,6 +124,37 @@ userSchema.methods.recordLogin = function () {
   this.lastLogin = new Date();
   this.loginCount += 1;
   return this.save();
+};
+
+// Generate password reset token
+userSchema.methods.generatePasswordResetToken = function () {
+  const crypto = require("crypto");
+
+  // Generate token
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  // Hash token and set to passwordResetToken field
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Set expire time (10 minutes)
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
+};
+
+// Verify password reset token
+userSchema.methods.verifyPasswordResetToken = function (token) {
+  const crypto = require("crypto");
+
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  return (
+    this.passwordResetToken === hashedToken &&
+    this.passwordResetExpires > Date.now()
+  );
 };
 
 module.exports = mongoose.model("User", userSchema);
