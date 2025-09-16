@@ -4,6 +4,8 @@
   "description": "Web site to promote the product and collect data for the dashboard",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "build": "npm run build:sass",
     "build:sass": "sass sass:public/css --style=compressed",
     "watch:sass": "sass sass:public/css --watch --no-source-map",
     "dev": "nodemon app.js",
