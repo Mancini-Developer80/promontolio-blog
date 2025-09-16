@@ -207,10 +207,10 @@
     text-align: justify;
 
     &:first-of-type {
-      font-size: 1.2rem;
+      font-size: 0.95rem !important;
       font-weight: 500;
       color: #2c3e50;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
   }
 
@@ -781,91 +781,139 @@
   }
 }
 
-// Legacy single article styles (maintained for compatibility)
+@media (max-width: 600px) {
+  html,
+  body {
+    font-size: 13px !important;
+  }
+
+  .article-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.92rem !important;
+  }
+
+  .article-hero {
+    padding: 0.3rem 0.05rem;
+    margin-bottom: 0.3rem;
+
+    .article-hero-title,
+    .article-title {
+      font-size: 0.95rem !important;
+      margin-bottom: 0.2rem;
+    }
+  }
+
+  .article-content-main {
+    padding: 0 !important;
+    font-size: 0.92rem;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: 0.95rem !important;
+      margin-top: 0.3rem;
+      margin-bottom: 0.2rem;
+    }
+
+    p,
+    li {
+      font-size: 0.92rem;
+      margin-bottom: 0.3em;
+    }
+
+    p:first-of-type {
+      font-size: 0.92rem !important;
+      font-weight: 500;
+      margin-bottom: 0.7rem;
+    }
+
+    img {
+      margin: 0.2rem 0;
+      border-radius: 2px;
+    }
+
+    blockquote {
+      padding: 0.1rem 0.3rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  .article-footer {
+    padding: 0.1rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+
+    .article-tags {
+      display: none !important;
+    }
+
+    .social-share {
+      flex-direction: row !important;
+      gap: 0.15rem;
+      justify-content: center;
+      align-items: center;
+
+      .share-btn {
+        width: 20px;
+        height: 20px;
+        font-size: 0.75rem;
+      }
+    }
+
+    .article-navigation {
+      flex-direction: column;
+      gap: 0.1rem;
+
+      .nav-btn {
+        width: 100%;
+        padding: 0.2rem 0;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  // Hide less important elements for clarity
+  .article-sidebar,
+  .sidebar,
+  .article-layout > .article-sidebar,
+  .breadcrumb,
+  .image-caption,
+  .author-role,
+  .author-title,
+  .author-bio,
+  .related-widget,
+  .toc-widget {
+    display: none !important;
+  }
+}
+
+// Legacy single article styles
 .single-article {
-  padding: 4rem 3rem;
-  background-image: $background-gradient;
-  min-height: 90vh;
+  padding: 0.5rem 0.1rem;
 }
-
-.card-article {
-  background: $light-background;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  color: $font-dark;
-  max-width: 800px;
-  overflow: hidden;
-  padding: 0;
-}
-
-.single-article-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: $secondary-color;
-}
-
-.article-author {
-  margin-right: 1rem;
-  color: $secondary-color;
-}
-
-.article-date {
-  color: $secondary-color;
-  text-align: end;
-}
-
-.article-meta {
-  font-size: 0.875rem;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 85%;
-}
-
-.single-article-content {
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-.img-article {
-  width: 100%;
-  max-height: 400px;
-  object-fit: cover;
-  margin-bottom: 0;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  display: block;
-}
-
 .card-content {
-  padding: 2rem;
+  padding: 0.5rem;
 }
-
-.single-article-intro {
-  font-style: italic;
+.card-article {
+  max-width: 100%;
+  border-radius: 5px;
 }
-
+.img-article {
+  max-height: 120px;
+  border-radius: 5px 5px 0 0;
+}
+.article-meta {
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
 .buttons-link {
-  margin: 2rem 0;
-  display: flex;
-  justify-content: center;
-}
-
-.btn-article {
-  background-color: $secondary-color;
-  color: $brand-main;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 1rem;
-  margin-right: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.btn-article:hover {
-  background-color: darken($secondary-color, 10%);
+  margin: 0.5rem 0;
+  flex-direction: column;
+  gap: 0.3rem;
 }
