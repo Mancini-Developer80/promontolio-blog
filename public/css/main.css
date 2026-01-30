@@ -905,117 +905,102 @@ p {
   }
 }
 .site-footer {
-  background: linear-gradient(90deg, #266d3c 0%, #2bb747 100%);
+  background-color: #1a1a1a;
   color: #fff;
-  padding: 2.5rem 0 1.2rem 0;
-  font-size: 1rem;
-  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
+  padding: 2rem 0 1rem;
+  border-top: 1px solid rgba(191, 165, 93, 0.2);
 }
 
 .footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.5rem;
 }
 
 .footer-brand {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 1rem;
 }
-
-.footer-logo {
-  width: 48px;
-  height: 48px;
+.footer-brand .footer-logo {
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   background: #fff;
-  object-fit: contain;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 4px;
 }
-
-.footer-title {
-  font-size: 1.5rem;
-  font-weight: 700;
+.footer-brand .footer-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
   letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #bfa55d;
 }
 
-.footer-nav {
+.footer-middle {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.footer-middle .footer-social {
   display: flex;
   gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
 }
-
-.footer-nav a {
-  color: #fff;
-  font-weight: 500;
-  transition: color 0.2s;
-  opacity: 0.9;
+.footer-middle .footer-social i {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.footer-nav a:hover {
-  color: #ffd700;
-  text-decoration: underline;
+.footer-middle .footer-social i:hover {
+  color: #bfa55d;
+  opacity: 1;
 }
-
-.footer-social {
-  display: flex;
-  gap: 1.2rem;
-  margin: 0.5rem 0;
-}
-
-.footer-social .fab {
-  font-size: 1.5rem;
+.footer-middle .footer-link {
+  font-size: 0.9rem;
   color: #fff;
   opacity: 0.8;
-  transition: color 0.2s, opacity 0.2s, transform 0.2s;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
-
-.footer-social .fab:hover {
-  color: #ffd700;
+.footer-middle .footer-link:hover {
   opacity: 1;
-  transform: scale(1.15);
+  color: #bfa55d;
 }
 
-.footer-contact {
+.footer-legal {
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+.footer-legal .legal-nav {
   display: flex;
   justify-content: center;
-  align-items: center;
-  font-size: 1em;
-  opacity: 0.85;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.footer-legal .legal-nav a {
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+.footer-legal .legal-nav a:hover {
+  opacity: 1;
+}
+.footer-legal .footer-copyright {
+  font-size: 0.7rem;
+  opacity: 0.3;
 }
 
-.footer-contact a {
-  font-size: 1.3rem;
-  margin-left: 1.5rem;
-  color: #ffd700;
-  text-decoration: underline;
-}
-
-.footer-copyright {
-  font-size: 0.95em;
-  opacity: 0.7;
-  margin-top: 0.5rem;
-  position: relative;
-}
-
-@media (max-width: 600px) {
-  .footer-container {
-    padding: 0 1rem;
-    gap: 0.7rem;
-  }
-  .footer-brand {
+@media (max-width: 768px) {
+  .footer-middle {
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 1rem;
   }
-  .footer-nav {
-    gap: 0.7rem;
-  }
-  .footer-social {
-    gap: 0.7rem;
+  .legal-nav {
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 }
 .contact-header {
@@ -1418,45 +1403,71 @@ p {
   color: #bfa55d;
 }
 
-.sustainability-footer {
+.impact-section {
   position: relative;
-  padding: 6rem 2rem;
-  background-image: url("../image/rustic-stone-mills-in-olive-grove.webp");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  text-align: center;
-  color: #fff;
+  padding: 8rem 2rem;
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  color: #fff;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  width: 100%;
+  overflow: hidden;
 }
-.sustainability-footer::before {
+.impact-section::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
   z-index: 1;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
 }
-.sustainability-footer__content {
+.impact-section__content {
   position: relative;
   z-index: 2;
-  max-width: 850px;
+  max-width: 800px;
   margin: 0 auto;
 }
-.sustainability-footer__title {
-  font-size: clamp(2rem, 5vw, 2.5rem);
-  margin-bottom: 2rem;
+.impact-section__title {
   font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 2rem;
   color: #bfa55d;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
 }
-.sustainability-footer p {
-  font-size: 1.125rem;
+.impact-section p {
+  font-size: 1.2rem;
   line-height: 1.8;
   font-weight: 300;
+  opacity: 0.95;
 }
 
+.impact--quality {
+  background-image: url("../image/ancient-olive-grove-path.webp");
+}
+.impact--quality::before {
+  background: rgba(20, 15, 5, 0.65);
+}
+
+.impact--sustainability {
+  background-image: url("../image/rustic-stone-mills-in-olive-grove.webp");
+}
+.impact--sustainability::before {
+  background: rgba(26, 45, 23, 0.7);
+}
+
+@media (max-width: 768px) {
+  .impact-section {
+    padding: 4rem 1.5rem;
+    background-attachment: scroll;
+  }
+  .impact-section__title {
+    font-size: 2rem;
+  }
+}
 .container {
   max-width: 1200px;
   margin: 0 auto;

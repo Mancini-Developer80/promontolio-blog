@@ -246,50 +246,88 @@
   }
 }
 
-// --- SOSTENIBILITÀ ---
-.sustainability-footer {
+// --- CLASSE BASE UNIFICATA ---
+.impact-section {
   position: relative;
-  padding: $space-2xl * 1.5 $space-lg;
-  background-image: url("../image/rustic-stone-mills-in-olive-grove.webp");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  text-align: center;
-  color: #fff;
+  padding: $space-2xl * 2 $space-lg; // Spazio verticale ampio per il lusso
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  color: #fff;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; // Effetto Parallax (Premium)
+  width: 100%;
+  overflow: hidden;
 
+  // Overlay Scuro Comune (Garantisce leggibilità su ogni immagine)
   &::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      circle,
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
       rgba(0, 0, 0, 0.4) 0%,
       rgba(0, 0, 0, 0.7) 100%
     );
-    z-index: 1;
   }
 
   &__content {
     position: relative;
     z-index: 2;
-    max-width: 850px;
+    max-width: 800px;
     margin: 0 auto;
   }
 
   &__title {
-    font-size: clamp($type-h2, 5vw, $type-h1);
-    margin-bottom: $space-lg;
     font-family: $font-secondary;
-    color: $secondary-color;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: $space-lg;
+    color: $secondary-color; // Il tuo oro
+    text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
   }
 
   p {
-    font-size: $type-body;
+    font-size: 1.2rem;
     line-height: 1.8;
     font-weight: 300;
+    opacity: 0.95;
+  }
+}
+
+// --- AUTONOMIA: MODIFICATORI ---
+
+.impact--quality {
+  // Immagine specifica per la Qualità
+  background-image: url("../image/ancient-olive-grove-path.webp");
+
+  // Se vuoi un'atmosfera leggermente più calda/marrone
+  &::before {
+    background: rgba(20, 15, 5, 0.65);
+  }
+}
+
+.impact--sustainability {
+  // Immagine specifica per la Sostenibilità
+  background-image: url("../image/rustic-stone-mills-in-olive-grove.webp");
+
+  // Se vuoi un'atmosfera più verde/naturale
+  &::before {
+    background: rgba(26, 45, 23, 0.7);
+  }
+}
+
+// Mobile Optimization
+@media (max-width: 768px) {
+  .impact-section {
+    padding: $space-2xl $space-md;
+    background-attachment: scroll; // Il parallax su mobile può dare problemi di performance
+
+    &__title {
+      font-size: 2rem;
+    }
   }
 }
