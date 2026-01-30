@@ -1,12 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <%- include('partials/general/head') %>
   </head>
   <body>
-    <!-- prettier-ignore -->
-    <%- include('partials/homeHeader') %>
-    <%- include('partials/homeMain') %>
+    <header class="home-header">
+      <%- include('./partials/general/navbar.ejs') %>
+
+      <section class="hero container">
+        <div class="hero__content">
+          <h1 class="hero__title">
+            <span class="hero__title--highlight"
+              >Bio-Olivenöl Extra Vergine aus Italien</span
+            >
+          </h1>
+          <h2 class="hero__subtitle">
+            <span class="hero__brand">Promontolio</span>
+            <span class="hero__slogan"
+              >Jahrhundertealte Tradition – Ein einziger Tropfen
+              Exzellenz.</span
+            >
+          </h2>
+          <p class="hero__description">
+            Genießen Sie kaltgepresstes Olivenöl, gewachsen auf antikem Boden
+            und veredelt durch moderne Nachhaltigkeit – kreiert für
+            anspruchsvollste Kenner.
+          </p>
+        </div>
+        <div class="hero__actions slideInDown">
+          <a class="btn-primary" href="contact">Kontaktieren Sie uns</a>
+        </div>
+      </section>
+    </header>
+
+    <main class="home-main">
+      <div class="container">
+        <h2 class="section-title scroll-fade-up">
+          Entdecken Sie das feinste italienische Bio-Olivenöl
+        </h2>
+
+        <article class="feature-grid scroll-fade-up">
+          <div class="feature-grid__image feature-grid__image--apulia"></div>
+          <div class="feature-grid__text">
+            <h3 class="feature-grid__title">Die Essenz Apuliens erleben</h3>
+            <p>
+              Tauchen Sie ein in die reichen Aromen unseres Bio-Olivenöls extra
+              vergine. Hergestellt nach jahrhundertealter Tradition und mit
+              tiefem Respekt für die Umwelt – die perfekte Ergänzung für Ihre
+              kulinarischen Kreationen.
+            </p>
+            <div class="feature-grid__banner">
+              <img
+                class="banner-img"
+                src="../image/promontolio-banner.png"
+                alt="Promontolio Premium Banner"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-grid feature-grid--reverse scroll-fade-up">
+          <div class="feature-grid__text">
+            <h3 class="feature-grid__title">Unser zeitloses Terroir</h3>
+            <p>
+              Mit Blick auf kristallklares Wasser und Kalksteinhügel gedeihen
+              unsere Haine seit Jahrhunderten. Die sonnenverwöhnten Koroneiki-
+              und Ogliarola-Bäume ziehen ihre Kraft aus Apuliens fruchtbarem
+              Boden und der Meeresbrise, um Oliven voller Charakter zu liefern.
+            </p>
+          </div>
+          <div class="feature-grid__image feature-grid__image--terroir"></div>
+        </article>
+
+        <article class="feature-grid scroll-fade-up">
+          <div class="feature-grid__text">
+            <h3 class="feature-grid__title">Warum unser Olivenöl wählen?</h3>
+            <ul class="check-list">
+              <li class="check-list__item">
+                <i class="fas fa-check"></i> 100% Bio und Extra Vergine
+              </li>
+              <li class="check-list__item">
+                <i class="fas fa-check"></i> Kaltgepresst für maximales Aroma
+              </li>
+              <li class="check-list__item">
+                <i class="fas fa-check"></i> Reich an Antioxidantien
+              </li>
+              <li class="check-list__item">
+                <i class="fas fa-check"></i> Vielseitig für Küche und
+                Gourmet-Gerichte
+              </li>
+              <li class="check-list__item">
+                <i class="fas fa-check"></i> Nachhaltig aus Familienbesitz
+              </li>
+            </ul>
+            <div class="feature-grid__banner">
+              <img
+                class="organic-logo"
+                src="../image/OrganicLogo.png"
+                alt="Bio-Zertifizierung Logo"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div class="feature-grid__image feature-grid__image--benefits"></div>
+        </article>
+      </div>
+    </main>
+
+    <section class="sustainability-footer">
+      <div class="container sustainability-footer__content">
+        <h3 class="sustainability-footer__title scroll-fade-up">
+          Unser Engagement für Nachhaltigkeit
+        </h3>
+        <p class="scroll-fade-up">
+          Wir glauben an den Schutz der Umwelt und die Unterstützung lokaler
+          Gemeinschaften. Unser Olivenöl wird mit nachhaltigen
+          landwirtschaftlichen Praktiken hergestellt, die das Land schützen und
+          die Artenvielfalt fördern.
+        </p>
+      </div>
+    </section>
+
     <%- include('partials/general/footer') %>
   </body>
 </html>

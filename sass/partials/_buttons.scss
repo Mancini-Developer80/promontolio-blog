@@ -1,43 +1,84 @@
-//main button
-.btn-container {
+@use "./variables" as *;
+
+// --- CLASSE BASE (Shared Logic) ---
+.btn {
+  display: inline-block;
+  padding: $space-sm $space-xl;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+  transition: $transition;
+  border-radius: $radius-sm; // Stile classico/luxury
+  position: relative;
   overflow: hidden;
-  padding: 1rem 0;
+  z-index: 1;
+
+  // Effetto Shimmer (Il riflesso bianco al hover)
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 100%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    z-index: -1;
+  }
+
+  &:hover::before {
+    left: 150%;
+  }
+
+  &:active {
+    transform: scale(0.98); // Feedback tattile stile Google M3
+  }
 }
 
-.btn-container .btn-main {
+// --- VARIANTE PRIMARY (L'anima del Brand) ---
+.btn-primary {
+  @extend .btn;
   background-color: transparent;
   color: #fff;
-  padding: 1rem 2rem;
-  border: 2px solid #fff;
-  /* border-radius: 0.5rem; */
-  font-weight: 700;
-  position: relative;
-  z-index: 1;
-  transition: all 0.3s ease;
-  overflow: hidden;
+  border: 2px solid $secondary-color; // Usiamo l'oro invece del bianco semplice
+
+  &:hover {
+    background-color: $primary-color; // Verde Oliva profondo
+    border-color: $primary-color;
+    box-shadow: $elevation-2;
+    color: #fff;
+  }
 }
 
+// --- VARIANTE GHOST (Per sezioni chiare) ---
+.btn-outline {
+  @extend .btn;
+  background-color: transparent;
+  color: $primary-color;
+  border: 2px solid $primary-color;
+
+  &:hover {
+    background-color: $primary-color;
+    color: #fff;
+  }
+}
+
+// --- ANIMAZIONI ---
 .slideInDown {
-  animation: slideInDown 1s ease-out;
+  animation: slideInDown 1s ease-out backwards;
 }
 
-.btn-container .btn-main:hover {
-  background-color: rgb(38, 141, 107);
-}
-
-.btn-container .btn-main:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 150%;
-  height: 25px;
-  background-color: #fff;
-  transform: translateX(-100%) rotate(45deg);
-  transition: all 0.5s ease;
-  overflow: hidden;
-}
-
-.btn-container .btn-main:hover:before {
-  transform: translateX(100%) rotate(45deg);
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

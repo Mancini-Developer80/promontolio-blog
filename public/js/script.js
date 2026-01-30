@@ -1,10 +1,9 @@
 window.addEventListener("scroll", function () {
   const navbar = document.querySelector(".navbar");
   if (navbar && window.scrollY > 450) {
-    // Adjust 50 to your preferred scroll threshold
-    navbar.classList.add("scroll");
+    navbar.classList.add("navbar-scrolled");
   } else if (navbar) {
-    navbar.classList.remove("scroll");
+    navbar.classList.remove("navbar-scrolled");
   }
 });
 
@@ -25,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       threshold: 0.3,
       rootMargin: `-${navbarHeight}px 0px 0px 0px`,
-    }
+    },
   );
 
   document
@@ -57,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     navOverlay.classList.toggle("active");
     mobileHamburger.setAttribute(
       "aria-expanded",
-      navLinks.classList.contains("active")
+      navLinks.classList.contains("active"),
     );
   }
 

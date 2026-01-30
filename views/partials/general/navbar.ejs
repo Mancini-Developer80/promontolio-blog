@@ -1,49 +1,62 @@
 <% const normRoute = currentRoute && currentRoute.replace(/\/$/, ''); %>
 <nav class="navbar" id="main-navbar" aria-label="Main navigation">
-  <div class="flex-container container">
-    <div class="logo">
-      <img
-        class="logo-img"
-        src="/image/logo-promontolio.png"
-        alt="Promontolio Extravergin Olive Oil from Italy"
-        loading="lazy"
-      />
+  <div class="navbar__container container">
+    <div class="navbar__logo">
+      <a href="/">
+        <img
+          class="navbar__logo-img"
+          src="/image/logo-promontolio.png"
+          alt="Promontolio Premium Italian Olive Oil"
+          loading="lazy"
+        />
+      </a>
     </div>
-    <div class="hamburger" id="navbar-hamburger">
+
+    <button
+      class="navbar__hamburger"
+      id="navbar-hamburger"
+      aria-label="Toggle menu"
+    >
       <span></span>
       <span></span>
       <span></span>
-    </div>
-    <div class="navbar-overlay" id="navbar-overlay"></div>
-    <div class="list-menu">
-      <ul class="nav-list">
-        <li class="nav-item">
+    </button>
+
+    <div class="navbar__overlay" id="navbar-overlay"></div>
+
+    <div class="navbar__menu" id="navbar-menu">
+      <ul class="navbar__list">
+        <li class="navbar__item">
           <a
             href="/"
-            class="<%= (normRoute === '' || normRoute === '/') ? 'active' : '' %>"
-            >Home</a
+            class="navbar__link <%= (normRoute === '' || normRoute === '/') ? 'navbar__link--active' : '' %>"
           >
+            Home
+          </a>
         </li>
-        <li class="nav-item">
+        <li class="navbar__item">
           <a
             href="/about"
-            class="<%= normRoute && normRoute.startsWith('/about') ? 'active' : '' %>"
-            >About</a
+            class="navbar__link <%= normRoute && normRoute.startsWith('/about') ? 'navbar__link--active' : '' %>"
           >
+            Über uns
+          </a>
         </li>
-        <li class="nav-item">
+        <li class="navbar__item">
           <a
             href="/product"
-            class="<%= normRoute && normRoute.startsWith('/product') ? 'active' : '' %>"
-            >Product</a
+            class="navbar__link <%= normRoute && normRoute.startsWith('/product') ? 'navbar__link--active' : '' %>"
           >
+            Produkte
+          </a>
         </li>
-        <li class="nav-item">
+        <li class="navbar__item">
           <a
             href="/blog"
-            class="<%= normRoute && normRoute.startsWith('/blog') ? 'active' : '' %>"
-            >Blog</a
+            class="navbar__link <%= normRoute && normRoute.startsWith('/blog') ? 'navbar__link--active' : '' %>"
           >
+            Magazin
+          </a>
         </li>
       </ul>
     </div>

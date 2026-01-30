@@ -57,7 +57,10 @@
   font-size: 1.5rem;
   color: #fff;
   opacity: 0.8;
-  transition: color 0.2s, opacity 0.2s, transform 0.2s;
+  transition:
+    color 0.2s,
+    opacity 0.2s,
+    transform 0.2s;
 }
 .footer-social .fab:hover {
   color: #ffd700;
@@ -83,13 +86,6 @@
   margin-top: 0.5rem;
   position: relative;
 }
-
-// .admin-link {
-//   font-size: 1.3rem;
-//   margin-left: 1.5rem;
-//   color: #ffd700;
-//   text-decoration: underline;
-// }
 
 @media (max-width: 600px) {
   .footer-container {

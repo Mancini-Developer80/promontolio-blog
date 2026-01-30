@@ -1,0 +1,626 @@
+
+--- PAGINA: 404.ejs ---
+404 - Not Found
+The page you are looking for does not exist.
+
+--- PAGINA: about.ejs ---
+
+
+--- PAGINA: adminForm.ejs ---
+Admin Author Login
+Please enter your credentials to access the admin panel.
+Username
+Password
+Log In
+
+--- PAGINA: blog.ejs ---
+
+
+--- PAGINA: blogSingleArticle.ejs ---
+
+
+--- PAGINA: contact.ejs ---
+Contact Us
+We would love to hear from you! Whether you have questions about our products, need assistance with an order or simply want to share your feedback, our team is here to help. Please fill out the form below or reach us through the provided contact details. We look forward to connecting with you!
+Name
+Email
+Message
+Send Message
+
+--- PAGINA: downloadForm.ejs ---
+Download Form
+
+--- PAGINA: downloadSuccess.ejs ---
+Download Successful
+Your download has been completed successfully.
+
+--- PAGINA: index.ejs ---
+
+
+--- PAGINA: product.ejs ---
+
+
+--- PAGINA: blogForm.ejs ---
+Edit Blog Post
+Create New Blog Post
+Share your olive oil expertise with the world
+Basic Information
+Title *
+0 /100 characters
+Status *
+Draft
+Published
+Category
+Select Category
+Olive Oil Guide
+Recipes
+Health Benefits
+Production Process
+News & Updates
+Excerpt
+0 /300 characters
+Content
+Content *
+Heading 1
+Heading 2
+Heading 3
+Normal Text
+Featured Image
+Upload Image
+Click to upload or drag and drop
+JPG, PNG, WEBP up to 5MB
+SEO Optimization
+Meta Description
+0 /160 characters
+Keywords (comma-separated)
+Cancel
+Save as Draft
+
+--- PAGINA: blogForm_new.ejs ---
+Edit Blog Post
+Create New Blog Post
+Create engaging content for your olive oil blog
+Basic Information
+Title *
+0 /100 characters
+Excerpt
+0 /300 characters
+Status *
+Draft
+Published
+Category
+Select Category
+Olive Oil Guide
+Recipes
+Health Benefits
+Production
+News & Updates
+Content Editor
+Use the rich text editor below to create engaging blog content.
+Blog Content *
+Featured Image
+Upload Image
+Click to upload or drag and drop
+JPG, PNG, WEBP up to 5MB
+SEO Optimization
+Meta Description
+0 /160 characters
+Keywords (comma-separated)
+Cancel
+Save Draft
+
+--- PAGINA: blogList.ejs ---
+Manage Blog Posts
+Create New Post
+Published Posts
+Draft Posts
+Total Views
+Total Posts
+All Categories
+Olive Oil Guide
+Recipes
+Health Benefits
+Production
+News & Updates
+All Posts
+Published
+Drafts
+Image
+Title & Excerpt
+Category
+Status
+Views
+Author
+Date
+Actions
+Uncategorized
+No blog posts yet
+Start creating engaging content for your olive oil blog!
+Create Your First Post
+Confirm Article Deletion
+⚠️ Warning:  This action cannot be undone!
+You are about to permanently delete the following article:
+Title:
+Status:
+Created:
+Views:
+This will:
+✗ Permanently remove the article and all its content
+✗ Remove all comments and interactions
+✗ Break any external links to this article
+✗ Remove the article from search engines over time
+Cancel
+Yes, Delete Article
+
+--- PAGINA: dashboard.ejs ---
+Promontolio-Blog Dashboard
+Welcome back! Here's your olive oil blog overview.
+Total Blog Posts
+Newsletter Subscribers
+Posts This Month
+New Subscribers (30 days)
+📊 Blog Analytics
+Posts Published (Last 6 Months)
+Subscriber Growth (Last 6 Months)
+Popular Content Tags
+🏆 Top Performing Content
+#
+views
+No content data yet.
+Create your first post
+📊 Content Insights
+Publishing frequency:
+posts this
+month
+Growth rate:
+new
+subscribers (30 days)
+Content library:
+total articles
+published
+Most popular topic:
+( posts)
+💡 Recommendations:
+Consider posting more frequently - aim for 2-3 posts per
+month
+Promote your newsletter signup to grow your subscriber
+base
+Add search functionality to help readers find your
+content
+⚡ Quick Actions
+✍️ Write New Post
+📝 Manage Posts
+👥 Manage Users
+🌐 View Public Blog
+🚪 Logout
+📈 Recent Activity
+📝 Recent Blog Posts
+Published:
+No posts yet.
+Create your first post!
+📧 Recent Subscribers
+Subscribed:
+No subscribers yet. Share your blog to grow your
+audience!
+🌱 Content Strategy for Your Olive Oil Business
+📝 Content Ideas
+Write about olive harvesting seasons, health benefits of extra
+virgin olive oil, traditional vs modern pressing methods.
+👥 Audience Engagement
+Share behind-the-scenes content from your olive groves, recipe
+tutorials, and customer testimonials.
+📊 SEO Tips
+Use keywords like "extra virgin olive oil", "organic olives",
+"Mediterranean recipes" to improve search rankings.
+© 2025 PromontolioBlog Admin Panel |
+View Public Site
+
+--- PAGINA: mediaDetails.ejs ---
+Back to Library
+Copy URL
+View
+Delete
+Preview
+Media Information
+File Name
+File Size
+File Type
+Category
+Dimensions
+×
+Uploaded
+Title
+Description
+Alt Text
+Usage
+General
+Blog Content
+Product Images
+Hero Images
+Gallery
+Tags
+Reset
+Save Changes
+Usage Statistics
+Times Used
+Views
+Downloads
+Used In:
+This media file hasn't been used yet.
+
+--- PAGINA: mediaLibrary.ejs ---
+Media Library
+Upload Media
+Files
+MB Total
+Search:
+Category:
+All Categories
+Images
+Documents
+Videos
+Audio
+Sort:
+Newest First
+Oldest First
+Name
+Size
+Most Used
+Media Files ()
+Click to view
+No Media Files Found
+Upload some files to get started with your media library.
+Upload Your First File
+Previous
+Page  of
+Next
+
+--- PAGINA: mediaUpload.ejs ---
+Back to Library
+Upload Media
+Select Files to Upload
+Drag and drop files here
+or click to browse (Max 50MB per file)
+Uploading...
+Selected Files
+File Information
+Category
+Auto-detect
+Image
+Document
+Video
+Audio
+Usage
+General
+Blog Content
+Product Images
+Hero Images
+Gallery
+Description
+Tags
+Alt Text (for images)
+Cancel
+Upload Files
+
+--- PAGINA: profile.ejs ---
+Profile Settings
+Manage your personal information and account settings
+Personal Information
+First Name
+Last Name
+Username
+Email Address
+Bio
+Security Settings
+Change Password
+Current Password
+New Password
+Confirm New Password
+Cancel
+Save Changes
+
+--- PAGINA: settings.ejs ---
+System Settings
+Configure site-wide settings and preferences
+Site Configuration
+Site Title
+This will appear in the browser title and search results
+Site Description
+Brief description for SEO and social media
+SEO Keywords
+Comma-separated keywords for search engines
+Contact Email
+Social Media Links
+Facebook URL
+Instagram URL
+Twitter URL
+YouTube URL
+Content Settings
+Default Post Status
+Draft
+Published
+Posts Per Page
+Enable Comments
+Moderate Comments Before Publishing
+Allow Guest Comments
+File Upload Settings
+Maximum File Size (MB)
+Allowed Image Types
+Comma-separated file extensions
+Allowed Document Types
+Comma-separated file extensions
+Security Settings
+Session Timeout (hours)
+Minimum Password Length
+Maximum Login Attempts
+Require Strong Passwords
+Cancel
+Save Settings
+
+--- PAGINA: stats.ejs ---
+Statistics
+Here you can view the statistics for your blog.
+
+--- PAGINA: userForm.ejs ---
+Manage user account and permissions
+Personal Information
+First Name *
+Last Name *
+Username *
+3-30 characters, will be used for login
+Email Address *
+Password *
+Minimum 6 characters
+Account Settings
+User Role *
+Select Role
+Author
+Admin
+Super Admin
+Status
+Active
+Inactive
+Bio (Optional)
+Cancel
+
+--- PAGINA: userList.ejs ---
+User Management
+Add New User
+Active Users
+Administrators
+Content Creators
+Total Users
+All Roles
+Super Admin
+Admin
+Editor
+Author
+All Users
+Active
+Inactive
+Suspended
+Avatar
+User Info
+Role
+Status
+Last Login
+Joined
+Actions
+Never
+No users found
+Start by creating your first team member!
+Add First User
+
+--- PAGINA: userListSimple.ejs ---
+User Management
+Add New User
+Total Users
+Active Users
+Inactive Users
+Name
+Email
+Role
+Status
+Created
+No users found
+Start by creating your first user account!
+Create Your First User
+
+--- PAGINA: login.ejs ---
+Login
+Username:
+Password:
+Login
+
+--- PAGINA: aboutHeader.ejs ---
+
+
+--- PAGINA: aboutMain.ejs ---
+Our Products
+Discover the essence of Apulia in every drop of our extra virgin olive
+oil. Crafted with care and tradition, our oils bring the rich flavors of
+sun-kissed olives to your table. Explore our selection and elevate your
+culinary creations with the pure taste of Italy.
+Our Heritage
+Nestled on Apulia’s sun-drenched slopes, our family has harvested olives
+for generations. Each grove whispers tales of ancestral hands, sea
+breezes, and limestone soils that shape our oil’s character. We honor
+this lineage by preserving traditional methods passed down through
+centuries.
+Our Mission
+Our mission is to craft extra virgin olive oil that embodies
+authenticity, health, and environmental stewardship. We marry
+time-honored practices with modern eco-friendly techniques to deliver
+pure flavor and protect the land for future generations.
+
+--- PAGINA: aboutSection.ejs ---
+Our Values
+Authenticity:  Honoring centuries-old traditions
+Sustainability:  Solar-powered mills and water
+recycling
+Transparency:  Full traceability from tree to table
+Community:  Supporting local workers and artisans
+Health:  Rich in polyphenols and antioxidants
+Craftsmanship & Process
+Hand-picked at dawn and cold-pressed within hours, every olive goes
+through rigorous tasting panels and acidity tests. Our mill runs on
+solar power, and we use natural compost to nourish the soil. The
+result is an oil with vibrant green hues, peppery finish, and
+unmatched freshness.
+Buy Promontolio
+
+--- PAGINA: alerts.ejs ---
+Alerts
+Here you can manage alerts for your blog.
+
+--- PAGINA: BlogArticleMain.ejs ---
+Home
+/
+Blog
+/
+Olivicoltore
+min di lettura
+Olio extravergine di oliva biologico del Gargano - Tradizione
+e qualità nella produzione artigianale
+Tags:
+Olio d'Oliva
+Tradizione
+Gargano
+Biologico
+Condividi:
+Torna al Blog
+Acquista Ora
+L'Autore
+Olivicoltore con oltre 30 anni di esperienza nella produzione di olio extravergine di oliva biologico nel Gargano.
+>
+Indice
+Articoli Correlati
+I Segreti dell'Olio Biologico
+28 Agosto 2025
+Dal Frantoio alla Tavola
+15 Agosto 2025
+
+--- PAGINA: blogHeaderNav.ejs ---
+Home page
+Blog Home
+Search
+
+--- PAGINA: blogMain.ejs ---
+News, updates, and interesting information
+By
+views
+Lorem ipsum
+dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+ea commodo consequat. Duis aute irure dolor in reprehenderit in
+voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+officia deserunt mollit anim id est laborum.   Lorem
+ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+ea commodo consequat. Duis aute irure dolor in reprehenderit in
+voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+officia deserunt mollit anim id est laborum. Sed ut perspiciatis
+unde omnis iste natus error sit voluptatem accusantium doloremque
+laudantium...
+Read More
+← Previous
+Next →
+No Articles Yet
+We're working on some great content for you. Check back soon!
+
+--- PAGINA: homeHeader.ejs ---
+Organic Italian extra virgin olive oil
+Promontolio
+Centuries of Tradition a Single Drop of Excellence.
+Savor cold-pressed olive oil, the fruit of ancient land and modern
+sustainability, designed for the most discerning palates.
+Contact Us
+
+--- PAGINA: homeMain.ejs ---
+Discover the finest organic Italian extra virgin olive oil
+Experience the Essence of Apulia, Italy
+Dive into the rich flavors of our organic extra virgin olive oil,
+crafted with centuries-old traditions and a commitment to
+sustainability. Perfect for enhancing your culinary creations with a
+touch of Italian excellence.
+Our Timeless Terroir
+Overlooking crystalline waters and limestone hills, our groves have
+thrived for centuries. Sun-kissed Koroneiki and Ogliarola trees draw
+strength from Apulia’s fertile soil and sea breezes, yielding olives
+rich in character.
+Why Choose Our Olive Oil?
+100% Organic and Extra Virgin
+Cold-Pressed for Maximum Flavor and
+Nutrients
+Rich in Antioxidants and Healthy Fats
+Versatile for Cooking, Dressing, and
+Dipping
+Sustainably Sourced from Family-Owned
+Groves
+Our Commitment to Sustainability
+We believe in preserving the environment and supporting local communities.
+Our olive oil is produced using sustainable farming practices that protect
+the land and promote biodiversity.
+
+--- PAGINA: productHeader.ejs ---
+Our Products
+Discover the essence of Apulia in every drop of our extra virgin olive
+oil. Crafted with care and tradition, our oils bring the rich flavors of
+sun-kissed olives to your table. Explore our selection and elevate your
+culinary creations with the pure taste of Italy.
+Bottiglia Bio
+Our Bottiglia Bio is a testament to our commitment to organic farming
+and sustainable practices. Made from the finest organic olives, this
+extra virgin olive oil is cold-pressed to preserve its natural flavors
+and health benefits.
+Bottiglia Bio
+Our Bottiglia Bio is a testament to our commitment to organic farming
+and sustainable practices. Made from the finest organic olives, this
+extra virgin olive oil is cold-pressed to preserve its natural flavors
+and health benefits.
+
+--- PAGINA: productSection.ejs ---
+Our Values
+Authenticity:  Honoring centuries-old traditions
+Sustainability:  Solar-powered mills and water recycling
+Transparency:  Full traceability from tree to table
+Community:  Supporting local workers and artisans
+Health:  Rich in polyphenols and antioxidants
+Craftsmanship & Process
+Hand-picked at dawn and cold-pressed within hours, every olive goes through rigorous tasting panels and acidity tests. Our mill runs on solar power, and we use natural compost to nourish the soil. The result is an oil with vibrant green hues, peppery finish, and unmatched freshness.
+Buy Promontolio
+
+--- PAGINA: dashboardNavbar.ejs ---
+Dashboard
+Blog Posts
+Media
+Users
+View Site
+Profile
+Settings
+Logout
+Dashboard
+Blog Posts
+Media
+Users
+View Site
+Logout
+
+--- PAGINA: footer.ejs ---
+Promontolio
+Contact Us
+Admin
+©  NodePrincipe. All rights reserved.
+
+--- PAGINA: head.ejs ---
+
+
+--- PAGINA: navbar.ejs ---
+Home
+About
+Product
+Blog
