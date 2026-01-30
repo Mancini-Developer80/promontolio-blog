@@ -172,6 +172,7 @@
 
   &--reverse {
     flex-direction: row-reverse;
+    padding-top: $space-2xl;
   }
 
   &__image {
@@ -187,6 +188,16 @@
       background-size: contain;
       background-repeat: no-repeat;
       box-shadow: none;
+    }
+
+    &--terroir {
+      background-image: url("../image/organic-olive-harvest-extra-virgin-oil.webp");
+      // Puoi aggiungere background-position: bottom; se vuoi vedere più terra o top per il cielo
+    }
+
+    // AGGIUNTA - Immagine 3: Benefits
+    &--benefits {
+      background-image: url("../image/OliveInMano.webp");
     }
 
     &:hover {
@@ -316,7 +327,7 @@
 
   // Se vuoi un'atmosfera più verde/naturale
   &::before {
-    background: rgba(26, 45, 23, 0.7);
+    background: rgba(0, 0, 0, 0.4);
   }
 }
 

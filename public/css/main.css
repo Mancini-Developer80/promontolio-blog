@@ -223,12 +223,13 @@ p {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 9999;
   padding: 1.5rem 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .navbar.navbar-scrolled {
   position: fixed;
+  z-index: 9999;
   background-color: rgba(26, 26, 26, 0.95);
   backdrop-filter: blur(12px);
   padding: 0.8rem 0;
@@ -1342,6 +1343,7 @@ p {
 }
 .feature-grid--reverse {
   flex-direction: row-reverse;
+  padding-top: 4rem;
 }
 .feature-grid__image {
   flex: 1;
@@ -1356,6 +1358,12 @@ p {
   background-size: contain;
   background-repeat: no-repeat;
   box-shadow: none;
+}
+.feature-grid__image--terroir {
+  background-image: url("../image/organic-olive-harvest-extra-virgin-oil.webp");
+}
+.feature-grid__image--benefits {
+  background-image: url("../image/OliveInMano.webp");
 }
 .feature-grid__image:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
@@ -1456,7 +1464,7 @@ p {
   background-image: url("../image/rustic-stone-mills-in-olive-grove.webp");
 }
 .impact--sustainability::before {
-  background: rgba(26, 45, 23, 0.7);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 768px) {
