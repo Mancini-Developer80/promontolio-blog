@@ -12,21 +12,39 @@
 
 html {
   scroll-behavior: smooth;
-  // Impostiamo una base solida per il calcolo dei rem
-  font-size: 100%; // 16px
+  font-size: 100%; // Base 16px
 }
 
 body {
   font-family: $font-stack;
-  font-size: $type-body; // Usiamo il token 18px per il mercato tedesco (leggibilità premium)
+  font-size: $type-body;
   line-height: 1.6;
   background-color: $light-background;
   color: $font-dark;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased; // Resa dei font più netta su Mac/iOS
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease;
 }
 
-// --- TIPOGRAFIA (Gerarchia Google) ---
+// --- GESTIONE MENU APERTO (Z-Index Fix & Layout Reset) ---
+// Questa regola risolve il glitch del menu che finiva sotto l'ultima sezione
+body.menu-open {
+  overflow: hidden; // Blocca lo scroll
+
+  // Abbassiamo la priorità di tutti i contenitori che potrebbero creare nuovi piani (stacking contexts)
+  main,
+  footer,
+  section,
+  .scroll-fade-up {
+    z-index: 1 !important;
+    transform: none !important; // Rimuove temporaneamente i transform che causano il glitch
+    perspective: none !important;
+    filter: none !important;
+  }
+}
+
+// --- TIPOGRAFIA FLUIDA ---
 h1,
 h2,
 h3,
@@ -36,21 +54,24 @@ h6 {
   font-family: $font-secondary;
   font-weight: 600;
   line-height: 1.2;
-  margin-bottom: $space-sm; // 16px costante
-  color: $primary-color; // Coerenza cromatica
+  margin-bottom: $space-sm;
+  color: $primary-color;
 }
 
-// Applicazione specifica dei token tipografici
 h1 {
-  font-size: $type-h1;
-}
-h2 {
-  font-size: $type-h2;
-}
-h3 {
-  font-size: $type-h3;
+  font-size: clamp(2.2rem, 5vw + 1rem, #{$type-h1});
+  letter-spacing: -0.5px;
 }
 
+h2 {
+  font-size: clamp(1.8rem, 4vw + 1rem, #{$type-h2});
+}
+
+h3 {
+  font-size: clamp(1.15rem, 2vw + 1rem, #{$type-h3});
+}
+
+// --- LISTE E LINK ---
 li {
   list-style: none;
 }
@@ -58,26 +79,31 @@ li {
 a {
   text-decoration: none;
   color: inherit;
-  transition: $transition; // Usiamo il token transizione
+  transition: $transition;
   display: inline-block;
+
+  &:hover {
+    color: $secondary-color;
+  }
 }
 
+// --- ELEMENTI MULTIMEDIALI ---
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-// --- UTILITY CLASSES (Grid & Layout) ---
+// --- UTILITY CLASSES ---
 .container {
-  max-width: 1280px; // Standard Material Design per desktop
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 $space-md; // Margine di sicurezza 24px (8x3)
+  padding: 0 $space-md;
   width: 100%;
 
-  // @include mobile {
-  //   padding: 0 $space-sm; // Margine 16px su mobile
-  // }
+  @include mobile {
+    padding: 0 $space-sm;
+  }
 }
 
 .container-sm {
@@ -91,16 +117,22 @@ img {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: $space-2xl 0; // 64px costante tra le sezioni
+  padding: $space-2xl 0;
+
+  @include mobile {
+    padding: $space-xl 0;
+  }
 }
 
 // --- ANIMAZIONI ---
 .scroll-fade-up {
   opacity: 0;
-  transform: translateY($space-lg); // 32px di offset
+  transform: translateY($space-lg);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
 
-  &.active {
+  // Questa è la classe attivata dall'Intersection Observer nel tuo JS
+  &.visible {
     opacity: 1;
     transform: translateY(0);
   }

@@ -1,9 +1,25 @@
+// --- BREAKPOINTS ---
+$breakpoint-mobile: 768px;
+
+// --- RESPONSIVE MIXINS ---
+// Questo permette al tuo _base.scss di funzionare correttamente
+@mixin mobile {
+  @media screen and (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+// --- LAYOUT MIXINS ---
 @mixin center-flex {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-@mixin image-background{
-  
+// --- STYLING MIXINS ---
+// Perfetto per le tue sezioni con immagini di sfondo (Hero, Impact, etc.)
+@mixin image-background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

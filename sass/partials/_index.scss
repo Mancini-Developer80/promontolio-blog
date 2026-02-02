@@ -1,4 +1,5 @@
 @use "./variables" as *;
+@use "./mixins" as *;
 
 // --- HOME HEADER ---
 .home-header {
@@ -9,6 +10,7 @@
   background-position: center;
   display: flex;
   flex-direction: column;
+  z-index: auto;
 
   &::before {
     content: "";
@@ -22,9 +24,16 @@
     position: relative;
     z-index: 2;
   }
+
+  // Fix quando il menu è aperto
+  body.menu-open & {
+    z-index: -1 !important;
+  }
 }
 
 .hero {
+  position: relative;
+  z-index: 2;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -33,12 +42,10 @@
   text-align: center;
   padding: $space-2xl $space-lg;
   color: #fff;
-
-  // Miglioramento Leggibilità: Ombra di testo morbida su tutto il blocco
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 
   &__content {
-    max-width: 900px; // Aumentato per far respirare il tedesco
+    max-width: 900px;
     margin-bottom: $space-xl;
   }
 
@@ -49,11 +56,7 @@
       font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 4px;
-      font-size: clamp(
-        1rem,
-        2vw,
-        1.2rem
-      ); // Ridotto leggermente per dare focus al Brand
+      font-size: clamp(1rem, 2vw, 1.2rem);
       color: rgba(255, 255, 255, 0.9);
       animation: opacityIn 2s 0.3s ease-out backwards;
     }
@@ -62,13 +65,10 @@
   &__brand {
     display: block;
     font-family: $font-secondary;
-
-    // Rende "Promontolio" molto più pronunciato
     font-size: clamp(4rem, 15vw, 8.5rem);
     font-weight: 700;
     line-height: 0.9;
-    letter-spacing: -2px; // Effetto "High-End Fashion" (stile Vogue/Gourmet)
-
+    letter-spacing: -2px;
     background-image: linear-gradient(
       135deg,
       #f3e37c 0%,
@@ -78,10 +78,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-
-    filter: drop-shadow(
-      0 5px 15px rgba(0, 0, 0, 0.3)
-    ); // Fa "staccare" il logo dallo sfondo
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
     margin: $space-sm 0;
     animation: fadeSlideUp 1s ease-out;
   }
@@ -91,7 +88,7 @@
     font-weight: 300;
     font-style: italic;
     font-size: clamp(1.2rem, 3vw, 2rem);
-    color: $secondary-color; // Oro per lo slogan
+    color: $secondary-color;
     margin-bottom: $space-md;
   }
 
@@ -102,7 +99,6 @@
     max-width: 700px;
     margin: 0 auto;
     color: rgba(255, 255, 255, 0.95);
-    // Background scuro leggero dietro il testo se l'immagine è troppo chiara
     background: rgba(0, 0, 0, 0.2);
     padding: $space-sm $space-md;
     border-radius: $radius-md;
@@ -115,52 +111,68 @@
   }
 }
 
+// --- TITOLO SEZIONE (CON SHIMMER) ---
 .section-title {
-  // --- Posizionamento e Allineamento ---
   text-align: center;
-  margin: $space-2xl auto; // Usa il token Google per spazio sopra e sotto
-  max-width: 900px; // Evita che il testo si allarghi troppo su schermi XL
-
-  // --- Tipografia e Dimensioni ---
+  margin: $space-2xl auto;
+  max-width: 1000px;
+  padding: 0 $space-md;
   font-family: $font-secondary;
-  font-weight: 700;
-  line-height: 1.2;
-  // clamp() lo rende enorme su desktop (3.5rem) ma leggibile su mobile
-  font-size: clamp(2rem, 6vw, $type-display);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
 
-  // --- Effetto Gradient (Premium Gold) ---
+  // Gradient & Animation
   background: linear-gradient(
-    135deg,
+    to right,
     #bfa55d 0%,
-    // Oro base
     #f3e37c 25%,
-    // Riflesso luce
-    #8e793e 50%,
-    // Ombra profonda
-    #bfa55d 100% // Oro base
+    #ffffff 50%,
+    #f3e37c 75%,
+    #bfa55d 100%
   );
-  background-size: 200% auto; // Preparazione per eventuale animazione shimmer
+  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: shine 4s linear infinite;
 
-  // --- Dettagli Visivi ---
-  padding-bottom: $space-xs;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  // Stacking Context Fix
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  transition: all 0.5s ease;
 
-  // --- Interattività ---
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: default;
+  &::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: $secondary-color;
+    margin: $space-md auto 0;
+    border-radius: $radius-pill;
+    opacity: 0.8;
+  }
+
+  body.menu-open & {
+    filter: none !important;
+    transform: none !important;
+    z-index: -1 !important;
+  }
 
   &:hover {
-    transform: scale(1.03); // Leggera enfasi al passaggio
+    @media (min-width: 769px) {
+      transform: translateY(-5px) scale(1.02);
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+    }
   }
 }
 
-// --- HOME MAIN ---
-.home-main {
-  padding: $space-2xl 0; // Padding Enterprise standard
-  background-color: $light-background;
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
 }
 
 // --- FEATURE GRID ---
@@ -168,11 +180,10 @@
   display: flex;
   align-items: center;
   gap: $space-2xl;
-  margin-bottom: $space-2xl * 2;
+  margin: $space-2xl 0 ($space-2xl * 2);
 
   &--reverse {
     flex-direction: row-reverse;
-    padding-top: $space-2xl;
   }
 
   &__image {
@@ -182,6 +193,7 @@
     background-position: center;
     border-radius: $radius-md;
     box-shadow: $elevation-2;
+    transition: $transition;
 
     &--apulia {
       background-image: url("../image/promontolio-olive-oil-bottles.webp");
@@ -189,28 +201,25 @@
       background-repeat: no-repeat;
       box-shadow: none;
     }
-
     &--terroir {
       background-image: url("../image/organic-olive-harvest-extra-virgin-oil.webp");
-      // Puoi aggiungere background-position: bottom; se vuoi vedere più terra o top per il cielo
     }
-
-    // AGGIUNTA - Immagine 3: Benefits
     &--benefits {
       background-image: url("../image/OliveInMano.webp");
+    }
+    &--harvest {
+      background-image: url("../image/ScoglieraGargano.webp");
     }
 
     &:hover {
       box-shadow: $elevation-3;
       transform: translateY(-4px);
-      transition: $transition;
     }
   }
 
   &__text {
     flex: 1;
     padding: $space-sm;
-
     p {
       font-size: $type-body;
       line-height: 1.8;
@@ -226,41 +235,47 @@
     color: $primary-color;
   }
 
-  // --- AGGIUNTA: Centratura Banner ---
   &__banner {
     margin-top: $space-lg;
-    display: flex; // Attiviamo Flexbox
-    justify-content: center; // Centra l'immagine orizzontalmente
+    display: flex;
+    justify-content: center;
     width: 100%;
-
     .banner-img {
-      max-width: 100%; // Assicura che non esca dal contenitore
+      max-width: 100%;
       height: auto;
       object-fit: contain;
     }
   }
-}
 
-.organic-logo {
-  width: 300px;
-  height: auto;
-  margin-top: 30px;
-}
+  @include mobile {
+    flex-direction: column !important;
+    gap: $space-lg;
+    text-align: center;
+    margin-bottom: $space-2xl;
 
-// --- CHECK LIST ---
-.check-list {
-  &__item {
-    margin-bottom: $space-xs;
-    i {
-      color: $secondary-color;
+    &:first-of-type {
+      margin-top: $space-xl;
+    }
+    &--reverse {
+      flex-direction: column !important;
+    }
+
+    .feature-grid__image {
+      display: block !important;
+      width: 100% !important;
+      height: 22rem !important;
+      order: -1;
+    }
+    &__text {
+      width: 100%;
     }
   }
 }
 
-// --- CLASSE BASE UNIFICATA ---
+// --- IMPACT SECTION (FULL WIDTH FIX) ---
 .impact-section {
   position: relative;
-  padding: $space-2xl * 2 $space-lg; // Spazio verticale ampio per il lusso
+  padding: ($space-2xl * 2) $space-lg;
   min-height: 400px;
   display: flex;
   align-items: center;
@@ -269,11 +284,11 @@
   color: #fff;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; // Effetto Parallax (Premium)
+  background-attachment: fixed; // Parallax per desktop
   width: 100%;
   overflow: hidden;
+  z-index: 1;
 
-  // Overlay Scuro Comune (Garantisce leggibilità su ogni immagine)
   &::before {
     content: "";
     position: absolute;
@@ -293,52 +308,132 @@
     margin: 0 auto;
   }
 
+  &__badge {
+    display: inline-block;
+    color: $secondary-color;
+    border: 1px solid $secondary-color;
+    padding: 0.5rem 1.2rem;
+    border-radius: $radius-pill;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: $space-md;
+    background: rgba($secondary-color, 0.1);
+  }
+
   &__title {
     font-family: $font-secondary;
     font-size: clamp(2rem, 5vw, 3.5rem);
     margin-bottom: $space-lg;
-    color: $secondary-color; // Il tuo oro
+    color: $secondary-color;
     text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
   }
 
-  p {
-    font-size: 1.2rem;
+  &__description {
+    font-size: 1.25rem;
+    max-width: 750px;
+    margin: 0 auto $space-xl;
     line-height: 1.8;
-    font-weight: 300;
-    opacity: 0.95;
+    strong {
+      color: $secondary-color;
+      font-weight: 500;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: $space-md;
+    justify-content: center;
+    .btn-outline-white {
+      background: transparent;
+      border: 1px solid #fff;
+      color: #fff;
+      padding: $space-sm $space-lg;
+      transition: all 0.3s ease;
+      &:hover {
+        background: #fff;
+        color: $primary-color;
+      }
+    }
+  }
+
+  // Mobile Fix per Impact Section
+  @media (max-width: 768px) {
+    padding: $space-2xl $space-md;
+    background-attachment: scroll !important; // FIX: Rimuove parallax che copre menu
+    &__title {
+      font-size: 2rem;
+    }
+  }
+
+  // Sicurezza menu aperto
+  body.menu-open & {
+    z-index: -1 !important;
+    transform: none !important;
+    pointer-events: none;
   }
 }
 
-// --- AUTONOMIA: MODIFICATORI ---
-
+// --- MODIFICATORI IMPACT ---
 .impact--quality {
-  // Immagine specifica per la Qualità
   background-image: url("../image/ancient-olive-grove-path.webp");
-
-  // Se vuoi un'atmosfera leggermente più calda/marrone
   &::before {
     background: rgba(20, 15, 5, 0.65);
   }
 }
-
 .impact--sustainability {
-  // Immagine specifica per la Sostenibilità
   background-image: url("../image/rustic-stone-mills-in-olive-grove.webp");
-
-  // Se vuoi un'atmosfera più verde/naturale
   &::before {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.7);
   }
 }
 
-// Mobile Optimization
-@media (max-width: 768px) {
-  .impact-section {
-    padding: $space-2xl $space-md;
-    background-attachment: scroll; // Il parallax su mobile può dare problemi di performance
+// --- STATS ---
+.impact-stats {
+  display: flex;
+  justify-content: center;
+  gap: $space-xl;
+  margin: $space-xl 0;
+  flex-wrap: wrap;
 
-    &__title {
-      font-size: 2rem;
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 150px;
+  }
+  &__number {
+    font-family: $font-secondary;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $secondary-color;
+    line-height: 1;
+    margin-bottom: $space-xs;
+  }
+  &__label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  @media (max-width: 768px) {
+    gap: $space-lg;
+    &__number {
+      font-size: 1.8rem;
     }
+  }
+}
+
+// --- EXTRA ---
+.organic-logo {
+  width: 300px;
+  height: auto;
+  margin-top: 30px;
+}
+.check-list__item {
+  margin-bottom: $space-xs;
+  i {
+    color: $secondary-color;
   }
 }

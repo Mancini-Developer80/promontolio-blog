@@ -1,117 +1,106 @@
+/**
+ * Global Scroll Listener
+ * Gestisce il cambio di aspetto della navbar durante lo scroll
+ */
 window.addEventListener("scroll", function () {
   const navbar = document.querySelector(".navbar");
-  if (navbar && window.scrollY > 450) {
-    navbar.classList.add("navbar-scrolled");
-  } else if (navbar) {
-    navbar.classList.remove("navbar-scrolled");
+  if (navbar) {
+    // Aggiunge la classe se si scende oltre i 450px (dopo la Hero)
+    navbar.classList.toggle("navbar-scrolled", window.scrollY > 450);
   }
 });
 
+/**
+ * DOM Content Loaded
+ * Inizializza tutte le funzionalità interattive
+ */
 document.addEventListener("DOMContentLoaded", function () {
+  // 1. SELEZIONE ELEMENTI NAVBAR
   const navbar = document.querySelector(".navbar");
-  const navbarHeight = navbar ? navbar.offsetHeight : 0;
+  const hamburger = document.getElementById("navbar-hamburger");
+  const menu = document.getElementById("navbar-menu");
+  const overlay = document.getElementById("navbar-overlay");
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target); // Stop observing after animation
+  /**
+   * 2. FUNZIONE TOGGLE UNIFICATA
+   * Gestisce l'apertura/chiusura del menu mobile e risolve i conflitti di z-index
+   */
+  function toggleMobileMenu() {
+    if (!hamburger || !menu || !overlay) return;
+
+    // Toggle delle classi BEM sugli elementi della navbar
+    const isActive = hamburger.classList.toggle("navbar__hamburger--active");
+    menu.classList.toggle("navbar__menu--active");
+    overlay.classList.toggle("navbar__overlay--active");
+
+    // --- LOGICA DI PROTEZIONE Z-INDEX ---
+    // Attiva le regole nel file base.scss (body.menu-open)
+    // per impedire che le sezioni animate coprano il menu
+    document.body.classList.toggle("menu-open", isActive);
+
+    // Blocca lo scroll del body e aggiorna l'accessibilità
+    document.body.style.overflow = isActive ? "hidden" : "";
+    hamburger.setAttribute("aria-expanded", isActive);
+  }
+
+  // Event Listeners per il menu mobile
+  if (hamburger) hamburger.addEventListener("click", toggleMobileMenu);
+  if (overlay) overlay.addEventListener("click", toggleMobileMenu);
+
+  // Chiudi il menu quando si clicca un link (fondamentale per anchor links)
+  if (menu) {
+    menu.querySelectorAll(".navbar__link").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (menu.classList.contains("navbar__menu--active")) {
+          toggleMobileMenu();
         }
-        // Remove the else block to prevent removing the class
       });
-    },
-    {
-      threshold: 0.3,
-      rootMargin: `-${navbarHeight}px 0px 0px 0px`,
-    },
-  );
+    });
+  }
 
+  /**
+   * 3. INTERSECTION OBSERVER
+   * Gestisce le animazioni di entrata degli elementi (scroll-fade-up)
+   */
+  const navbarHeight = navbar ? navbar.offsetHeight : 0;
+  const observerOptions = {
+    threshold: 0.2, // L'elemento deve essere visibile al 20%
+    rootMargin: `-${navbarHeight}px 0px 0px 0px`, // Considera l'ingombro della navbar
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Aggiunge la classe 'visible' definita nel file base.scss
+        entry.target.classList.add("visible");
+        // Una volta animato, smette di osservare per ottimizzare le prestazioni
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Applica l'osservatore a tutti gli elementi con la classe dedicata
   document
     .querySelectorAll(".scroll-fade-up")
     .forEach((el) => observer.observe(el));
 
-  // Hamburger menu logic
-  const hamburger = document.getElementById("navbar-hamburger");
-  const overlay = document.getElementById("navbar-overlay");
-  if (hamburger && overlay && navbar) {
-    hamburger.addEventListener("click", function () {
-      navbar.classList.toggle("open");
-      overlay.style.display = navbar.classList.contains("open")
-        ? "block"
-        : "none";
-    });
-    overlay.addEventListener("click", function () {
-      navbar.classList.remove("open");
-      overlay.style.display = "none";
-    });
-  }
-
-  const mobileHamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("navLinks");
-  const navOverlay = document.getElementById("navOverlay");
-
-  function toggleMenu() {
-    navLinks.classList.toggle("active");
-    navOverlay.classList.toggle("active");
-    mobileHamburger.setAttribute(
-      "aria-expanded",
-      navLinks.classList.contains("active"),
-    );
-  }
-
-  if (mobileHamburger) {
-    mobileHamburger.addEventListener("click", toggleMenu);
-  }
-  if (navOverlay) {
-    navOverlay.addEventListener("click", toggleMenu);
-  }
-
-  // Optional: close menu when a nav link is clicked (for mobile)
-  if (navLinks) {
-    navLinks.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        if (navLinks.classList.contains("active")) {
-          toggleMenu();
-        }
-      });
-    });
-  }
-
-  // Admin Dashboard Dropdown Functionality
+  /**
+   * 4. ADMIN DASHBOARD DROPDOWN
+   * Gestisce il menu a tendina del profilo utente/admin
+   */
   const userDropdown = document.getElementById("userDropdown");
   if (userDropdown) {
-    console.log("✓ Admin dropdown found");
-
     userDropdown.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
-      console.log("✓ Admin dropdown clicked");
-
       const dropdown = this.parentElement;
       if (dropdown) {
-        const isActive = dropdown.classList.contains("active");
-
-        // Close all other dropdowns first
-        document.querySelectorAll(".dropdown.active").forEach((d) => {
-          if (d !== dropdown) {
-            d.classList.remove("active");
-          }
-        });
-
-        // Toggle current dropdown
-        if (isActive) {
-          dropdown.classList.remove("active");
-          console.log("✓ Dropdown closed");
-        } else {
-          dropdown.classList.add("active");
-          console.log("✓ Dropdown opened");
-        }
+        dropdown.classList.toggle("active");
       }
     });
 
-    // Close dropdown when clicking outside
-    document.addEventListener("click", function (e) {
+    // Chiude il dropdown se si clicca in un punto qualsiasi fuori da esso
+    document.addEventListener("click", (e) => {
       const dropdown = userDropdown.parentElement;
       if (dropdown && !dropdown.contains(e.target)) {
         dropdown.classList.remove("active");

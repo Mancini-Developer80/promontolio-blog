@@ -4,9 +4,9 @@
     <%- include('partials/general/head') %>
   </head>
   <body>
-    <header class="home-header">
-      <%- include('./partials/general/navbar.ejs') %>
+    <%- include('./partials/general/navbar.ejs') %>
 
+    <header class="home-header">
       <section class="hero container">
         <div class="hero__content">
           <h1 class="hero__title">
@@ -57,90 +57,149 @@
                 loading="lazy"
               />
             </div>
-          
-          </article>
-        </div>
-      </main>
-      <section class="impact-section impact--quality">
-          <div class="container impact-section__content">
-            <h3 class="impact-section__title scroll-fade-up">
-              Tradition trifft auf höchste Qualität
-            </h3>
-            <p class="scroll-fade-up">
-              Jede Flasche Promontolio erzählt die Geschichte unserer Olivenhaine in Apulien. 
-              Durch die Kombination aus antiker Ernteerfahrung und modernster Presstechnologie 
-              garantieren wir ein Produkt von unvergleichlicher Reinheit und Geschmack.
-            </p>
-          </div>
-      </section>
-      <div class="container">
-        <article class="feature-grid feature-grid--reverse scroll-fade-up">
-          <div class="feature-grid__text">
-            <h3 class="feature-grid__title">Unser zeitloses Terroir</h3>
-            <p>
-              Mit Blick auf kristallklares Wasser und Kalksteinhügel gedeihen
-              unsere Haine seit Jahrhunderten. Die sonnenverwöhnten Koroneiki-
-              und Ogliarola-Bäume ziehen ihre Kraft aus Apuliens fruchtbarem
-              Boden und der Meeresbrise, um Oliven voller Charakter zu liefern.
-            </p>
-          </div>
-          <div 
-            class="feature-grid__image feature-grid__image--terroir" 
-            role="img" 
-            aria-label="Panorama delle colline pugliesi con ulivi secolari affacciati sul mare cristallino">
-          </div>
-        </article>
-
-        <article class="feature-grid scroll-fade-up">
-          <div class="feature-grid__text">
-            <h3 class="feature-grid__title">Warum unser Olivenöl wählen?</h3>
-            <ul class="check-list">
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> 100% Bio und Extra Vergine
-              </li>
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> Kaltgepresst für maximales Aroma
-              </li>
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> Reich an Antioxidantien
-              </li>
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> Vielseitig für Küche und
-                Gourmet-Gerichte
-              </li>
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> Nachhaltig aus Familienbesitz
-              </li>
-            </ul>
-            <div class="feature-grid__banner">
-              <img
-                class="organic-logo"
-                src="../image/OrganicLogo.png"
-                alt="Bio-Zertifizierung Logo"
-                loading="lazy"
-              />
-            </div>
-          </div>
-          <div 
-            class="feature-grid__image feature-grid__image--benefits" 
-            role="img" 
-            aria-label="Dettaglio di olio d'oliva dorato versato su pane fresco con olive e foglie di basilico">
           </div>
         </article>
       </div>
-    
-    <section class="impact-section impact--sustainability">
-        <div class="container impact-section__content">
-          <h3 class="impact-section__title scroll-fade-up">
-            Unser Engagement für Nachhaltigkeit
-          </h3>
-          <p class="scroll-fade-up">
-            Wir glauben an den Schutz der Umwelt und die Unterstützung lokaler
-            Gemeinschaften. Unser Olivenöl wird mit nachhaltigen
-            landwirtschaftlichen Praktiken hergestellt, die das Land schützen und
-            die Artenvielfalt fördern.
+    </main>
+
+    <section class="impact-section impact--quality">
+      <div class="container impact-section__content">
+        <span class="impact-section__badge scroll-fade-up"
+          >Limitierte Jahresproduktion</span
+        >
+
+        <h3 class="impact-section__title scroll-fade-up">
+          Flüssiges Gold: Wo Tradition auf Perfektion trifft
+        </h3>
+
+        <p class="impact-section__description scroll-fade-up">
+          Vergessen Sie industrielles Olivenöl. Promontolio ist das Ergebnis
+          einer leidenschaftlichen Selektion: Handverlesene Oliven, sofortige
+          Kaltpressung und ein unverwechselbares Aroma, das Ihre Gerichte in
+          Gourmet-Erlebnisse verwandelt.
+          <strong>Reinheit, die man schmeckt. Qualität, die man fühlt.</strong>
+        </p>
+
+        <div class="impact-section__actions scroll-fade-up">
+          <a href="/shop" class="btn-primary">Jetzt Probieren</a>
+          <a href="/quality" class="btn-outline-white">Unser Zertifikat</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <article class="feature-grid feature-grid--reverse scroll-fade-up">
+        <div class="feature-grid__text">
+          <h3 class="feature-grid__title">Unser zeitloses Terroir</h3>
+          <p>
+            Mit Blick auf kristallklares Wasser und Kalksteinhügel gedeihen
+            unsere Haine seit Jahrhunderten. Die sonnenverwöhnten Koroneiki- und
+            Ogliarola-Bäume ziehen ihre Kraft aus Apuliens fruchtbarem Boden und
+            der Meeresbrise, um Oliven voller Charakter zu liefern.
           </p>
         </div>
+        <div
+          class="feature-grid__image feature-grid__image--terroir"
+          role="img"
+          aria-label="Panorama delle colline pugliesi con ulivi secolari affacciati sul mare cristallino"
+        ></div>
+      </article>
+
+      <article class="feature-grid scroll-fade-up">
+        <div class="feature-grid__text">
+          <h3 class="feature-grid__title">Warum unser Olivenöl wählen?</h3>
+          <ul class="check-list">
+            <li class="check-list__item">
+              <i class="fas fa-check"></i> 100% Bio und Extra Vergine
+            </li>
+            <li class="check-list__item">
+              <i class="fas fa-check"></i> Kaltgepresst für maximales Aroma
+            </li>
+            <li class="check-list__item">
+              <i class="fas fa-check"></i> Reich an Antioxidantien
+            </li>
+            <li class="check-list__item">
+              <i class="fas fa-check"></i> Vielseitig für Küche und
+              Gourmet-Gerichte
+            </li>
+            <li class="check-list__item">
+              <i class="fas fa-check"></i> Nachhaltig aus Familienbesitz
+            </li>
+          </ul>
+          <div class="feature-grid__banner">
+            <img
+              class="organic-logo"
+              src="../image/OrganicLogo.png"
+              alt="Bio-Zertifizierung Logo"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div
+          class="feature-grid__image feature-grid__image--benefits"
+          role="img"
+          aria-label="Dettaglio di olio d'oliva dorato versato su pane fresco con olive e foglie di basilico"
+        ></div>
+      </article>
+
+      <article class="feature-grid feature-grid--reverse scroll-fade-up">
+        <div class="feature-grid__text">
+          <h3 class="feature-grid__title">Ehrliche Handarbeit</h3>
+          <p>
+            Wir glauben an Qualität statt Quantität. Unsere Oliven werden zum
+            perfekten Zeitpunkt von Hand geerntet und innerhalb von 6 Stunden
+            gepresst. Nur so bewahren wir die wertvollen Polyphenole e den
+            intensiven Geschmack.
+          </p>
+        </div>
+        <div
+          class="feature-grid__image feature-grid__image--harvest"
+          role="img"
+          aria-label="Raccolta manuale delle olive"
+        ></div>
+      </article>
+    </div>
+
+    <section class="impact-section impact--sustainability">
+      <div class="container impact-section__content">
+        <span class="impact-section__badge scroll-fade-up"
+          >100% Bio-Zertifiziert</span
+        >
+
+        <h3 class="impact-section__title scroll-fade-up">
+          Verantwortung, die man schmecken kann
+        </h3>
+
+        <p class="impact-section__description scroll-fade-up">
+          Wir produzieren nicht einfach nur Olivenöl – wir bewahren ein Erbe.
+          Durch den Verzicht auf Pesticide und die Förderung der Artenvielfalt
+          in unseren Hainen schützen wir das apulische Land für kommende
+          Generationen.
+          <strong
+            >Jeder Tropfen Promontolio unterstützt lokale Familienbetriebe und
+            regeneriert unsere Erde.</strong
+          >
+        </p>
+
+        <div class="impact-stats scroll-fade-up">
+          <div class="impact-stats__item">
+            <span class="impact-stats__number">0%</span>
+            <span class="impact-stats__label">Chemische Pestizide</span>
+          </div>
+          <div class="impact-stats__item">
+            <span class="impact-stats__number">100%</span>
+            <span class="impact-stats__label">Traditionelle Handernte</span>
+          </div>
+          <div class="impact-stats__item">
+            <span class="impact-stats__number">CO2</span>
+            <span class="impact-stats__label">Neutraler Versand</span>
+          </div>
+        </div>
+
+        <div class="impact-section__actions scroll-fade-up">
+          <a href="/philosophie" class="btn-primary">Unsere Mission</a>
+        </div>
+      </div>
     </section>
 
     <%- include('partials/general/footer') %>

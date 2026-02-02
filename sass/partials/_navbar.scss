@@ -1,24 +1,24 @@
 @use "./variables" as *;
 
 .navbar {
-  // --- Stato Iniziale (Trasparente sopra Hero) ---
+  // --- STATO INIZIALE (Desktop) ---
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 1000;
   padding: 1.5rem 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
-  // --- Stato Scrolled (Attivato da JS) ---
+  // --- STATO SCROLLED ---
   &.navbar-scrolled {
     position: fixed;
-    z-index: 9999;
-    background-color: rgba(26, 26, 26, 0.95); // Usata $font-dark
+    z-index: 99999 !important;
+    background-color: rgba(26, 26, 26, 0.98);
     backdrop-filter: blur(12px);
     padding: 0.8rem 0;
-    border-bottom: 1px solid rgba($secondary-color, 0.3);
-    box-shadow: $box-shadow;
+    border-bottom: 1px solid rgba($secondary-color, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     animation: navbarSlideDown 0.5s ease;
   }
 
@@ -28,32 +28,34 @@
     align-items: center;
   }
 
-  &__logo {
-    &-img {
-      height: 80px; // Regola l'altezza secondo il tuo logo
-      width: auto;
-      transition: transform 0.3s ease;
-    }
-    &:hover &-img {
+  &__logo-img {
+    height: 60px;
+    width: auto;
+    transition: transform 0.3s ease;
+    &:hover {
       transform: scale(1.05);
     }
   }
 
-  // --- Menu Desktop ---
+  // --- MENU E LISTA LINK ---
   &__list {
     display: flex;
     gap: 2.5rem;
-    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
   &__link {
     color: #fff;
+    text-decoration: none;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-weight: 300;
     position: relative;
     padding: 0.5rem 0;
+    transition: color 0.3s;
 
     &::after {
       content: "";
@@ -76,7 +78,7 @@
     }
   }
 
-  // --- Hamburger Menu ---
+  // --- HAMBURGER ---
   &__hamburger {
     display: none; // Nascosto su desktop
     background: none;
@@ -84,7 +86,7 @@
     cursor: pointer;
     flex-direction: column;
     gap: 6px;
-    z-index: 1100;
+    z-index: 1000002; // Sopra menu e overlay
 
     span {
       display: block;
@@ -107,66 +109,111 @@
     }
   }
 
-  // --- Overlay Mobile ---
+  // --- OVERLAY ---
   &__overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 1050;
+    z-index: 1000000;
 
     &--active {
       opacity: 1;
       visibility: visible;
     }
   }
-}
 
-// --- Keyframes ---
-@keyframes navbarSlideDown {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
+  // --- LOGICA MOBILE ---
+  @media (max-width: 768px) {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999999 !important;
+    background-color: rgba(26, 26, 26, 0.98);
 
-// --- RESPONSIVE ---
-@media (max-width: 768px) {
-  .navbar {
-    &__hamburger {
-      display: flex;
+    &__overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100000 !important;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s ease;
+
+      &--active {
+        visibility: visible;
+        opacity: 1;
+      }
     }
 
     &__menu {
       position: fixed;
       top: 0;
-      right: -100%; // Parte fuori schermo
-      width: 70%;
+      right: -100%;
+      width: 80%;
       height: 100vh;
-      background-color: $font-dark;
-      z-index: 1080;
+      background-color: #1a1a1a;
+      z-index: 100001 !important;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: all 0.4s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
 
       &--active {
         right: 0;
       }
     }
 
+    &__container {
+      position: relative;
+      z-index: 100002 !important;
+      padding: 1rem $space-md;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__hamburger {
+      display: flex;
+      position: relative;
+      z-index: 100003 !important;
+    }
+
     &__list {
       flex-direction: column;
-      gap: 2rem;
+      gap: 2.5rem;
+      text-align: center;
+      width: 100%;
     }
 
     &__link {
-      font-size: 1.2rem;
+      display: block;
+      font-size: 1.4rem;
+      padding: 1rem;
+      color: #fff;
+      &::after {
+        display: none;
+      }
     }
+
+    &__logo-img {
+      height: 45px;
+    }
+  }
+}
+
+@keyframes navbarSlideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
   }
 }
