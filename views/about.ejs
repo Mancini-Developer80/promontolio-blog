@@ -1,108 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <%- include('partials/general/head') %>
   </head>
   <body>
-    <!-- prettier-ignore -->
     <header class="about-header">
-  <!-- prettier-ignore -->
-  <%- include('./partials/general/navbar.ejs') %>
-  <section class="container about-section">
-    <div class="product-description content scroll-fade-up">
-      <h1>Our Products</h1>
-      <p class="text-product">
-        Discover the essence of Apulia in every drop of our extra virgin olive
-        oil. Crafted with care and tradition, our oils bring the rich flavors of
-        sun-kissed olives to your table. Explore our selection and elevate your
-        culinary creations with the pure taste of Italy.
-      </p>
-    </div>
-    <div class="linea scroll-fade-up"></div>
-    <div class="flex-about">
-      <div class="about-img scroll-fade-up">
-        <img
-          class="img-about"
-          src="../image/OliveInMano.webp"
-          alt="Hand holding olives - Promontolio organic olive oil"
-          loading="lazy"
-        />
-      </div>
-      <div class="about-text scroll-fade-up">
-        <h1>Our Heritage</h1>
-        <p>
-          Nestled on Apulia’s sun-drenched slopes, our family has harvested
-          olives for generations. Each grove whispers tales of ancestral hands,
-          sea breezes, and limestone soils that shape our oil’s character. We
-          honor this lineage by preserving traditional methods passed down
-          through centuries.
-        </p>
-      </div>
-    </div>
-    <div class="flex-about">
-      <div class="about-text scroll-fade-up">
-        <h1>Our Mission</h1>
-        <p>
-          Our mission is to craft extra virgin olive oil that embodies
-          authenticity, health, and environmental stewardship. We marry
-          time-honored practices with modern eco-friendly techniques to deliver
-          pure flavor and protect the land for future generations.
-        </p>
-      </div>
-      <div class="about-img scroll-fade-up">
-        <img
-          class="img-about"
-          src="../image/GarganoMare.webp"
-          alt="Gargano sea view - Promontolio olive oil"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </section>
-</header>
-    <section class="about-section-2">
-      <div class="content">
+      <%- include('./partials/general/navbar.ejs') %>
+
+      <section class="about-hero container">
+        <div class="about-hero__content scroll-fade-up">
+          <span class="about-hero__subtitle"
+            >Exklusive Einzellagen-Selektion</span
+          >
+          <h1 class="about-hero__title">Ein Erlebnis jenseits des Standards</h1>
+          <p class="about-hero__text">
+            Jede Ernte ist eine neue Suche nach Perfektion. Wir analysieren und
+            verkosten hunderte Proben, um die eine Partie zu finden, die den
+            Namen Promontolio tragen darf. Ein zertifiziertes Elixier für
+            Kenner, die Reinheit und Charakter zu schätzen wissen
+          </p>
+        </div>
+      </section>
+    </header>
+
+    <main class="about-main">
+      <section class="container about-curator">
         <div class="flex-about">
-          <div class="about-text scroll-fade-up">
-            <h1>Our Values</h1>
-            <ul>
-              <li>
-                <strong>Authenticity:</strong> Honoring centuries-old traditions
-              </li>
-              <li>
-                <strong>Sustainability:</strong> Solar-powered mills and water
-                recycling
-              </li>
-              <li>
-                <strong>Transparency:</strong> Full traceability from tree to
-                table
-              </li>
-              <li>
-                <strong>Community:</strong> Supporting local workers and
-                artisans
-              </li>
-              <li>
-                <strong>Health:</strong> Rich in polyphenols and antioxidants
-              </li>
-            </ul>
+          <div class="about-img scroll-fade-up">
+            <img
+              class="img-about"
+              src="../image/cassoneOlive.jpg"
+              alt="Selektion der Oliven - Promontolio Expertise"
+              loading="lazy"
+            />
           </div>
           <div class="about-text scroll-fade-up">
-            <h1>Craftsmanship & Process</h1>
+            <h2>Der Gaumen eines Experten</h2>
             <p>
-              Hand-picked at dawn and cold-pressed within hours, every olive
-              goes through rigorous tasting panels and acidity tests. Our mill
-              runs on solar power, and we use natural compost to nourish the
-              soil. The result is an oil with vibrant green hues, peppery
-              finish, and unmatched freshness.
+              Hinter jeder Flasche Promontolio steht die Nase und der Gaumen
+              eines
+              <strong>zertifizierten Olivenölexperten</strong>. Wir produzieren
+              nicht einfach nur Öl – wir wählen es aus.
+            </p>
+            <p>
+              Jede Partie wird einer strengen sensorischen Prüfung unterzogen.
+              Nur Öle mit perfekter Harmonie, komplexen Aromen und einer
+              makellosen Struktur werden in unsere limitierte Kollektion
+              aufgenommen.
+            </p>
+            <div class="badge-expert">Zertifizierter Verkoster & Selekteur</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-sensoric">
+        <div class="container">
+          <h2 class="about-sensoric__title scroll-fade-up">
+            Das sensorische Profil unserer Auswahl
+          </h2>
+          <div class="sensoric-grid scroll-fade-up">
+            <div class="sensoric-item">
+              <i class="fas fa-apple-alt" aria-hidden="true"></i>
+              <h4>Fruchtigkeit</h4>
+              <p>
+                Noten von grünen Tomaten, Artischocken und frisch geschnittenem
+                Gras.
+              </p>
+            </div>
+            <div class="sensoric-item">
+              <i class="fas fa-pepper-hot" aria-hidden="true"></i>
+              <h4>Schärfe</h4>
+              <p>
+                Ein lebendiger, pfeffriger Abgang – das Zeichen für einen extrem
+                hohen Polyphenolgehalt.
+              </p>
+            </div>
+            <div class="sensoric-item">
+              <i class="fas fa-leaf" aria-hidden="true"></i>
+              <h4>Bitterkeit</h4>
+              <p>
+                Ein eleganter Hauch von Wildkräutern, perfekt ausbalanciert für
+                die gehobene Küche.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container about-quality scroll-fade-up">
+        <div class="flex-about flex-about--reverse">
+          <div class="about-img">
+            <img
+              class="img-about"
+              src="../image/OliveInMano.webp"
+              alt="Qualitätskontrolle Promontolio Laboranalyse"
+              loading="lazy"
+            />
+          </div>
+          <div class="about-text">
+            <h2>Wissenschaft trifft Tradition</h2>
+            <p>
+              Unsere Leidenschaft wird durch Daten untermauert. Jede Selektion
+              wird in spezialisierten Laboren analysiert, um einen Säuregrad
+              nahe Null und eine maximale Konzentration an Antioxidantien zu
+              garantieren.
+            </p>
+            <p>
+              Wir liefern Ihnen nicht nur ein Lebensmittel, sondern ein
+              zertifiziertes Elixier für Ihr Wohlbefinden, das den strengsten
+              Elite-Standards entspricht.
             </p>
           </div>
         </div>
-        <div class="btn-container scroll-fade-up">
-          <a class="btn-main" href="">Buy Promontolio</a>
-        </div>
-      </div>
-    </section>
+      </section>
 
+      <section class="about-exclusivity">
+        <div class="container">
+          <div class="exclusivity-box scroll-fade-up">
+            <div class="exclusivity-box__badge">Limitierte Selektion</div>
+
+            <h2 class="exclusivity-box__title">
+              Gegen den Strom der Massenproduktion
+            </h2>
+
+            <div class="exclusivity-box__content">
+              <p>
+                Während Supermärkte auf Volumen setzen, konzentriert sich
+                Promontolio auf das
+                <strong>Maximum des Möglichen</strong>. Unsere jährliche Menge
+                ist streng durch die natürlichen Zyklen Apuliens und meine
+                persönliche Selektion limitiert.
+              </p>
+
+              <blockquote class="exclusivity-box__quote">
+                <span class="quote-mark">„</span>
+                Wir füllen nicht ab, was der Markt verlangt, sondern nur das,
+                was meine Prüfung als Experte besteht.
+                <span class="quote-mark">“</span>
+              </blockquote>
+            </div>
+
+            <p class="exclusivity-box__footer">
+              Qualität kennt keine Kompromisse – und keine Eile.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-cta container scroll-fade-up">
+        <div class="cta-box">
+          <div class="cta-box__icon">
+            <i class="fas fa-file-pdf" aria-hidden="true"></i>
+          </div>
+          <h2>Rezepte & Wissen direkt aus Apulien</h2>
+          <p>
+            Laden Sie unseren kostenlosen PDF-Guide herunter: Erfahren Sie alles
+            über die Herkunft unserer Selektion und wie Sie diese mit exklusiven
+            Rezepten veredeln.
+          </p>
+
+          <form class="cta-form" action="/subscribe" method="POST">
+            <div class="input-group">
+              <input
+                type="email"
+                name="email"
+                placeholder="Ihre E-Mail-Adresse"
+                required
+                aria-label="E-Mail-Adresse"
+              />
+              <button type="submit" class="btn-primary">Guide anfordern</button>
+            </div>
+
+            <div class="gdpr-consent">
+              <input type="checkbox" id="consent" name="consent" required />
+              <label for="consent">
+                Ich habe die
+                <a href="/datenschutz">Datenschutzerklärung</a> gelesen und
+                akzeptiere sie.
+              </label>
+            </div>
+
+            <p class="form-disclaimer">
+              Kostenloser PDF-Guide. Abmeldung jederzeit möglich.
+            </p>
+          </form>
+
+          <div class="shipping-info">
+            <i class="fas fa-truck-fast"></i>
+            <span class="btn-note">Direkter Versand aus Frankfurt am Main</span>
+          </div>
+        </div>
+      </section>
+    </main>
     <%- include('partials/general/footer') %>
   </body>
 </html>

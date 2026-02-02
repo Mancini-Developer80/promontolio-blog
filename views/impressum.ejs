@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <%- include('partials/general/head') %>
+  </head>
+  <body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+    <%- include('partials/general/navbar') %>
+
+    <main class="container legal-page">
+      <h1>Impressum</h1>
+
+      <section class="contact-box">
+        <h2>Angaben gemäß § 5 TMG</h2>
+        <p>
+          <strong>[Tuo Nome e Cognome]</strong><br />
+          [Tuo Indirizzo]<br />
+          [CAP] Frankfurt am Main<br />
+          Deutschland
+        </p>
+      </section>
+
+      <section>
+        <h2>Kontakt</h2>
+        <p>
+          Telefon: [Tuo Numero di Telefono]<br />
+          E-Mail: <a href="mailto:[Tua Email]">[Tua Email]</a>
+        </p>
+
+        <h2>Redaktionell verantwortlich</h2>
+        <p>
+          [Tuo Nome e Cognome]<br />
+          [Tuo Indirizzo]<br />
+          [CAP] Frankfurt am Main
+        </p>
+
+        <h2>EU-Streitschlichtung</h2>
+        <p>
+          Die Europäische Kommission stellt eine Plattform zur
+          Online-Streitbeilegung (OS) bereit:
+          <a
+            href="https://ec.europa.eu/consumers/odr/"
+            target="_blank"
+            rel="noopener"
+            >https://ec.europa.eu/consumers/odr/</a
+          >.<br />
+          Unsere E-Mail-Adresse finden Sie oben im Impressum.
+        </p>
+
+        <h2>Verbraucher­streit­beilegung/Universal­schlichtungs­stelle</h2>
+        <p>
+          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren
+          vor einer Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+      </section>
+    </main>
+
+    <%- include('partials/general/footer') %>
+  </body>
+</html>

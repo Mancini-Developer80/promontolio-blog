@@ -5,36 +5,85 @@ const Article = require("../models/Article");
 module.exports = {
   getHome: (req, res) => {
     res.render("index", {
-      title: "Home",
+      title: "Promontolio | Premium Bio-Olivenöl aus Apulien",
       metaDescription:
-        "Welcome to Promontolio, premium organic olive oil from Gargano.",
-      metaKeywords: "olive oil, organic, Gargano, Promontolio",
+        "Willkommen bei Promontolio. Wir selektieren für Sie das beste zertifizierte Bio-Olivenöl aus Apulien. Höchste Qualität direkt in Frankfurt am Main.",
+      metaKeywords:
+        "Olivenöl, Bio, Apulien, Gargano, Premium Olivenöl, Frankfurt, Feinkost",
     });
   },
 
   getAbout: (req, res) => {
     res.render("about", {
-      title: "About Us",
+      title: "Über uns | Die Kunst der Olivenöl-Selektion",
       metaDescription:
-        "Learn more about Promontolio and our organic olive oil production.",
-      metaKeywords: "about, olive oil, organic, Promontolio",
+        "Erfahren Sie mehr über Promontolio: Als zertifizierte Experten selektieren wir nur die außergewöhnlichsten Olivenöle Apuliens nach strengsten Kriterien.",
+      metaKeywords:
+        "Über uns, Olivenöl Experte, Selektion, Apulien, Bio-Qualität, Promontolio Expertise",
     });
   },
 
   getContact: (req, res) => {
     res.render("contact", {
-      title: "Contact",
-      metaDescription: "Contact Promontolio for inquiries about our products.",
-      metaKeywords: "contact, olive oil, Promontolio",
+      title: "Kontakt | Ihre Fragen an den Experten",
+      metaDescription:
+        "Haben Sie Fragen zu unserer Selektion oden den aktuellen Erntepartien? Kontaktieren Sie Promontolio für eine persönliche Beratung.",
+      metaKeywords:
+        "Kontakt, Olivenöl Beratung, Kundenservice, Promontolio Frankfurt, Fragen",
     });
   },
 
   getProduct: (req, res) => {
     res.render("product", {
-      title: "Products",
-      metaDescription: "Discover our range of organic olive oil products.",
-      metaKeywords: "products, olive oil, organic, Promontolio",
+      title: "Unsere Selektion | Exklusives Bio-Olivenöl",
+      metaDescription:
+        "Entdecken Sie unsere streng limitierten Erntepartien. Zertifiziertes, reines Bio-Olivenöl direkt aus den besten Hainen Apuliens.",
+      metaKeywords:
+        "Olivenöl kaufen, Bio-Olivenöl, Selektion, Premium Produkte, Apulien Spezialitäten",
     });
+  },
+
+  getImpressum: (req, res) => {
+    res.render("impressum", {
+      title: "Impressum | Promontolio",
+      bodyClass: "legal-view",
+      metaDescription:
+        "Rechtliche Informationen und Anbieterkennzeichnung von Promontolio.",
+      metaKeywords: "Impressum, Frankfurt, Olivenöl",
+    });
+  },
+
+  getDatenschutz: (req, res) => {
+    res.render("datenschutz", {
+      title: "Datenschutzerklärung | Promontolio",
+      bodyClass: "legal-view",
+      metaDescription:
+        "Informationen zum Datenschutz und zur DSGVO-Konformität.",
+      metaKeywords: "Datenschutz, DSGVO, Privatsphäre",
+    });
+  },
+  postSubscribe: async (req, res) => {
+    try {
+      const { email, consent } = req.body;
+
+      // 1. Verifica basica (In Germania il consenso è obbligatorio)
+      if (!consent) {
+        return res.status(400).send("Zustimmung erforderlich.");
+      }
+
+      // 2. Qui andrà la logica MongoDB (che scriveremo dopo)
+      console.log(`Nuovo lead ricevuto: ${email}`);
+
+      // Per ora facciamo un redirect a una pagina di ringraziamento o alla home
+      // In futuro qui invieremo la mail di Double Opt-In
+      res.render("thanks", {
+        title: "Vielen Dank!",
+        message: "Bitte prüfen Sie Ihr Postfach, um den Guide zu erhalten.",
+      });
+    } catch (err) {
+      console.error("Errore iscrizione:", err);
+      res.status(500).redirect("/");
+    }
   },
 
   getBlog: async (req, res) => {
@@ -70,9 +119,11 @@ module.exports = {
         require("mongoose").connection.readyState !== 1
       ) {
         return res.render("blog", {
-          title: "Blog",
-          metaDescription: "Read our latest articles and news about olive oil.",
-          metaKeywords: "blog, articles, olive oil, Promontolio",
+          title: "Blog & Rezepte | Promontolio",
+          metaDescription:
+            "Erfahren Sie mehr über Olivenöl-Kultur, Ernteprozesse und authentische Rezepte aus Apulien in unserem Blog.",
+          metaKeywords:
+            "Olivenöl Blog, Rezepte, Apulien Wissen, Promontolio Magazin",
           articles: [],
           pagination: {
             currentPage: 1,
@@ -80,7 +131,8 @@ module.exports = {
             hasNext: false,
             hasPrev: false,
           },
-          error: "Database not connected.",
+          error:
+            "Verbindung zum Server unterbrochen. Bitte versuchen Sie es später erneut.",
         });
       }
 
@@ -109,9 +161,14 @@ module.exports = {
       };
 
       res.render("blog", {
-        title: currentPage > 1 ? `Blog - Page ${currentPage}` : "Blog",
-        metaDescription: "Read our latest articles and news about olive oil.",
-        metaKeywords: "blog, articles, olive oil, Promontolio",
+        title:
+          currentPage > 1
+            ? `Blog - Seite ${currentPage} | Promontolio`
+            : "Blog & Rezepte | Promontolio",
+        metaDescription:
+          "Tauchen Sie ein in die Welt des apulischen Olivenöls: Fachwissen, Ernteberichte und exklusive Rezepte direkt vom Experten.",
+        metaKeywords:
+          "Olivenöl Blog, Rezepte Apulien, Olivenöl Wissen, Feinkost Magazin",
         articles,
         pagination,
         originalUrl: req.originalUrl,
@@ -119,9 +176,10 @@ module.exports = {
     } catch (err) {
       console.error("Error loading blog with pagination:", err);
       res.status(500).render("blog", {
-        title: "Blog",
-        metaDescription: "Read our latest articles and news about olive oil.",
-        metaKeywords: "blog, articles, olive oil, Promontolio",
+        title: "Blog & Rezepte | Promontolio",
+        metaDescription:
+          "Entdecken Sie Wissenswertes über apulisches Olivenöl, Ernteprozesse und Rezepte in unserem Magazin.",
+        metaKeywords: "Olivenöl Blog, Rezepte, Apulien Tipps, Promontolio",
         articles: [],
         pagination: {
           currentPage: 1,
@@ -129,7 +187,8 @@ module.exports = {
           hasNext: false,
           hasPrev: false,
         },
-        error: "Unable to load articles.",
+        error:
+          "Entschuldigung, beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
         originalUrl: req.originalUrl,
       });
     }

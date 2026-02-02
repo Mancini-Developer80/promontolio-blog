@@ -1,72 +1,420 @@
 @use "./variables" as *;
+@use "./mixins" as *;
 
-.about-header {
-  min-height: 90vh;
-  background-size: cover;
-  background-position: center;
-  background-image: linear-gradient(to right, rgb(34, 219, 83), rgb(1, 83, 13));
+// --- LAYOUT GENERALE ---
+.about-main {
+  overflow-x: hidden;
+  color: $font-dark;
+  background-color: #fff;
 }
 
-.about-section {
+// --- HERO SECTION ---
+.about-header {
+  min-height: 70vh;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+    url("../image/stone-olive-press-in-olive-grove.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+
+  @include mobile {
+    min-height: 60vh;
+    background-attachment: scroll;
+    padding-top: 100px;
+  }
+}
+
+.about-hero {
+  flex-grow: 1;
+  display: flex;
   align-items: center;
-  height: 75%;
-  padding: 4rem 0;
+  justify-content: center;
+  text-align: center;
+  padding: 0 $space-lg;
+
+  &__content {
+    max-width: 900px;
+  }
+
+  &__subtitle {
+    display: block;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: $secondary-color;
+    margin-bottom: $space-md;
+    font-weight: 700;
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: $space-lg;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  &__text {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+}
+
+// --- SEZIONI CONTENUTO (CURATOR & QUALITY) ---
+.about-curator,
+.about-quality {
+  padding: $space-3xl 0;
+
+  @include mobile {
+    padding: $space-xl $space-md;
+  }
 }
 
 .flex-about {
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  padding: 3rem 0;
-  // width: 100%;
+  gap: $space-3xl;
+
+  &--reverse {
+    flex-direction: row-reverse;
+  }
+
+  .about-img {
+    flex: 1.2;
+    position: relative;
+
+    .img-about {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      border-radius: $radius-md;
+      box-shadow: $elevation-2;
+      filter: grayscale(20%); // Un tocco artistico quasi impercettibile
+      transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+
+      &:hover {
+        transform: scale(1.03);
+        filter: grayscale(0%);
+      }
+    }
+  }
+
+  .about-text {
+    flex: 1;
+    h2 {
+      font-family: $font-secondary;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: $primary-color;
+      margin-bottom: $space-lg;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      margin-bottom: $space-md;
+      color: lighten($font-dark, 10%);
+    }
+  }
+
+  @include mobile {
+    flex-direction: column !important;
+    gap: $space-2xl;
+    .about-img .img-about {
+      height: 350px;
+    }
+  }
 }
 
-.img-about {
-  width: 30rem;
-  border-radius: 10px;
-  box-shadow: 4px 10px 14px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease;
+// --- SENSORIC SECTION ---
+.about-sensoric {
+  background-color: #fdfbf7;
+  padding: $space-3xl 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+
+  &__title {
+    text-align: center;
+    font-family: $font-secondary;
+    font-size: 2.5rem;
+    margin-bottom: $space-2xl;
+  }
+
+  .sensoric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-xl;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+
+    .sensoric-item {
+      background: #fff;
+      padding: $space-xl;
+      text-align: center;
+      border-radius: $radius-md;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-10px);
+      }
+
+      i {
+        font-size: 2.5rem;
+        color: $secondary-color;
+        margin-bottom: $space-md;
+      }
+      h4 {
+        font-family: $font-secondary;
+        font-size: 1.4rem;
+        margin-bottom: $space-sm;
+      }
+      p {
+        font-size: 1rem;
+        color: #666;
+        line-height: 1.5;
+      }
+    }
+  }
 }
 
-.img-about:hover {
-  transform: scale(1.1);
+// --- EXCLUSIVITY SECTION (Corretta) ---
+// --- EXCLUSIVITY SECTION ---
+.about-exclusivity {
+  padding: $space-3xl 0;
+
+  .exclusivity-box {
+    background: linear-gradient(
+      145deg,
+      $primary-color,
+      darken($primary-color, 10%)
+    );
+    padding: $space-3xl $space-2xl;
+    border-radius: $radius-lg;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: $elevation-3;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    &__badge {
+      display: inline-block;
+      border: 1px solid rgba($secondary-color, 0.6); // Aumentata opacità per visibilità
+      color: $secondary-color;
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: $space-lg;
+    }
+
+    // CORRETTO: Un solo livello di nesting
+    &__title {
+      font-family: $font-secondary;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      color: #ffffff !important; // Forza il bianco puro
+      text-align: center;
+      margin-bottom: $space-xl;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); // Aggiunge profondità per la leggibilità
+
+      span {
+        color: $secondary-color;
+        display: block;
+        margin-top: 0.2rem;
+      }
+
+      @include mobile {
+        font-size: 2.2rem;
+        letter-spacing: 0;
+      }
+    }
+
+    &__content {
+      max-width: 800px;
+      margin: 0 auto;
+
+      p {
+        font-size: 1.3rem; // Leggermente più grande
+        line-height: 1.8;
+        opacity: 1; // Forza opacità piena per leggibilità
+        font-weight: 400; // Peso standard per contrasto su scuro
+        margin-bottom: $space-2xl;
+        color: #f0f0f0;
+      }
+    }
+
+    &__quote {
+      font-family: $font-secondary;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: $secondary-color; // La citazione in oro attira l'attenzione
+      font-style: italic;
+      margin: $space-2xl 0;
+      padding: 0 $space-xl;
+      line-height: 1.4;
+
+      .quote-mark {
+        color: rgba(#fff, 0.3);
+        font-size: 4rem;
+        font-family: serif;
+        line-height: 0;
+        vertical-align: middle;
+      }
+    }
+
+    &__footer {
+      margin-top: $space-2xl;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: $secondary-color;
+      font-weight: 700;
+    }
+  }
 }
 
-.about-text {
-  display: flex;
-  flex-direction: column;
+// --- CTA SECTION ---
+.about-cta {
+  padding: $space-3xl 0;
+
+  .cta-box {
+    background: #fcfaf7;
+    border: 1px solid rgba($primary-color, 0.1);
+    padding: $space-3xl;
+    text-align: center;
+    border-radius: $radius-lg;
+    color: $primary-color;
+
+    .cta-form {
+      max-width: 500px;
+      margin: $space-xl auto;
+
+      .input-group {
+        display: flex;
+        gap: 10px;
+        background: #fff;
+        padding: 6px;
+        border-radius: $radius-sm;
+        border: 1px solid rgba($primary-color, 0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+        @include mobile {
+          flex-direction: column;
+          background: transparent;
+          border: none;
+          box-shadow: none;
+          padding: 0;
+        }
+
+        input[type="email"] {
+          flex: 1;
+          border: none;
+          padding: 0 $space-md;
+          font-size: 1rem;
+          color: $primary-color;
+          outline: none;
+
+          @include mobile {
+            height: 50px;
+            border-radius: $radius-sm;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+          }
+        }
+
+        .btn-primary {
+          padding: 0.8rem 2rem;
+          margin: 0; // Reset dei margini per allineamento
+          white-space: nowrap;
+        }
+      }
+
+      .form-disclaimer {
+        font-size: 0.8rem;
+        color: #999;
+        margin-top: $space-md;
+        font-style: italic;
+      }
+    }
+
+    h2 {
+      font-family: $font-secondary;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      margin-bottom: $space-md;
+    }
+    &__icon {
+      font-size: 3rem;
+      color: $secondary-color;
+      margin-bottom: $space-lg;
+    }
+
+    // h2 {
+    //   font-family: $font-secondary;
+    //   font-size: clamp(2rem, 4vw, 3rem);
+    //   margin-bottom: $space-md;
+    // }
+
+    p {
+      font-size: 1.2rem;
+      color: lighten($primary-color, 10%);
+      margin-bottom: $space-2xl;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $space-md;
+    }
+
+    .shipping-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #777;
+
+      i {
+        color: $secondary-color;
+        font-size: 0.9rem;
+      }
+      .btn-note {
+        font-size: 0.95rem;
+        font-style: normal;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// --- UTILS ---
+.badge-expert {
+  display: inline-flex;
   align-items: center;
-  // text-align: right;
-  padding: 2rem;
-  width: 40%;
-  // flex:1;
-}
-
-.about-section-2 {
-  padding: 4rem 0;
-  background-image: url(../image/fresh-olive-harvest-on-wooden-table.webp);
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  z-index: 1;
-  // margin: 0 0;
-}
-
-.about-section-2::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 0;
-}
-
-.about-section-2 > * {
-  position: relative;
-  z-index: 1;
+  background: rgba($primary-color, 0.05);
+  border-left: 4px solid $secondary-color;
+  padding: $space-sm $space-lg;
+  font-weight: 700;
+  color: $primary-color;
+  margin-top: $space-lg;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.03);
 }

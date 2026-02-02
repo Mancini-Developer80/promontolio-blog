@@ -7,6 +7,9 @@ const {
   getContact,
   getProduct,
   getBlog,
+  getImpressum,
+  getDatenschutz,
+  postSubscribe,
 } = require("../controllers/publicController");
 
 // Home
@@ -20,6 +23,12 @@ router.get("/product", getProduct);
 
 // Contact
 router.get("/contact", getContact);
+
+router.get("/impressum", getImpressum);
+
+router.get("/datenschutz", getDatenschutz);
+
+router.post("/subscribe", postSubscribe);
 
 // SEO-friendly pagination route (MUST come before blog and slug routes)
 router.get("/blog/page/:page", (req, res) => {
