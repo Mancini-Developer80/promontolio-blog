@@ -29,6 +29,20 @@
   body.menu-open & {
     z-index: -1 !important;
   }
+  @media (max-width: 768px) {
+    padding-top: 110px !important; // Esattamente l'altezza della navbar
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    // 80px di navbar stimata + 60px di spazio bianco "premium"
+    padding-top: 140px !important;
+
+    // Su tablet vogliamo che la hero sia imponente
+    min-height: 85vh;
+
+    .hero__content {
+      max-width: 85%; // Evita che il testo tocchi i bordi
+    }
+  }
 }
 
 .hero {
@@ -194,6 +208,7 @@
     border-radius: $radius-md;
     box-shadow: $elevation-2;
     transition: $transition;
+    display: block; // Garantisce la visibilità
 
     &--apulia {
       background-image: url("../image/promontolio-olive-oil-bottles.webp");
@@ -247,27 +262,33 @@
     }
   }
 
-  @include mobile {
+  // --- FIX MOBILE & TABLET ---
+  @media (max-width: 768px) {
     flex-direction: column !important;
     gap: $space-lg;
     text-align: center;
     margin-bottom: $space-2xl;
 
-    &:first-of-type {
-      margin-top: $space-xl;
-    }
     &--reverse {
       flex-direction: column !important;
     }
 
-    .feature-grid__image {
-      display: block !important;
+    // Usiamo & per riferirci correttamente a .feature-grid__image
+    &__image {
+      order: -1 !important; // Immagine sempre sopra
       width: 100% !important;
-      height: 22rem !important;
-      order: -1;
+      height: 25rem !important; // Altezza fissa per mobile
+      flex: none; // Toglie il comportamento flex desktop
+
+      &--apulia {
+        background-size: contain; // Mantiene le bottiglie visibili
+        height: 20rem !important;
+      }
     }
+
     &__text {
       width: 100%;
+      flex: none;
     }
   }
 }

@@ -6,14 +6,15 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  // Lo z-index deve essere superiore a .home-header e .hero (che sono 1 e 2)
+  z-index: 9999 !important;
   padding: 1.5rem 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   // --- STATO SCROLLED ---
   &.navbar-scrolled {
     position: fixed;
-    z-index: 99999 !important;
+    z-index: 10000 !important;
     background-color: rgba(26, 26, 26, 0.98);
     backdrop-filter: blur(12px);
     padding: 0.8rem 0;
@@ -23,9 +24,15 @@
   }
 
   &__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    // FIX DESKTOP: Forza Logo e Menu sulla stessa riga
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $space-md;
+    width: 100%;
   }
 
   &__logo-img {
@@ -38,8 +45,15 @@
   }
 
   // --- MENU E LISTA LINK ---
-  &__list {
+  &__menu {
+    // Su desktop deve essere visibile e flessibile
     display: flex;
+    align-items: center;
+  }
+
+  &__list {
+    display: flex !important;
+    flex-direction: row !important;
     gap: 2.5rem;
     list-style: none;
     margin: 0;
@@ -86,7 +100,9 @@
     cursor: pointer;
     flex-direction: column;
     gap: 6px;
-    z-index: 1000002; // Sopra menu e overlay
+    // Cruciale: deve stare sopra a tutto per ricevere il click
+    position: relative;
+    z-index: 10001 !important;
 
     span {
       display: block;
@@ -118,7 +134,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 1000000;
+    z-index: 9998;
 
     &--active {
       opacity: 1;
@@ -126,29 +142,102 @@
     }
   }
 
+  // --- LOGICA TABLET (Breakpoint intermedio) ---
+  // --- LOGICA TABLET (769px - 1024px) ---
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .navbar {
+      position: absolute !important; // Galleggia sopra l'header
+      background-color: transparent !important;
+      border-bottom: none !important;
+      box-shadow: none !important;
+      padding: 1.5rem 0;
+
+      &__container {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        max-width: 92%; // Diamo un po' più di respiro ai bordi
+        margin: 0 auto;
+      }
+
+      &__hamburger {
+        display: flex !important;
+        flex-direction: column;
+        gap: 6px;
+        position: relative;
+        z-index: 100001 !important; // Deve stare SOPRA il menu a tendina
+
+        span {
+          background-color: #fff; // Assicurati che siano bianchi
+          width: 30px;
+          height: 2px;
+          transition: all 0.3s ease;
+        }
+
+        // TRASFORMAZIONE IN "X"
+        &--active {
+          span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+          }
+          span:nth-child(2) {
+            opacity: 0;
+          }
+          span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+          }
+        }
+      }
+
+      &__menu {
+        display: flex; // Deve essere flex per essere visibile
+        position: fixed;
+        top: 0;
+        right: -100%; // Nascosto a destra
+        width: 60%; // Un po' più stretto rispetto al mobile (80%)
+        height: 100vh;
+        background-color: #1a1a1a;
+        z-index: 100000 !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+
+        // Questa è la classe che lo fa apparire!
+        &--active {
+          right: 0 !important;
+        }
+      }
+
+      &__list {
+        display: flex !important;
+        flex-direction: column !important; // Lista verticale nel menu a tendina
+        gap: 2.5rem;
+      }
+
+      &__logo-img {
+        height: 55px; // Dimensione intermedia
+      }
+    }
+  }
+
   // --- LOGICA MOBILE ---
   @media (max-width: 768px) {
-    position: fixed !important;
+    // Applichiamo le proprietà direttamente alla .navbar
+    position: fixed !important; // Deve essere fixed da SUBITO
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999999 !important;
-    background-color: rgba(26, 26, 26, 0.98);
+    height: 70px; // Altezza fissa per evitare il salto allo scroll
+    background-color: #1a1a1a !important; // Colore solido immediato
+    display: flex;
+    align-items: center;
+    z-index: 99999 !important;
 
-    &__overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 100000 !important;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(5px);
-      visibility: hidden;
-      opacity: 0;
-      transition: all 0.3s ease;
-
-      &--active {
-        visibility: visible;
-        opacity: 1;
-      }
+    // Disabilitiamo l'animazione dello scroll su mobile perché causa il "salto"
+    &.navbar-scrolled {
+      animation: none !important;
+      padding: 0; // Mantieni l'altezza costante
     }
 
     &__menu {
@@ -158,7 +247,7 @@
       width: 80%;
       height: 100vh;
       background-color: #1a1a1a;
-      z-index: 100001 !important;
+      z-index: 100000 !important;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -172,39 +261,34 @@
     }
 
     &__container {
-      position: relative;
-      z-index: 100002 !important;
-      padding: 1rem $space-md;
-      display: flex;
-      justify-content: space-between;
+      padding: 0 $space-md;
+      display: flex !important;
+      justify-content: space-between !important;
+      width: 100%;
       align-items: center;
     }
 
     &__hamburger {
       display: flex;
       position: relative;
-      z-index: 100003 !important;
+      z-index: 100001 !important;
     }
 
     &__list {
-      flex-direction: column;
+      flex-direction: column !important;
       gap: 2.5rem;
       text-align: center;
-      width: 100%;
     }
 
     &__link {
-      display: block;
       font-size: 1.4rem;
-      padding: 1rem;
-      color: #fff;
       &::after {
         display: none;
       }
     }
 
     &__logo-img {
-      height: 45px;
+      height: 40px; // Un po' più piccolo per stare nei 70px di altezza
     }
   }
 }
