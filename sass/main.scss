@@ -1,24 +1,38 @@
-@use "./partials/variables" as *;
-@use "./partials/mixins" as *;
-@use "./partials/base" as *;
-// @use "./partials/layout";
-@use "./partials/about";
-@use "./partials/components";
-@use "./partials/navbar";
-@use "./partials/buttons";
-@use "./partials/blog";
-@use "./partials/footer";
-@use "./partials/form";
-@use "./partials/product";
-@use "./partials/index";
-@use "./partials/singleArticle";
-@use "./partials/notfound";
-@use "./partials/keyframes";
-@use "./partials/scrollingAnimations";
-@use "./partials/thanks";
-@use "./partials/legal";
-// @use "./partials/temp_mediaQueries.scss";
-@use "./partials/dashboard";
-@use "./partials/mediaQueries";
-@use "./partials/productMediaQueries";
-// @use "./partials/blogMediaQueries";
+// ==========================================================================
+// MAIN STYLESHEET - AI Solution Architect Project 2026
+// ==========================================================================
+
+// 1. ABSTRACTS (Logica, Variabili, Mixins - Non generano CSS)
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/animations";
+
+// 2. BASE (Fondamenta e Reset)
+@use "base/reset";
+@use "base/typography";
+@use "base/base";
+
+// 3. LAYOUT (Elementi strutturali e componenti globali)
+@use "layout/layout";
+@use "layout/navbar";
+@use "layout/footer";
+@use "layout/buttons";
+@use "layout/form";
+// @use "layout/decorations"; // Se hai creato questo file per .linea
+
+// 4. COMPONENTS (Elementi riutilizzabili isolati)
+// @use "components/alerts"; // Per il tuo .alert-error
+
+// 5. PAGES (Stili specifici per ogni rotta)
+@use "pages/index";
+@use "pages/about";
+@use "pages/blog";
+@use "pages/product";
+@use "pages/dashboard";
+@use "pages/thanks";
+@use "pages/legal";
+@use "pages/notfound";
+
+// 6. TEMPORARY / MIGRATION (File da svuotare e cancellare)
+// @use "pages/indexMediaQueries";
+// @use "pages/aboutMediaQueries";

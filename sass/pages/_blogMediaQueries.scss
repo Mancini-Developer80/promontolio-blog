@@ -1,4 +1,6 @@
-@use "./variables" as *;
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
 
 @media (max-width: 900px) {
   .blog-nav .logo {

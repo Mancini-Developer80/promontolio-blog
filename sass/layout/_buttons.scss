@@ -1,6 +1,4 @@
-@use "./variables" as *;
-
-// --- CLASSE BASE (Shared Logic) ---
+@use "../abstracts/variables" as *; // --- CLASSE BASE (Shared Logic) ---
 .btn {
   display: inline-block;
   padding: $space-sm $space-xl;

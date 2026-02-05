@@ -1,4 +1,4 @@
-@use "./variables";
+@use "../abstracts/variables" as *;
 
 .not-found {
   background-color: #232523;

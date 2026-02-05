@@ -39,32 +39,32 @@ p {
   cursor: pointer;
 }
 
-.reasons-section {
-  // background-color: $primary-light;
-  background-image: url("../image/alberoSfondo.webp");
-  background-size: cover;
-  background-position: top;
-  background-repeat: no-repeat;
-  padding: 5rem 0;
-  margin: 0 0;
+// .reasons-section {
+//   // background-color: $primary-light;
+//   background-image: url("../image/alberoSfondo.webp");
+//   background-size: cover;
+//   background-position: top;
+//   background-repeat: no-repeat;
+//   padding: 5rem 0;
+//   margin: 0 0;
 
-  .reasons-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: $font-dark;
-  }
+//   .reasons-title {
+//     font-size: 2rem;
+//     margin-bottom: 2rem;
+//     color: $font-dark;
+//   }
 
-  .reasons-list {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+//   .reasons-list {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//   }
 
-  .reasons-item {
-    margin: 1rem 0;
-    // text-align: center;
-  }
-}
+//   .reasons-item {
+//     margin: 1rem 0;
+//     // text-align: center;
+//   }
+// }
 
 // Classe per gli Errori (Alert)
 .alert-error {

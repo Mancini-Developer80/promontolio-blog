@@ -1,6 +1,6 @@
 @use "sass:color";
-@use "./variables" as *;
-@use "./mixins" as *;
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
 
 // --- HOME HEADER ---
 .home-header {

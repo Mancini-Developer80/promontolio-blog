@@ -1,7 +1,7 @@
 // Dashboard styles for PromontolioBlog Admin Panel
 @use "sass:color";
-@use "./variables" as *;
-@use "./mixins" as *;
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
 
 /* ── DASHBOARD NAVBAR ─────────────────────────────────────────────── */
 .dashboard-navbar {
