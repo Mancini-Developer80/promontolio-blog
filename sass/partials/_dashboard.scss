@@ -1,4 +1,5 @@
 // Dashboard styles for PromontolioBlog Admin Panel
+@use "sass:color";
 @use "./variables" as *;
 @use "./mixins" as *;
 
@@ -7,7 +8,7 @@
   background: linear-gradient(
     135deg,
     $primary-color,
-    lighten($primary-color, 10%)
+    color.adjust($primary-color, $lightness: 10%)
   );
   color: white;
   padding: 0.75rem 0;
@@ -15,7 +16,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 3px solid lighten($primary-color, 20%);
+  border-bottom: 3px solid color.adjust($primary-color, $lightness: 20%);
 
   .navbar-container {
     max-width: 1200px;
@@ -302,7 +303,7 @@
 
   .mobile-menu {
     display: none;
-    background: darken($primary-color, 5%);
+    background: color.adjust($primary-color, $lightness: -5%);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 
     .mobile-links {
@@ -327,7 +328,7 @@
         }
 
         &:hover {
-          color: lighten($primary-color, 30%);
+          color: color.adjust($primary-color, $lightness: 30%);
           padding-left: 1rem;
         }
 
@@ -475,7 +476,7 @@
   background: linear-gradient(
     135deg,
     $primary-color,
-    lighten($primary-color, 15%)
+    color.adjust($primary-color, $lightness: 15%)
   );
   color: white;
   padding: 3rem 2rem;
@@ -500,22 +501,22 @@
     background-size: 30px 30px;
     animation: float 20s infinite linear;
   }
+}
 
-  h1 {
-    margin-bottom: 1rem;
-    font-size: 3rem;
-    font-weight: 700;
-    position: relative;
-    z-index: 2;
-  }
+h1 {
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+}
 
-  p {
-    opacity: 0.95;
-    font-size: 1.2rem;
-    font-weight: 300;
-    position: relative;
-    z-index: 2;
-  }
+p {
+  opacity: 0.95;
+  font-size: 1.2rem;
+  font-weight: 300;
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes float {
@@ -551,7 +552,7 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background: darken($primary-color, 10%);
+    background: color.adjust($primary-color, $lightness: -10%);
     transform: translateY(-3px);
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
     color: white;
@@ -731,7 +732,7 @@
     color: white;
 
     &:hover {
-      background: darken($primary-color, 10%);
+      background: color.adjust($primary-color, $lightness: -10%);
       color: white;
     }
   }
@@ -741,7 +742,7 @@
     color: white;
 
     &:hover {
-      background: #c82333;
+      background: color.adjust(#c82333, $lightness: -10%);
       color: white;
     }
   }
@@ -751,7 +752,7 @@
     color: white;
 
     &:hover {
-      background: #218838;
+      background: color.adjust(#218838, $lightness: -10%);
       color: white;
     }
   }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <%- include('partials/general/head') %>
+  </head>
+  <body class="thanks-page">
+    <%- include('partials/general/navbar') %>
+
+    <main class="thanks-main">
+  <div class="thanks-card scroll-fade-up visible">
+    <div class="status-badge">Check your Inbox</div>
+    <div class="thanks-icon">
+      <i class="fas fa-leaf"></i>
+    </div>
+
+    <h1 class="thanks-title"><%= title %></h1>
+
+    <p class="thanks-text">
+      <%= message %>
+    </p>
+
+    <% if (locals.downloadUrl) { %>
+      <div class="download-container">
+        <p class="download-label">Ihre Datei ist bereit:</p>
+        <a href="<%= downloadUrl %>" class="btn-download" download>
+          <i class="fas fa-file-pdf"></i> Guide Herunterladen (PDF)
+        </a>
+      </div>
+    <% } %>
+    <p class="thanks-text">
+      <small style="color: #888">
+        Wir senden Ihnen den Guide per E-Mail zu, sobald Sie Ihre Anmeldung
+        bestätigt haben. Schauen Sie anche im Spam-Ordner nach.
+      </small>
+    </p>
+
+    <a href="/" class="btn-back-home">
+      <i class="fas fa-arrow-left"></i> Zurück alla Startseite
+    </a>
+  </div>
+</main>
+
+    <%- include('partials/general/footer') %>
+  </body>
+</html>

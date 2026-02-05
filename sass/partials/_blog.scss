@@ -1,4 +1,5 @@
 @use "./variables" as *;
+@use "sass:color";
 
 .blog-header {
   // background-image: $background-gradient;
@@ -168,7 +169,7 @@
     box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.16);
     transform: translateY(-8px) scale(1.025);
     border: 4px solid $brand-main;
-    background-color: lighten($light-background, 2%);
+    background-color: color.adjust($light-background, $lightness: 2%);
   }
 }
 
@@ -249,7 +250,7 @@
   cursor: pointer;
 
   &:hover {
-    background: darken($secondary-color, 10%);
+    background: color.adjust($secondary-color, $lightness: -10%);
     transform: translateY(-2px);
     color: $brand-main;
     text-decoration: none;

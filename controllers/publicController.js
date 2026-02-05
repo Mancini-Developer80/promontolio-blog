@@ -1,6 +1,6 @@
-// controllers/publicController.js
 // Controller for public routes
 const Article = require("../models/Article");
+const Lead = require("../models/Lead");
 
 module.exports = {
   getHome: (req, res) => {
@@ -66,22 +66,54 @@ module.exports = {
     try {
       const { email, consent } = req.body;
 
-      // 1. Verifica basica (In Germania il consenso è obbligatorio)
+      // 1. Verifica Consenso (GDPR Compliance)
       if (!consent) {
-        return res.status(400).send("Zustimmung erforderlich.");
+        return res.status(400).render("about", {
+          error: "Zustimmung erforderlich, um den Guide zu erhalten.",
+          bodyClass: "home-page",
+        });
       }
 
-      // 2. Qui andrà la logica MongoDB (che scriveremo dopo)
-      console.log(`Nuovo lead ricevuto: ${email}`);
+      // 2. Validazione base Email
+      if (!email) {
+        return res.status(400).render("about", {
+          error: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+          bodyClass: "home-page",
+        });
+      }
 
-      // Per ora facciamo un redirect a una pagina di ringraziamento o alla home
-      // In futuro qui invieremo la mail di Double Opt-In
+      // 3. Logica MongoDB: Verifica se esiste già
+      const existingLead = await Lead.findOne({ email });
+      if (existingLead) {
+        // Se esiste già, lo mandiamo al "thanks" senza creare duplicati
+        return res.render("thanks", {
+          title: "Willkommen zurück!",
+          message:
+            "Sie sind bereits registriert. Wir haben Ihnen den Guide erneut an Ihre E-Mail gesendet.",
+          downloadUrl:
+            "/download/Giuseppe_Mancini_AI_Solution_Architect_2026.pdf",
+        });
+      }
+
+      // 4. Salvataggio Nuovo Lead
+      const newLead = new Lead({
+        email,
+        consent: consent === "on" || consent === true, // Gestisce sia checkbox HTML che boolean
+        source: "Homepage_PDF_Guide",
+      });
+
+      await newLead.save();
+
+      // 5. Render della vista Thanks
       res.render("thanks", {
         title: "Vielen Dank!",
-        message: "Bitte prüfen Sie Ihr Postfach, um den Guide zu erhalten.",
+        message:
+          "Ihr Bio-Olivenöl Guide ist fast fertig. Bitte prüfen Sie Ihr Postfach (Double Opt-In).",
+        downloadUrl:
+          "/download/Giuseppe_Mancini_AI_Solution_Architect_2026.pdf",
       });
     } catch (err) {
-      console.error("Errore iscrizione:", err);
+      console.error("Errore iscrizione MongoDB:", err);
       res.status(500).redirect("/");
     }
   },

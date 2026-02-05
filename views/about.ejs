@@ -5,7 +5,7 @@
   </head>
   <body>
     <header class="about-header">
-      <%- include('./partials/general/navbar.ejs') %>
+      <%- include('partials/general/navbar') %>
 
       <section class="about-hero container">
         <div class="about-hero__content scroll-fade-up">
@@ -159,6 +159,12 @@
             Rezepten veredeln.
           </p>
 
+          <% if (typeof error !== 'undefined') { %>
+            <div class="alert-error">
+              <i class="fas fa-exclamation-circle"></i> <%= error %>
+            </div>
+          <% } %>
+
           <form class="cta-form" action="/subscribe" method="POST">
             <div class="input-group">
               <input
@@ -185,13 +191,25 @@
             </p>
           </form>
 
-          <div class="shipping-info">
-            <i class="fas fa-truck-fast"></i>
-            <span class="btn-note">Direkter Versand aus Frankfurt am Main</span>
-          </div>
+          
         </div>
       </section>
     </main>
     <%- include('partials/general/footer') %>
+    <script>
+        const consentCheckbox = document.getElementById('consent');
+        const submitBtn = document.querySelector('.btn-primary');
+
+        const toggleButton = () => {
+            if (consentCheckbox && submitBtn) {
+                submitBtn.disabled = !consentCheckbox.checked;
+                // Opzionale: aggiungi una classe per lo stile
+                submitBtn.classList.toggle('disabled', !consentCheckbox.checked);
+            }
+        };
+
+        consentCheckbox.addEventListener('change', toggleButton);
+        toggleButton(); // Esegui al caricamento
+    </script>
   </body>
 </html>
