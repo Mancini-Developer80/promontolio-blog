@@ -1,58 +1,65 @@
-@use "../abstracts/variables" as *; // --- CLASSE BASE (Shared Logic) ---
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+// --- CLASSE BASE ---
 .btn {
   display: inline-block;
-  padding: $space-sm $space-xl;
-  font-weight: 700;
+  padding: 1rem 2.5rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-size: 0.9rem;
   text-align: center;
+  text-decoration: none; // Fondamentale per i tag <a>
   cursor: pointer;
-  transition: $transition;
-  border-radius: $radius-sm; // Stile classico/luxury
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: $radius-pill; // Torniamo alla forma a pillola, più elegante
   position: relative;
   overflow: hidden;
   z-index: 1;
-
-  // Effetto Shimmer (Il riflesso bianco al hover)
-  &::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -100%;
-    width: 100%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
-    z-index: -1;
-  }
-
-  &:hover::before {
-    left: 150%;
-  }
+  border: 2px solid transparent;
 
   &:active {
-    transform: scale(0.98); // Feedback tattile stile Google M3
+    transform: scale(0.96);
   }
 }
 
-// --- VARIANTE PRIMARY (L'anima del Brand) ---
+// --- VARIANTE PRIMARY (Oro -> Verde) ---
 .btn-primary {
   @extend .btn;
-  background-color: transparent;
-  color: #fff;
-  border: 2px solid $secondary-color; // Usiamo l'oro invece del bianco semplice
+  background-color: $secondary-color;
+  color: $white;
+  border-color: $secondary-color;
 
   &:hover {
-    background-color: $primary-color; // Verde Oliva profondo
-    border-color: $primary-color;
-    box-shadow: $elevation-2;
-    color: #fff;
+    background-color: transparent;
+    color: $secondary-color;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba($black, 0.1);
   }
 }
 
-// --- VARIANTE GHOST (Per sezioni chiare) ---
+// --- VARIANTE OUTLINE WHITE (Per sfondi scuri/Impact Section) ---
+.btn-outline-white {
+  @extend .btn;
+  background-color: transparent;
+  color: $white;
+  border: 2px solid $white;
+  margin-left: $space-md; // Mantiene la distanza tra i due bottoni
+
+  &:hover {
+    background-color: $white;
+    color: $black;
+    transform: translateY(-3px);
+  }
+
+  @include mobile {
+    margin-left: 0;
+    margin-top: $space-md;
+  }
+}
+
+// --- VARIANTE GHOST (Verde - Per sezioni chiare) ---
 .btn-outline {
   @extend .btn;
   background-color: transparent;
@@ -61,22 +68,7 @@
 
   &:hover {
     background-color: $primary-color;
-    color: #fff;
-  }
-}
-
-// --- ANIMAZIONI ---
-.slideInDown {
-  animation: slideInDown 1s ease-out backwards;
-}
-
-@keyframes slideInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    color: $white;
+    transform: translateY(-3px);
   }
 }

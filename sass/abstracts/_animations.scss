@@ -46,7 +46,8 @@
 @keyframes slideInDown {
   from {
     opacity: 0;
-    transform: translateY(-100%);
+    // Usiamo un valore fisso: 50px è lo standard per un effetto elegante
+    transform: translateY(-50px);
   }
   to {
     opacity: 1;

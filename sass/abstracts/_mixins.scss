@@ -1,25 +1,52 @@
 // --- BREAKPOINTS ---
 $breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px; // Aggiungiamo il target Tablet
 
 // --- RESPONSIVE MIXINS ---
-// Questo permette al tuo _base.scss di funzionare correttamente
 @mixin mobile {
   @media screen and (max-width: #{$breakpoint-mobile}) {
     @content;
   }
 }
 
+@mixin tablet {
+  @media screen and (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
 // --- LAYOUT MIXINS ---
-@mixin center-flex {
+// Allineato con @include flex-between usato nella Navbar
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Allineato con @include flex-center
+@mixin flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+// Allineato con @include flex-column
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 // --- STYLING MIXINS ---
-// Perfetto per le tue sezioni con immagini di sfondo (Hero, Impact, etc.)
 @mixin image-background {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+@mixin absolute-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

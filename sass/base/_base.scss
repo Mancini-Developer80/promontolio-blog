@@ -5,3 +5,19 @@ body {
   overflow-x: hidden;
   transition: background-color 0.3s ease;
 }
+
+// Allineamento e dimensione Logo Bio
+.organic-logo {
+  max-width: 120px; // Dimensione controllata
+  height: auto;
+  display: block;
+  margin: $space-lg auto; // Centrato con spazio sopra/sotto
+}
+
+// Assicuriamoci che il container generale non sia rotto
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $space-md;
+  width: 100%;
+}

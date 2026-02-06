@@ -1,4 +1,9 @@
 // --- PALETTE COLORI (Premium Olive & Gold) ---
+$text-main: #2d2d2d;
+$text-light: #5a5a5a;
+$bg-light: #f9f9f7;
+$white: #ffffff;
+$black: #000000;
 $primary-color: #4a5d23;
 $secondary-color: #bfa55d;
 $brand-accent: #8da64b;
@@ -14,10 +19,12 @@ $font-dark: #1a1a1a;
 
 // --- GRADIENTI & SFONDI ---
 $background-gradient: linear-gradient(135deg, #bfa55d 0%, #8e793e 100%);
+$gold-gradient: linear-gradient(135deg, #f3e37c 0%, #bfa55d 50%, #f3d34a 100%);
 $light-background: #fdfdfc;
 $brand-main: #ffffff;
 
 // --- EFFETTI ---
+$shadow-text: 0 2px 10px rgba(0, 0, 0, 0.5);
 $box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -32,6 +39,8 @@ $space-lg: 2rem; // 32px
 $space-xl: 3rem; // 48px
 $space-2xl: 4rem; // 64px
 $space-3xl: 6rem; // 96px
+$space-4xl: 8rem; // 128px
+$space-5xl: 12rem; // 192px
 
 // 2. Scala Tipografica (Hierarchy)
 $type-display: 3.5rem; // Hero principali
