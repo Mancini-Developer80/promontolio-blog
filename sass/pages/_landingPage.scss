@@ -1,0 +1,113 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.lp-guide {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: $space-5xl 0;
+  background-color: $white;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: $space-5xl;
+  }
+
+  &__visual {
+    flex: 1;
+    @include flex-center;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: $radius-md;
+      box-shadow: $elevation-4; // Un'ombra importante per far "uscire" il PDF dalla pagina
+    }
+  }
+
+  &__content {
+    flex: 1;
+
+    h1 {
+      font-family: $font-secondary;
+      font-size: 3rem;
+      color: $primary-color;
+      margin: $space-md 0;
+    }
+
+    .text-accent {
+      color: $secondary-color;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: $text-light;
+      margin-bottom: $space-xl;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    max-width: 400px;
+
+    input {
+      padding: 1.2rem;
+      border: 1px solid $color-disabled-bg;
+      border-radius: $radius-pill;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: $secondary-color;
+      }
+    }
+
+    .form-disclaimer {
+      font-size: 0.8rem;
+      color: $color-disabled-text;
+      margin-top: $space-xs;
+    }
+  }
+}
+
+.consent-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-sm;
+  margin: $space-md 0;
+  text-align: left;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    cursor: pointer;
+    accent-color: $secondary-color; // Colore oro per il check
+  }
+
+  label {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: $text-light;
+    cursor: pointer;
+  }
+}
+
+// Responsive
+@include mobile {
+  .lp-guide__wrapper {
+    flex-direction: column;
+    text-align: center;
+  }
+  .lp-guide__form {
+    margin: 0 auto;
+  }
+}

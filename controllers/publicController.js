@@ -1,6 +1,8 @@
 // Controller for public routes
 const Article = require("../models/Article");
 const Lead = require("../models/Lead");
+const path = require("path");
+const { sendWelcomePDF } = require("../services/mailService");
 
 module.exports = {
   getHome: (req, res) => {
@@ -62,11 +64,25 @@ module.exports = {
       metaKeywords: "Datenschutz, DSGVO, Privatsphäre",
     });
   },
+  getGuideLanding: (req, res) => {
+    res.render("guide-landing", {
+      title: "Kostenloser Ratgeber: Olivenöl-Qualität erkennen | Promontolio",
+      metaDescription:
+        "Entdecken Sie die Geheimnisse des apulischen Olivenöls mit unserem gratis Leitfaden. Lernen Sie, wie Sie erstklassige Qualität von Massenware unterscheiden.",
+      bodyClass: "lp-guide", // Utile per CSS specifici
+    });
+  },
+
   postSubscribe: async (req, res) => {
     try {
       const { email, consent } = req.body;
 
-      // 1. Verifica Consenso (GDPR Compliance)
+      // Unifichiamo il percorso del file per evitare errori di battitura
+      const fileName = "Giuseppe_Mancini_AI_Architect.pdf";
+      const pdfPath = path.join(__dirname, "../public/download/", fileName);
+      const downloadLink = `/download/${fileName}`;
+
+      // 1. Verifica Consenso
       if (!consent) {
         return res.status(400).render("about", {
           error: "Zustimmung erforderlich, um den Guide zu erhalten.",
@@ -74,7 +90,7 @@ module.exports = {
         });
       }
 
-      // 2. Validazione base Email
+      // 2. Validazione Email
       if (!email) {
         return res.status(400).render("about", {
           error: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
@@ -82,38 +98,40 @@ module.exports = {
         });
       }
 
-      // 3. Logica MongoDB: Verifica se esiste già
+      // 3. Verifica Lead Esistente
       const existingLead = await Lead.findOne({ email });
       if (existingLead) {
-        // Se esiste già, lo mandiamo al "thanks" senza creare duplicati
+        // INVIO EMAIL anche all'utente esistente
+        await sendWelcomePDF(email, pdfPath);
+
         return res.render("thanks", {
           title: "Willkommen zurück!",
           message:
             "Sie sind bereits registriert. Wir haben Ihnen den Guide erneut an Ihre E-Mail gesendet.",
-          downloadUrl:
-            "/download/Giuseppe_Mancini_AI_Solution_Architect_2026.pdf",
+          downloadUrl: downloadLink,
         });
       }
 
       // 4. Salvataggio Nuovo Lead
       const newLead = new Lead({
         email,
-        consent: consent === "on" || consent === true, // Gestisce sia checkbox HTML che boolean
-        source: "Homepage_PDF_Guide",
+        consent: consent === "on" || consent === true,
+        source: "Landing_Page_Guide",
       });
-
       await newLead.save();
 
-      // 5. Render della vista Thanks
+      // 5. INVIO EMAIL EFFETTIVO (Fondamentale!)
+      await sendWelcomePDF(email, pdfPath);
+
+      // 6. Render della vista Thanks
       res.render("thanks", {
         title: "Vielen Dank!",
         message:
-          "Ihr Bio-Olivenöl Guide ist fast fertig. Bitte prüfen Sie Ihr Postfach (Double Opt-In).",
-        downloadUrl:
-          "/download/Giuseppe_Mancini_AI_Solution_Architect_2026.pdf",
+          "Ihr Bio-Olivenöl Guide ist fast fertig. Bitte prüfen Sie Ihr Postfach.",
+        downloadUrl: downloadLink,
       });
     } catch (err) {
-      console.error("Errore iscrizione MongoDB:", err);
+      console.error("Errore iscrizione/invio:", err);
       res.status(500).redirect("/");
     }
   },

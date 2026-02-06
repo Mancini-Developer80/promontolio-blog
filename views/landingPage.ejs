@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <%- include('partials/general/head') %>
+  </head>
+  <body>
+    <%- include('./partials/general/navbar.ejs') %>
+
+    <main class="lp-guide">
+      <div class="container lp-guide__wrapper">
+        <div class="lp-guide__visual">
+          <img
+            src="/image/pdf-mockup-luxury.webp"
+            alt="Promontolio Olivenöl Guide"
+            class="lp-guide__img"
+          />
+        </div>
+
+        <div class="lp-guide__content">
+          <span class="text-accent">Kostenlose Ressourcen</span>
+          <h1>Die Kunst, erstklassiges Olivenöl zu erkennen</h1>
+          <p>
+            Entdecken Sie die Geheimnisse der apulischen Ölmeister in diesem
+            exklusiven 20-seitigen Ratgeber. Erfahren Sie, was wahre Qualität
+            ausmacht.
+          </p>
+
+          <ul class="benefit-list">
+            <li>
+              <i class="fas fa-leaf"></i>
+              <strong>Etiketten verstehen:</strong> So vermeiden Sie Täuschungen
+              beim Kauf.
+            </li>
+            <li>
+              <i class="fas fa-tint"></i>
+              <strong>Die 3 Sensorik-Tests:</strong> Wie Sie Qualität zu Hause
+              prüfen können.
+            </li>
+            <li>
+              <i class="fas fa-utensils"></i>
+              <strong>Gourmet-Pairing:</strong> Welches Öl zu welchem Gericht
+              passt.
+            </li>
+          </ul>
+
+          <form
+            class="lp-guide__form"
+            id="guide-form"
+            action="/subscribe"
+            method="POST"
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Ihre beste E-Mail-Adresse"
+              required
+            />
+
+            <div class="consent-wrapper">
+              <input type="checkbox" name="consent" id="consent" required />
+              <label for="consent">
+                Ich stimme zu, den Guide und exklusive Informationen per E-Mail
+                zu erhalten.
+              </label>
+            </div>
+
+            <button type="submit" class="btn-primary">
+              Jetzt Guide kostenlos anfordern (PDF)
+            </button>
+            <p class="form-disclaimer">
+              Wir schätzen Ihre Privatsphäre. Kein Spam, nur pure Qualität.
+            </p>
+          </form>
+        </div>
+      </div>
+    </main>
+    <%- include('partials/general/footer') %>
+  </body>
+</html>

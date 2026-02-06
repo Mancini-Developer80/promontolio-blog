@@ -9,11 +9,15 @@ const {
   getBlog,
   getImpressum,
   getDatenschutz,
+  getGuideLanding,
   postSubscribe,
 } = require("../controllers/publicController");
 
 // Home
 router.get("/", getHome);
+
+// Landing Page Guida PDF
+router.get("/olivenoel-guide", getGuideLanding);
 
 // About
 router.get("/about", getAbout);
