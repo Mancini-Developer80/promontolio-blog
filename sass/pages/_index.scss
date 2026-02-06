@@ -131,18 +131,16 @@
   justify-content: center;
   gap: $space-4xl;
   margin: $space-5xl 0;
-  sezioni &--reverse {
-    flex-direction: row-reverse;
-  }
 
-  &:nth-child(even) {
+  // Alternanza automatica: ogni secondo articolo inverte la posizione
+  &:nth-of-type(even) {
     flex-direction: row-reverse;
   }
 
   // --- Colonna Immagine ---
   &__image {
     flex: 1;
-    min-height: 40rem; // Imponente e slanciata
+    min-height: 40rem;
     background-size: cover;
     background-position: center;
     border-radius: $radius-lg;
@@ -158,7 +156,7 @@
       background-image: url("../image/promontolio-olive-oil-bottles.webp");
       background-size: contain;
       background-repeat: no-repeat;
-      box-shadow: none; // Pulito per l'esposizione prodotto
+      box-shadow: none;
     }
     &--terroir {
       background-image: url("../image/organic-olive-harvest-extra-virgin-oil.webp");
@@ -184,12 +182,11 @@
       font-family: $font-secondary;
       font-size: 2.2rem;
       color: $primary-color;
-      margin-bottom: $space-md;
-      line-height: 1.2;
       font-weight: 700;
       letter-spacing: -0.5px;
       line-height: 1.3;
 
+      // Divisore Dorato
       &::after {
         content: "";
         display: block;
@@ -202,7 +199,7 @@
 
     p {
       max-width: 460px;
-      line-height: 1.9;
+      line-height: 1.9; // Massima leggibilità
       margin-top: $space-xl;
       margin-bottom: $space-xl;
       color: $text-light;
@@ -210,22 +207,16 @@
       letter-spacing: 0.02rem;
     }
 
+    // Wrapper per mantenere la lista centrata ma allineata a sinistra internamente
     .list-wrapper {
       width: fit-content;
       margin: 0 auto $space-2xl;
     }
 
     .check-list {
-      text-align: left;
-    }
-
-    // Sezione Lista (Checklist)
-    .check-list {
       list-style: none;
       padding: 0;
-      margin: $space-lg 0 $space-xl 0;
-      display: inline-block; // Il contenitore si stringe attorno al contenuto
-      text-align: left; // Allinea il testo degli item a sinistra
+      text-align: left;
 
       &__item {
         display: flex;
@@ -240,12 +231,11 @@
         i {
           color: $secondary-color;
           font-size: 0.9rem;
-          margin-top: 4px; // Allinea l'icona perfettamente alla prima riga di testo
+          margin-top: 5px; // Allineamento ottico con la prima riga
         }
       }
     }
 
-    // Spazio per il bottone finale
     .btn-outline,
     .btn-primary {
       margin-top: $space-md;
@@ -254,12 +244,17 @@
 
   // --- Responsive ---
   @include mobile {
-    flex-direction: column !important;
+    // Reset dell'alternanza su mobile (sempre immagine sopra testo)
+    &:nth-of-type(even),
+    & {
+      flex-direction: column !important;
+    }
+
     gap: $space-2xl;
     margin: $space-3xl 0;
 
     &__image {
-      min-height: 25rem; // Più bassa su mobile per non coprire tutto
+      min-height: 25rem;
       width: 100%;
     }
 
@@ -269,12 +264,17 @@
       h3 {
         font-size: 1.8rem;
       }
-
       p {
         font-size: 1rem;
       }
     }
   }
+}
+
+// Classe per sezioni con sfondo alternato (da usare nell'HTML come wrapper)
+.section--alternate {
+  background-color: $bg-light;
+  padding: $space-4xl 0;
 }
 
 // --- 5. IMPACT SECTION & STATS ---
