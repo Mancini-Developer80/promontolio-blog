@@ -1,92 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <%- include('partials/general/head') %>
-    <title>Blog - NodePrincipe</title>
+    <title>Promontolio | Bio-Olivenöl 0,75l Vorratspack</title>
   </head>
-  <body>
+  <body class="product-page">
+    <%- include('./partials/general/navbar') %>
+
     <header class="header-product">
-      <%- include('./partials/general/navbar') %>
       <section class="product container">
         <div class="product-description content scroll-fade-up">
-          <h1>Our Products</h1>
+          <h1>Unsere Produkte</h1>
           <p>
-            Discover the essence of Apulia in every drop of our extra virgin
-            olive oil. Crafted with care and tradition, our oils bring the rich
-            flavors of sun-kissed olives to your table. Explore our selection
-            and elevate your culinary creations with the pure taste of Italy.
+            Direkt vom Gargano zu Ihnen nach Frankfurt. Ein biologisches
+            Meisterwerk in jeder Flasche.
           </p>
         </div>
+
         <div class="linea scroll-fade-up"></div>
-        <div class="product-image-text-1">
-          <div class="bottiglia-bio scroll-fade-up">
+
+        <div class="product-main-grid">
+          <div class="bottiglia-bio-container scroll-fade-up">
             <img
               src="../image/BottigliaBio.png"
-              alt="Organic olive oil bottle - Promontolio"
+              alt="Bio-Olivenöl 0,75l Flasche - Promontolio"
               loading="lazy"
+              class="img-fluid main-product-img"
             />
           </div>
-          <div class="product-text scroll-fade-up">
-            <h2>Bottiglia Bio</h2>
-            <p>
-              Our Bottiglia Bio is a testament to our commitment to organic
-              farming and sustainable practices. Made from the finest organic
-              olives, this extra virgin olive oil is cold-pressed to preserve
-              its natural flavors and health benefits.
-            </p>
-            <div class="linea-description"></div>
-          </div>
-        </div>
-        <div class="product-image-text-2 scroll-fade-up">
-          <div class="product-text">
-            <h2>Bottiglia Bio</h2>
-            <p>
-              Our Bottiglia Bio is a testament to our commitment to organic
-              farming and sustainable practices. Made from the finest organic
-              olives, this extra virgin olive oil is cold-pressed to preserve
-              its natural flavors and health benefits.
-            </p>
-            <div class="linea-description scroll-fade-up"></div>
-          </div>
-          <div class="logo-ulivo scroll-fade-up">
-            <img
-              src="../image/PromontolioLogoUlivo.png"
-              alt="Promontolio olive oil logo"
-              loading="lazy"
-            />
+
+          <div class="product-details scroll-fade-up">
+            <div class="details-header">
+              <span class="product-badge">Premium Bio-Qualität</span>
+              <h2 class="product-title">Bio-Olivenöl Extra Vergine</h2>
+              <p class="product-subtitle">0,75l elegante Glasflasche</p>
+            </div>
+
+            <div class="package-selector">
+              <div class="package-card-wrapper">
+                <input
+                  type="radio"
+                  name="bundle"
+                  id="pack6"
+                  value="6"
+                  checked
+                />
+                <label for="pack6" class="package-card">
+                  <span class="pack-name">6er Paket</span>
+                  <span class="pack-price">96,00 €</span>
+                  <span class="pack-detail">16,00 € pro Flasche</span>
+                </label>
+              </div>
+
+              <div class="package-card-wrapper">
+                <input type="radio" name="bundle" id="pack12" value="12" />
+                <label for="pack12" class="package-card highlight">
+                  <span class="pack-badge">Bestseller</span>
+                  <span class="pack-name">12er Paket</span>
+                  <span class="pack-price">192,00 €</span>
+                  <span class="pack-detail">Gratis Versand 🚀</span>
+                </label>
+              </div>
+            </div>
+
+            <button class="btn-main btn-add-cart">IN DEN WARENKORB</button>
+
+            <div class="b2b-section scroll-fade-up">
+              <div class="b2b-content">
+                <h3>Individuelle Mengen?</h3>
+                <p>
+                  Für Gastronomie, Firmengeschenke oder größere Bestellmengen
+                  erstellen wir Ihnen gerne ein persönliches Angebot.
+                </p>
+                <a href="/contact" class="btn-outline-b2b">ANGEBOT ANFORDERN</a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </header>
 
-    <!-- prettier-ignore -->
-
-     <section class="product-values">
-      <div class="content">
-    <div class="flex-about">
-        
-        <div class="about-text scroll-fade-up ">
-            <h1>Our Values</h1>
-           <ul>
-            <li><strong>Authenticity:</strong> Honoring centuries-old traditions</li>
-            <li><strong>Sustainability:</strong> Solar-powered mills and water recycling</li>
-            <li><strong>Transparency:</strong> Full traceability from tree to table</li>
-            <li><strong>Community:</strong> Supporting local workers and artisans</li>
-            <li><strong>Health:</strong> Rich in polyphenols and antioxidants</li>
-
-           </ul>
-        </div>
-        <div class="about-text scroll-fade-up">
-            <h1>Craftsmanship & Process</h1>
+    <section class="product-values">
+      <div class="content container">
+        <div class="flex-about">
+          <div class="about-text scroll-fade-up">
+            <h2>Produktdetails</h2>
+            <table class="value-table">
+              <tbody>
+                <tr>
+                  <td><strong>Herkunft</strong></td>
+                  <td>Gargano, Apulien</td>
+                </tr>
+                <tr>
+                  <td><strong>Olivensorte</strong></td>
+                  <td>Ogliarola & Coratina</td>
+                </tr>
+                <tr>
+                  <td><strong>Analyse</strong></td>
+                  <td>Säure < 0,2% | Polyphenole > 450mg</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="about-text scroll-fade-up">
+            <h2>Handwerk</h2>
             <p>
-                Hand-picked at dawn and cold-pressed within hours, every olive goes through rigorous tasting panels and acidity tests. Our mill runs on solar power, and we use natural compost to nourish the soil. The result is an oil with vibrant green hues, peppery finish, and unmatched freshness.
+              Handverlesen und innerhalb von 4 Stunden kaltgepresst. Das
+              Ergebnis ist ein Öl von höchster biologischer Qualität, das den
+              Charakter unseres Landes widerspiegelt.
             </p>
+          </div>
         </div>
-      </div>
-      <div class="btn-container scroll-fade-up">
-          <a class="btn-main" href="">Buy Promontolio</a>
       </div>
     </section>
-    <%-include('partials/general/footer') %>
+    <section class="guide-download-section scroll-fade-up">
+      <div class="container guide-flex">
+        <div class="guide-image">
+          <img
+            src="../image/mockup-guida-gargano.png"
+            alt="Promontolio Guide Preview"
+          />
+        </div>
+        <div class="guide-content">
+          <span class="guide-badge">Gratis für Sie</span>
+          <h2>Entdecken Sie den Gargano</h2>
+          <p>
+            Sind Sie noch unsicher? Laden Sie unseren exklusiven Guide herunter:
+            <strong>"Das flüssige Gold Apuliens"</strong>. Inklusive
+            traditioneller Rezepte, Tipps zur Aufbewahrung und Geheimtipps für
+            Ihren nächsten Besuch im Gargano.
+          </p>
+          <form class="guide-form">
+            <input type="email" placeholder="Ihre E-Mail-Adresse" required />
+            <button type="submit" class="btn-main">GUIDE HERUNTERLADEN</button>
+            <p class="privacy-note">
+              Mit dem Absenden akzeptieren Sie unsere Datenschutzbestimmungen.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/general/footer') %>
   </body>
 </html>

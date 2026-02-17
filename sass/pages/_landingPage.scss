@@ -1,12 +1,30 @@
+@use "sass:color";
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
+
+// --- ANIMAZIONI ---
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
 
 .lp-guide {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: $space-5xl 0;
-  background-color: $white;
+  padding: 140px 0 $space-5xl; // Padding aumentato per la Navbar
+  background: linear-gradient(
+    to bottom,
+    #ffffff,
+    #fcfaf7
+  ); // Sfondo leggermente sfumato
 
   &__wrapper {
     display: flex;
@@ -14,100 +32,256 @@
     gap: $space-5xl;
   }
 
+  // --- Visual Column ---
   &__visual {
     flex: 1;
     @include flex-center;
+
+    .lp-guide__img-container {
+      position: relative;
+      animation: float 5s ease-in-out infinite;
+
+      &::after {
+        // Ombra dinamica sotto il libro
+        content: "";
+        position: absolute;
+        bottom: -30px;
+        left: 10%;
+        width: 80%;
+        height: 20px;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0.1) 0%,
+          rgba(0, 0, 0, 0) 70%
+        );
+        filter: blur(5px);
+      }
+    }
 
     img {
       max-width: 100%;
       height: auto;
       border-radius: $radius-md;
-      box-shadow: $elevation-4; // Un'ombra importante per far "uscire" il PDF dalla pagina
+      box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.15);
+      transition: $transition;
+
+      &:hover {
+        transform: scale(1.02);
+      }
     }
   }
 
+  // --- Content Column ---
   &__content {
     flex: 1;
 
     h1 {
       font-family: $font-secondary;
-      font-size: 3rem;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
       color: $primary-color;
-      margin: $space-md 0;
+      margin: $space-sm 0 $space-lg;
+      line-height: 1.1;
     }
 
     .text-accent {
       color: $secondary-color;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      display: inline-block;
+      border-bottom: 2px solid $secondary-color;
+      padding-bottom: 4px;
     }
 
     p {
-      font-size: 1.15rem;
-      line-height: 1.8;
+      font-size: 1.1rem;
+      line-height: 1.7;
       color: $text-light;
       margin-bottom: $space-xl;
     }
   }
 
+  // --- Benefici ---
+  .benefit-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: $space-2xl;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: $space-md;
+      margin-bottom: $space-sm;
+      font-size: 1rem;
+      color: $primary-color;
+
+      i {
+        color: $secondary-color;
+        font-size: 1.1rem;
+      }
+
+      strong {
+        font-weight: 600;
+      }
+    }
+  }
+
+  // --- Form ---
   &__form {
     display: flex;
     flex-direction: column;
     gap: $space-md;
-    max-width: 400px;
+    max-width: 450px;
+    padding: $space-xl;
+    background: $white;
+    border-radius: $radius-lg;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba($secondary-color, 0.1);
 
-    input {
-      padding: 1.2rem;
-      border: 1px solid $color-disabled-bg;
+    input[type="email"] {
+      padding: 1.1rem 1.5rem;
+      border: 1px solid #e0e0e0;
       border-radius: $radius-pill;
       font-size: 1rem;
+      transition: all 0.3s ease;
 
       &:focus {
         outline: none;
         border-color: $secondary-color;
+        box-shadow: 0 0 0 4px rgba($secondary-color, 0.1);
+      }
+    }
+
+    button.btn-primary {
+      padding: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+
+      &:disabled {
+        background: #ccc;
+        border-color: #ccc;
+        cursor: not-allowed;
+        transform: none !important;
       }
     }
 
     .form-disclaimer {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: $color-disabled-text;
+      text-align: center;
       margin-top: $space-xs;
+
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  // --- Trust Badges ---
+  &__trust {
+    display: flex;
+    justify-content: flex-start;
+    gap: $space-xl;
+    margin-top: $space-2xl;
+    padding-top: $space-xl;
+    border-top: 1px dashed #e0e0e0;
+
+    .trust-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+
+      i {
+        font-size: 1.2rem;
+        color: rgba($primary-color, 0.4);
+      }
+
+      span {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: $text-light;
+        font-weight: 600;
+      }
     }
   }
 }
 
-.consent-wrapper {
-  display: flex;
-  align-items: flex-start;
-  gap: $space-sm;
-  margin: $space-md 0;
-  text-align: left;
-
-  input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin-top: 3px;
-    cursor: pointer;
-    accent-color: $secondary-color; // Colore oro per il check
-  }
-
-  label {
-    font-size: 0.85rem;
-    line-height: 1.4;
-    color: $text-light;
-    cursor: pointer;
+// --- Scoped Navbar Fix ---
+body:has(.lp-guide) {
+  .navbar:not(.navbar-scrolled) {
+    .navbar__link {
+      color: $primary-color !important;
+      &::after {
+        background-color: $secondary-color;
+      }
+    }
+    .navbar__hamburger span {
+      background-color: $primary-color !important;
+    }
   }
 }
 
-// Responsive
+// --- Consent Checkbox ---
+.consent-wrapper {
+  display: flex;
+  gap: $space-sm;
+  margin: $space-xs 0;
+
+  input[type="checkbox"] {
+    min-width: 18px;
+    height: 18px;
+    accent-color: $secondary-color;
+  }
+
+  label {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: $text-light;
+
+    a {
+      color: $secondary-color;
+      text-decoration: underline;
+    }
+  }
+}
+
+// --- Responsive ---
 @include mobile {
-  .lp-guide__wrapper {
-    flex-direction: column;
-    text-align: center;
+  .lp-guide {
+    padding-top: 100px;
+
+    &__wrapper {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .benefit-list {
+      text-align: left;
+    }
+
+    &__trust {
+      justify-content: center;
+      gap: $space-lg;
+    }
   }
-  .lp-guide__form {
-    margin: 0 auto;
-  }
+}
+
+#submit-btn {
+  transition: all 0.3s ease;
+}
+
+#submit-btn:disabled {
+  filter: grayscale(1); /* Rende il bottone grigio automaticamente */
+  transform: scale(
+    0.98
+  ); /* Lo rende leggermente più piccolo per sembrare "premuto" o inattivo */
 }

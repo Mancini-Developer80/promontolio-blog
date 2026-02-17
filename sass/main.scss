@@ -18,10 +18,7 @@
 @use "layout/footer";
 @use "layout/buttons";
 @use "layout/form";
-// @use "layout/decorations"; // Se hai creato questo file per .linea
-
-// 4. COMPONENTS (Elementi riutilizzabili isolati)
-// @use "components/alerts"; // Per il tuo .alert-error
+@use "layout/homeGuideCta";
 
 // 5. PAGES (Stili specifici per ogni rotta)
 @use "pages/index";

@@ -1,0 +1,64 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.home-guide-cta {
+  background-color: $bg-light; // Assicurati di avere questa variabile
+  padding: $space-4xl 0;
+  margin: $space-5xl 0;
+  border-radius: $radius-lg; // Se vuoi un look più morbido
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: $space-3xl;
+
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  &__content {
+    flex: 1.2;
+
+    .text-accent {
+      color: $secondary-color;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    h2 {
+      font-family: $font-secondary;
+      font-size: 2.5rem;
+      color: $primary-color;
+      margin: $space-sm 0;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: $text-light;
+      margin-bottom: $space-xl;
+    }
+  }
+
+  &__image {
+    flex: 0.8;
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 280px;
+      height: auto;
+      transform: rotate(5deg); // Un leggero tilt per dinamismo
+      transition: transform 0.3s ease;
+      filter: drop-shadow($elevation-4);
+
+      &:hover {
+        transform: rotate(0deg) scale(1.05);
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 const Article = require("../models/Article");
 const Lead = require("../models/Lead");
 const path = require("path");
-const { sendWelcomePDF } = require("../services/mailService");
+const { sendWelcomePDF } = require("../services/emailService");
 
 module.exports = {
   getHome: (req, res) => {
@@ -65,7 +65,7 @@ module.exports = {
     });
   },
   getGuideLanding: (req, res) => {
-    res.render("guide-landing", {
+    res.render("landingPage", {
       title: "Kostenloser Ratgeber: Olivenöl-Qualität erkennen | Promontolio",
       metaDescription:
         "Entdecken Sie die Geheimnisse des apulischen Olivenöls mit unserem gratis Leitfaden. Lernen Sie, wie Sie erstklassige Qualität von Massenware unterscheiden.",
@@ -75,63 +75,93 @@ module.exports = {
 
   postSubscribe: async (req, res) => {
     try {
-      const { email, consent } = req.body;
+      const { email, consent, source } = req.body;
+      console.log(
+        `📩 Nuova richiesta di iscrizione: ${email} [Source: ${source}]`,
+      );
 
-      // Unifichiamo il percorso del file per evitare errori di battitura
-      const fileName = "Giuseppe_Mancini_AI_Architect.pdf";
+      // 1. Mappatura viste e rotte
+      let errorView = "home";
+      let pageTitle = "Bio-Olivenöl aus Apulien";
+      let route = "/";
+
+      if (source === "landing_page_guide") {
+        errorView = "landingPage";
+        pageTitle = "Exklusiver Olivenöl Guide";
+        route = "/olivenoel-guide";
+      } else if (source === "about_page_immersive") {
+        errorView = "about";
+        pageTitle = "Über uns";
+        route = "/about";
+      }
+
+      // Percorso PDF
+      const fileName = "Giuseppe_Mancini_AI_Solution_Architect_2026.pdf";
       const pdfPath = path.join(__dirname, "../public/download/", fileName);
       const downloadLink = `/download/${fileName}`;
 
-      // 1. Verifica Consenso
-      if (!consent) {
-        return res.status(400).render("about", {
-          error: "Zustimmung erforderlich, um den Guide zu erhalten.",
-          bodyClass: "home-page",
+      // 2. Helper per il render degli errori
+      const renderError = (msg) => {
+        return res.status(400).render(errorView, {
+          title: pageTitle,
+          currentRoute: route,
+          error: msg,
+          bodyClass: errorView === "landingPage" ? "lp-body" : "home-page",
+          metaDescription:
+            "Laden Sie den kostenlosen Promontolio Guide herunter.",
         });
-      }
+      };
 
-      // 2. Validazione Email
-      if (!email) {
-        return res.status(400).render("about", {
-          error: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-          bodyClass: "home-page",
-        });
-      }
+      // 3. Validazioni
+      if (!consent) return renderError("Zustimmung erforderlich.");
+      if (!email)
+        return renderError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
 
-      // 3. Verifica Lead Esistente
-      const existingLead = await Lead.findOne({ email });
-      if (existingLead) {
-        // INVIO EMAIL anche all'utente esistente
+      // 4. Logica Database (Lead)
+      let lead = await Lead.findOne({ email });
+
+      if (lead) {
+        console.log(
+          `🔄 Utente esistente trovato. Aggiornamento source a: ${source}`,
+        );
+
+        // Aggiorniamo il source così sappiamo che è tornato da una nuova pagina
+        lead.source = source || lead.source;
+        await lead.save();
+
+        // Invio mail e risposta
         await sendWelcomePDF(email, pdfPath);
-
         return res.render("thanks", {
-          title: "Willkommen zurück!",
+          title: "Willkommen zurück",
+          currentRoute: route,
           message:
-            "Sie sind bereits registriert. Wir haben Ihnen den Guide erneut an Ihre E-Mail gesendet.",
+            "Sie sind bereits registriert. Wir haben Ihnen den Guide erneut per E-Mail gesendet.",
           downloadUrl: downloadLink,
         });
       }
 
-      // 4. Salvataggio Nuovo Lead
+      // Creazione nuovo contatto se non esiste
+      console.log(`✨ Creazione nuovo Lead nel database...`);
       const newLead = new Lead({
         email,
-        consent: consent === "on" || consent === true,
-        source: "Landing_Page_Guide",
+        consent: true,
+        source: source || "guide_request",
       });
       await newLead.save();
 
-      // 5. INVIO EMAIL EFFETTIVO (Fondamentale!)
+      // 5. Invio Email e Successo
       await sendWelcomePDF(email, pdfPath);
+      console.log(`✅ Ciclo completato con successo per: ${email}`);
 
-      // 6. Render della vista Thanks
       res.render("thanks", {
-        title: "Vielen Dank!",
+        title: "Vielen Dank",
+        currentRoute: route,
         message:
-          "Ihr Bio-Olivenöl Guide ist fast fertig. Bitte prüfen Sie Ihr Postfach.",
+          "Ihr Guide ist auf dem Weg! Sie können ihn auch direkt hier herunterladen.",
         downloadUrl: downloadLink,
       });
     } catch (err) {
-      console.error("Errore iscrizione/invio:", err);
+      console.error("❌ Errore critico postSubscribe:", err);
       res.status(500).redirect("/");
     }
   },

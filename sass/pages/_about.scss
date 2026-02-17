@@ -10,10 +10,10 @@
   color: $font-dark;
   background-color: #fff;
   position: relative;
-  z-index: 2; // Lo teniamo sopra lo sfondo dell'header
+  z-index: 2;
 }
 
-// --- HERO SECTION ---
+// --- HERO SECTION (Con Parallasse) ---
 .about-header {
   position: relative;
   min-height: 70vh;
@@ -21,7 +21,6 @@
   flex-direction: column;
   overflow: hidden;
 
-  // Questo ripristina l'effetto parallasse in modo stabile
   &::before {
     content: "";
     position: absolute;
@@ -34,7 +33,7 @@
       url("../image/stone-olive-press-in-olive-grove.webp");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; // Ecco il tuo effetto desiderato
+    background-attachment: fixed;
     z-index: -1;
   }
 
@@ -42,7 +41,7 @@
     min-height: 60vh;
     padding-top: 100px;
     &::before {
-      background-attachment: scroll; // Obbligatorio per performance su smartphone
+      background-attachment: scroll;
     }
   }
 }
@@ -55,8 +54,9 @@
   text-align: center;
   padding: 0 $space-lg;
 
-  &__content {
-    max-width: 900px;
+  @include mobile {
+    // Aggiungiamo un padding verticale per dare aria ma senza esagerare
+    padding: $space-3xl $space-md;
   }
 
   &__subtitle {
@@ -67,6 +67,12 @@
     color: $secondary-color;
     margin-bottom: $space-md;
     font-weight: 700;
+
+    @include mobile {
+      font-size: 0.75rem; // Più delicato su schermi piccoli
+      letter-spacing: 2px;
+      margin-bottom: $space-sm;
+    }
   }
 
   &__title {
@@ -76,6 +82,12 @@
     line-height: 1.1;
     margin-bottom: $space-lg;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+    @include mobile {
+      // Usiamo un font-size più gestibile per non far andare il titolo su troppe righe
+      font-size: 2.2rem;
+      margin-bottom: $space-md;
+    }
   }
 
   &__text {
@@ -85,16 +97,21 @@
     color: rgba(255, 255, 255, 0.95);
     max-width: 700px;
     margin: 0 auto;
+
+    @include mobile {
+      font-size: 1.05rem; // Dimensione standard per lettura fluida
+      line-height: 1.6;
+      padding: 0 $space-xs;
+    }
   }
 }
 
-// --- SEZIONI CONTENUTO (CURATOR & QUALITY) ---
+// --- CURATOR & QUALITY SECTIONS ---
 .about-curator,
 .about-quality {
-  padding: $space-3xl 0;
-
+  padding: $space-5xl 0;
   @include mobile {
-    padding: $space-xl $space-md;
+    padding: $space-2xl $space-md;
   }
 }
 
@@ -102,29 +119,21 @@
   display: flex;
   align-items: center;
   gap: $space-3xl;
-
   &--reverse {
     flex-direction: row-reverse;
   }
 
   .about-img {
     flex: 1.2;
-    position: relative;
-
     .img-about {
       width: 100%;
       height: 500px;
       object-fit: cover;
       border-radius: $radius-md;
       box-shadow: $elevation-2;
-      filter: grayscale(20%); // Un tocco artistico quasi impercettibile
-      transition:
-        transform 0.6s ease,
-        filter 0.6s ease;
-
+      transition: transform 0.6s ease;
       &:hover {
-        transform: scale(1.03);
-        filter: grayscale(0%);
+        transform: scale(1.02);
       }
     }
   }
@@ -140,16 +149,14 @@
     p {
       font-size: 1.1rem;
       line-height: 1.9;
-      margin-bottom: $space-md;
       color: color.adjust($font-dark, $lightness: 10%);
     }
   }
 
   @include mobile {
     flex-direction: column !important;
-    gap: $space-2xl;
     .about-img .img-about {
-      height: 350px;
+      height: 300px;
     }
   }
 }
@@ -157,22 +164,18 @@
 // --- SENSORIC SECTION ---
 .about-sensoric {
   background-color: #fdfbf7;
-  padding: $space-3xl 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-
+  padding: $space-4xl 0;
   &__title {
     text-align: center;
     font-family: $font-secondary;
     font-size: 2.5rem;
-    margin-bottom: $space-2xl;
+    margin-bottom: $space-3xl;
   }
 
   .sensoric-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: $space-xl;
-
     @include mobile {
       grid-template-columns: 1fr;
     }
@@ -183,325 +186,283 @@
       text-align: center;
       border-radius: $radius-md;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease;
-
-      &:hover {
-        transform: translateY(-10px);
-      }
-
       i {
         font-size: 2.5rem;
         color: $secondary-color;
         margin-bottom: $space-md;
+        display: block;
       }
       h4 {
         font-family: $font-secondary;
         font-size: 1.4rem;
         margin-bottom: $space-sm;
       }
-      p {
-        font-size: 1rem;
-        color: #666;
-        line-height: 1.5;
-      }
     }
   }
 }
 
-// --- EXCLUSIVITY SECTION ---
-.about-exclusivity {
-  padding: $space-3xl 0;
+// --- SEZIONE MANIFESTO (EX EXCLUSIVITY) ---
+.about-manifesto {
+  padding: $space-5xl 0;
+  background-color: #fcfaf7;
+  text-align: center;
 
-  .exclusivity-box {
+  .manifesto-label {
+    display: block;
+    color: $secondary-color;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: $space-md;
+  }
+  .manifesto-title {
+    font-family: $font-secondary;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: $primary-color;
+    margin-bottom: $space-lg;
+  }
+  .manifesto-text {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto $space-3xl;
+    line-height: 1.8;
+  }
+
+  .manifesto-quote {
+    font-family: $font-secondary;
+    font-style: italic;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: $primary-color;
+    position: relative;
+    padding: $space-2xl 0;
+    max-width: 850px;
+    margin: 0 auto;
+    border-top: 1px solid rgba($secondary-color, 0.3);
+    &::before {
+      content: "„";
+      font-family: serif;
+      font-size: 5rem;
+      color: rgba($secondary-color, 0.15);
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+// --- SEZIONE DOWNLOAD (Il nuovo stile del form) ---
+// --- SEZIONE DOWNLOAD (Versione Corazzata) ---
+// --- SEZIONE DOWNLOAD IMMERSIVA (Aggiornata) ---
+.about-download-immersive {
+  position: relative;
+  padding: $space-5xl 0;
+  min-height: 650px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  // Utilizziamo l'immagine suggestiva della pressa di pietra come sfondo
+  background: url("../image/stone-olive-press-in-olive-grove.webp") center/cover
+    no-repeat fixed;
+
+  @include mobile {
+    background-attachment: scroll; // Disattiva il fixed su mobile per performance
+    padding: $space-3xl $space-md;
+  }
+
+  // Overlay per scurire l'immagine e dare il tono Promontolio
+  .immersive-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(
-      145deg,
-      $primary-color,
-      color.adjust($primary-color, $lightness: -10%)
+      to bottom,
+      rgba($primary-color, 0.8),
+      rgba(color.adjust($primary-color, $lightness: -15%), 0.92)
     );
-    padding: $space-3xl $space-2xl;
-    border-radius: $radius-lg;
+    z-index: 1;
+  }
+
+  .immersive-content {
+    position: relative;
+    z-index: 2;
     text-align: center;
-    color: #ffffff;
-    box-shadow: $elevation-3;
-    max-width: 1000px;
+    color: #fff;
+    width: 100%;
+  }
+
+  .download-badge {
+    display: inline-block;
+    padding: $space-xs $space-lg;
+    border: 1px solid $secondary-color;
+    color: $secondary-color;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: $space-lg;
+  }
+
+  .immersive-title {
+    font-family: $font-secondary;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    color: #fff !important;
+    margin-bottom: $space-md;
+    line-height: 1.1;
+  }
+
+  .immersive-lead {
+    font-size: 1.2rem;
+    max-width: 650px;
+    margin: 0 auto $space-3xl;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+
+    strong {
+      color: $secondary-color;
+    }
+  }
+
+  // Gestione Errore
+  .alert-error-immersive {
+    background: rgba(#e74c3c, 0.15);
+    border: 1px solid #e74c3c;
+    color: #fff;
+    padding: 1rem;
+    border-radius: $radius-sm;
+    max-width: 600px;
+    margin: 0 auto $space-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    backdrop-filter: blur(5px);
+
+    i {
+      color: #ff7675;
+    }
+  }
+
+  .immersive-form {
+    max-width: 650px;
     margin: 0 auto;
 
-    &__badge {
-      display: inline-block;
-      border: 1px solid rgba($secondary-color, 0.6); // Aumentata opacità per visibilità
-      color: $secondary-color;
-      padding: 6px 20px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+    .immersive-input-group {
+      display: flex;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      padding: 6px;
+      border-radius: $radius-sm;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       margin-bottom: $space-lg;
-    }
+      transition: border-color 0.3s ease;
 
-    // CORRETTO: Un solo livello di nesting
-    &__title {
-      font-family: $font-secondary;
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      line-height: 1.1;
-      color: #ffffff !important; // Forza il bianco puro
-      text-align: center;
-      margin-bottom: $space-xl;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); // Aggiunge profondità per la leggibilità
-
-      span {
-        color: $secondary-color;
-        display: block;
-        margin-top: 0.2rem;
+      &:focus-within {
+        border-color: $secondary-color;
       }
 
       @include mobile {
-        font-size: 2.2rem;
-        letter-spacing: 0;
-      }
-    }
-
-    &__content {
-      max-width: 800px;
-      margin: 0 auto;
-
-      p {
-        font-size: 1.3rem; // Leggermente più grande
-        line-height: 1.8;
-        opacity: 1; // Forza opacità piena per leggibilità
-        font-weight: 400; // Peso standard per contrasto su scuro
-        margin-bottom: $space-2xl;
-        color: #f0f0f0;
-      }
-    }
-
-    &__quote {
-      font-family: $font-secondary;
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      color: $secondary-color; // La citazione in oro attira l'attenzione
-      font-style: italic;
-      margin: $space-2xl 0;
-      padding: 0 $space-xl;
-      line-height: 1.4;
-
-      .quote-mark {
-        color: rgba(#fff, 0.3);
-        font-size: 4rem;
-        font-family: serif;
-        line-height: 0;
-        vertical-align: middle;
-      }
-    }
-
-    &__footer {
-      margin-top: $space-2xl;
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: $secondary-color;
-      font-weight: 700;
-    }
-  }
-}
-
-// --- CTA SECTION ---
-.about-cta {
-  padding: $space-3xl 0;
-
-  .cta-box {
-    background: #fcfaf7;
-    border: 1px solid rgba($primary-color, 0.1);
-    padding: $space-3xl;
-    text-align: center;
-    border-radius: $radius-lg;
-    color: $primary-color;
-
-    .cta-form {
-      max-width: 500px;
-      margin: $space-xl auto;
-
-      .input-group {
-        display: flex;
+        flex-direction: column;
+        background: transparent;
+        border: none;
+        padding: 0;
         gap: 10px;
-        background: #fff;
-        padding: 6px;
-        border-radius: $radius-sm;
-        border: 1px solid rgba($primary-color, 0.1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      input[type="email"] {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 1rem 1.5rem;
+        color: #fff;
+        font-size: 1.1rem;
+        outline: none;
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.5);
+        }
 
         @include mobile {
-          flex-direction: column;
-          background: transparent;
-          border: none;
-          box-shadow: none;
-          padding: 0;
-        }
-
-        input[type="email"] {
-          flex: 1;
-          border: none;
-          padding: 0 $space-md;
-          font-size: 1rem;
-          color: $primary-color;
-          outline: none;
-
-          @include mobile {
-            height: 50px;
-            border-radius: $radius-sm;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-          }
-        }
-
-        .btn-primary {
-          padding: 0.8rem 2rem;
-          margin: 0; // Reset dei margini per allineamento
-          white-space: nowrap;
-          background-color: $primary-color; // Gli dà il colore verde scuro di base
-          color: #fff !important; // Forza il testo bianco
-          border: none;
+          background: rgba(255, 255, 255, 0.1);
           border-radius: $radius-sm;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: inline-block; // Assicura che prenda bene il padding
-
-          &:hover {
-            background-color: color.adjust($primary-color, $lightness: -10%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          }
-
-          &:disabled {
-            background-color: #ccc !important;
-            color: #888 !important;
-            transform: none !important;
-            cursor: not-allowed !important;
-            box-shadow: none !important;
-          }
-
-          @include mobile {
-            width: 100%; // Su mobile è meglio averlo a tutta larghezza
-            height: 50px;
-          }
+          border: 1px solid rgba(255, 255, 255, 0.2);
         }
       }
 
-      .gdpr-consent {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        margin-top: $space-md;
-        text-align: left;
-        font-size: 0.85rem;
-        color: #666;
+      .btn-immersive {
+        background-color: $secondary-color;
+        color: $primary-color;
+        border: none;
+        padding: 0 2.5rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        border-radius: $radius-xs;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-height: 55px;
 
-        input[type="checkbox"] {
-          margin-top: 4px;
-          cursor: pointer;
+        &:hover:not(:disabled) {
+          background-color: #fff;
+          transform: translateY(-2px);
         }
 
-        a {
-          color: $primary-color;
-          text-decoration: underline;
-          &:hover {
-            color: $secondary-color;
-          }
+        &:disabled {
+          background-color: #555;
+          color: #999;
+          cursor: not-allowed;
+          opacity: 0.6;
         }
-      }
-
-      .form-disclaimer {
-        font-size: 0.8rem;
-        color: #999;
-        margin-top: $space-md;
-        font-style: italic;
       }
     }
 
-    h2 {
-      font-family: $font-secondary;
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
+    .immersive-gdpr {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
       margin-bottom: $space-md;
-    }
-    &__icon {
-      font-size: 3rem;
-      color: $secondary-color;
-      margin-bottom: $space-lg;
-    }
+      text-align: left;
 
-    p {
-      font-size: 1.2rem;
-      color: color.adjust($primary-color, $lightness: 10%);
-      margin-bottom: $space-2xl;
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
+      input {
+        margin-top: 3px;
+        cursor: pointer;
+      }
 
-    .btn-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: $space-md;
-    }
-
-    .shipping-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #777;
-
-      i {
+      a {
         color: $secondary-color;
-        font-size: 0.9rem;
-      }
-      .btn-note {
-        font-size: 0.95rem;
-        font-style: normal;
-        font-weight: 500;
+        text-decoration: underline;
+        &:hover {
+          color: #fff;
+        }
       }
     }
-  }
-}
 
-.btn-back-home {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: $space-md;
-  padding: 0.8rem 1.5rem;
-  background-color: $primary-color; // Usa la tua variabile!
-  color: white !important;
-  text-decoration: none;
-  border-radius: $radius-sm;
-  font-weight: 500;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: color.adjust($primary-color, $lightness: -10%);
-    transform: translateX(-5px); // Un piccolo tocco UX per il "torna indietro"
+    .form-disclaimer {
+      font-size: 0.75rem;
+      opacity: 0.5;
+      color: #fff;
+      font-style: italic;
+    }
   }
 }
 
 // --- UTILS ---
 .badge-expert {
   display: inline-flex;
-  align-items: center;
   background: rgba($primary-color, 0.05);
   border-left: 4px solid $secondary-color;
   padding: $space-sm $space-lg;
   font-weight: 700;
   color: $primary-color;
   margin-top: $space-lg;
-  font-size: 0.95rem;
-  letter-spacing: 1px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 .scroll-fade-up {
-  will-change: opacity, transform; // Avvisa il browser di usare la GPU
-  backface-visibility: hidden; // Previene glitch visivi
+  will-change: opacity, transform;
+  backface-visibility: hidden;
 }

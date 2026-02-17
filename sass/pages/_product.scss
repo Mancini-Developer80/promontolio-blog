@@ -1,146 +1,480 @@
 @use "../abstracts/variables" as *;
 
+/* --------------------------------------------------------
+   1. NAVBAR CONTEXTUAL FIX 
+   Forza la visibilità dei link sull'header chiaro
+----------------------------------------------------------- */
+body.product-page {
+  .navbar,
+  nav.navbar {
+    background-color: $bg-light !important;
+    border-bottom: 1px solid rgba($color-disabled-bg, 0.8) !important;
+    transition: $transition;
+
+    // Colpiamo ogni possibile elemento testuale nella navbar
+    .nav-link,
+    .nav-item a,
+    .navbar-brand,
+    .nav-logo,
+    span,
+    a {
+      color: $primary-color !important;
+      opacity: 1 !important; // Rimuove eventuali trasparenze
+    }
+
+    // Per icone SVG (carrello, profilo)
+    svg,
+    .nav-icon,
+    i {
+      stroke: $primary-color !important;
+      fill: transparent; // O $primary-color a seconda dell'icona
+      color: $primary-color !important;
+    }
+
+    // Se la navbar ha classi di stato aggiunte da JS allo scroll
+    &.navbar-scrolled,
+    &.scrolled {
+      background-color: rgba($white, 0.98) !important;
+      box-shadow: $elevation-1;
+
+      .nav-link,
+      a {
+        color: $text-main !important;
+      }
+    }
+  }
+}
+
+/* --------------------------------------------------------
+   2. LAYOUT GENERALE & HEADER
+----------------------------------------------------------- */
+.product-page {
+  background-color: $white;
+  color: $text-main;
+  font-family: $font-stack;
+}
+
 .header-product {
-  background-image: $background-gradient;
-  // background-color: #fff;
-  min-height: 90vh;
-  padding-bottom: 4rem;
+  background-color: $bg-light;
+  padding: $space-4xl 0 $space-xl; // Padding compatto
+  border-bottom: 1px solid $color-disabled-bg;
 }
 
-.product-values {
-  background-image: url(../image/stone-olive-press-in-olive-grove.webp);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: relative;
-}
-
-.product-values::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 0;
-}
-
-.product-values > * {
-  position: relative;
-  z-index: 2;
-}
-
-.product-description {
-  // padding: 2rem;
-  text-align: center;
-  max-width: 60%;
-  margin: 0 auto;
-}
-
-.product-image-text-1,
-.product-image-text-2 {
-  display: flex;
-  justify-content: space-around;
+.product-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: $space-xl;
   align-items: center;
-  padding: 3rem 0;
+  margin-top: $space-md;
 }
 
-.product-text {
-  max-width: 30%;
+/* --------------------------------------------------------
+   3. IMMAGINE PRODOTTO
+----------------------------------------------------------- */
+.bottiglia-bio-container {
   text-align: center;
+  .main-product-img {
+    max-height: 520px;
+    width: auto;
+    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.06));
+    transition: $transition;
+  }
+  &:hover .main-product-img {
+    transform: scale(1.02);
+  }
 }
 
-@media (max-width: 900px) {
-  .header-product {
-    min-height: 60vh;
-    padding-bottom: 2rem;
+/* --------------------------------------------------------
+   4. DETTAGLI & BUNDLE CARDS
+----------------------------------------------------------- */
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.details-header {
+  .product-badge {
+    display: inline-block;
+    background-color: $white;
+    border: 1px solid $secondary-color;
+    color: $secondary-color;
+    padding: 2px 12px;
+    border-radius: $radius-pill;
+    font-size: $type-small;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: $space-xs;
   }
-  .product-description {
-    max-width: 100%;
-    padding: 1rem;
-  }
-  .product-image-text-1 {
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-  }
-  .product-image-text-2 {
-    flex-direction: column-reverse;
-    align-items: center;
-    padding: 0;
-  }
-  .product-text {
-    max-width: 100%;
-    padding: 1rem 0;
-    text-align: center;
-  }
-  .logo-ulivo img {
-    margin: 2rem 0 0 0;
-    height: 15rem;
-  }
-  .product-values {
-    padding: 2rem 0;
-  }
-  .navbar .nav-list {
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(34, 37, 35, 0.97);
-    width: 100vw;
-    height: 100vh;
-    z-index: 200;
+
+  .product-title {
+    font-family: $font-secondary;
+    font-size: $type-h1;
+    color: $primary-color;
     margin: 0;
-    overflow-y: auto;
+    line-height: 1.2;
   }
-  .navbar.open .nav-list {
-    display: flex;
-  }
-  .hamburger {
-    display: block;
-    position: absolute;
-    top: 1.2rem;
-    right: 1.2rem;
-    z-index: 300;
-    cursor: pointer;
-  }
-  .navbar-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 150;
-  }
-  .navbar.open .navbar-overlay {
-    display: block;
+
+  .product-subtitle {
+    color: $text-light;
+    font-size: $type-body;
+    margin-bottom: $space-xs;
   }
 }
 
-@media (max-width: 600px) {
-  .header-product {
-    min-height: 38vh;
-    padding-bottom: 1rem;
+/* Cards di acquisto compatte */
+.package-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-sm;
+  margin: $space-sm 0;
+}
+
+.package-card-wrapper {
+  position: relative;
+  input[type="radio"] {
+    display: none;
   }
-  .product-image-text {
+
+  .package-card {
+    display: flex;
     flex-direction: column;
-    padding: 1rem 0;
+    justify-content: center;
+    padding: $space-lg $space-sm;
+    border: 1px solid $color-disabled-bg;
+    border-radius: $radius-md;
+    background: $white;
+    text-align: center;
+    cursor: pointer;
+    transition: $transition;
+    min-height: 140px;
+
+    .pack-name {
+      font-weight: 700;
+      color: $primary-color;
+    }
+    .pack-price {
+      display: block;
+      font-size: $type-h2;
+      font-family: $font-secondary;
+      margin: 4px 0;
+    }
+    .pack-detail {
+      font-size: $type-small;
+      color: $text-light;
+    }
   }
-  .product-text {
-    max-width: 100%;
-    padding: 0.5rem 0;
-    font-size: 1rem;
+
+  input[type="radio"]:checked + .package-card {
+    border-color: $primary-color;
+    background-color: $primary-color;
+    box-shadow: $elevation-2;
+    .pack-name,
+    .pack-price,
+    .pack-detail {
+      color: $white;
+    }
   }
-  .logo-ulivo img {
-    height: 14rem;
-    margin: 1rem 0 0 0;
+}
+
+.pack-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $secondary-color;
+  color: $white;
+  padding: 2px 10px;
+  border-radius: $radius-pill;
+  font-size: 0.7rem;
+  font-weight: 800;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------
+   5. SEZIONE VALORI (SIMMETRICA & COMPATTA)
+----------------------------------------------------------- */
+.product-values {
+  padding: $space-2xl 0; // Padding ridotto per fluidità
+  background-color: $white;
+  border-bottom: 1px solid $color-disabled-bg;
+
+  .flex-about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-2xl;
+    align-items: start;
   }
+
+  .about-text h2 {
+    font-family: $font-secondary;
+    font-size: $type-h2;
+    color: $primary-color;
+    margin-bottom: $space-sm;
+  }
+
+  .about-text p {
+    line-height: 1.7;
+    color: $text-light;
+    font-size: $type-body;
+  }
+}
+
+.value-table {
+  width: 100%;
+  background-color: $bg-light;
+  border-radius: $radius-md;
+  border-collapse: collapse;
+  overflow: hidden;
+
+  td {
+    padding: $space-sm $space-md;
+    font-size: $type-small;
+    border-bottom: 1px solid rgba($black, 0.03);
+    &:last-child {
+      text-align: right;
+      font-weight: 600;
+      color: $primary-color;
+    }
+  }
+}
+
+/* --------------------------------------------------------
+   6. B2B & LEAD MAGNET (FORM STYLING)
+----------------------------------------------------------- */
+.b2b-section {
+  margin-top: $space-md;
+  padding: $space-md;
+  background-color: $bg-light;
+  border-radius: $radius-md;
+  text-align: center;
+  border: 1px solid $color-disabled-bg;
+}
+
+.guide-download-section {
+  background-color: $bg-light;
+  padding: $space-2xl 0;
+  border-top: 1px solid $color-disabled-bg;
+
+  .guide-flex {
+    display: flex;
+    align-items: center;
+    gap: $space-2xl;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+.guide-form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  margin-top: $space-sm;
+
+  input[type="email"] {
+    width: 100%;
+    padding: $space-sm $space-md;
+    border: 1px solid $color-disabled-bg;
+    border-radius: $radius-sm;
+    font-size: $type-body;
+    background-color: $white;
+    transition: $transition;
+    outline: none;
+
+    &:focus {
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+  }
+
+  .privacy-note {
+    font-size: $type-small;
+    color: $color-disabled-text;
+  }
+}
+
+.guide-image img {
+  max-height: 280px;
+  border-radius: $radius-md;
+  box-shadow: $elevation-1;
+}
+
+/* --------------------------------------------------------
+   7. BOTTONI & RESPONSIVE
+----------------------------------------------------------- */
+.btn-main {
+  background-color: $primary-color;
+  color: $white;
+  border: none;
+  padding: $space-sm;
+  border-radius: $radius-sm;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: $transition;
+  width: 100%;
+  &:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+  }
+}
+
+.btn-outline-b2b {
+  display: inline-block;
+  padding: $space-xs $space-md;
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: $radius-sm;
+  font-size: $type-small;
+  transition: $transition;
+  &:hover {
+    background: $primary-color;
+    color: $white;
+  }
+}
+
+/* --------------------------------------------------------
+   7. MEDIA QUERIES DEFINITIVE (COMPATTEZZA & CENTRATURA)
+----------------------------------------------------------- */
+
+/* --------------------------------------------------------
+   7. MEDIA QUERIES AGGIORNATE (NAVBAR FIX & COMPATTEZZA)
+----------------------------------------------------------- */
+
+@media (max-width: $breakpoint-tablet) {
+  /* 1. Navbar Ironclad: Rimane Verde Bosco anche durante lo scrolling */
+  body.product-page {
+    // Selettore universale per tutte le classi navbar iniettate da JS
+    nav.navbar[class*="navbar"],
+    .navbar.navbar-scrolled,
+    .navbar.scrolled {
+      background-color: $primary-color !important;
+      background: $primary-color !important;
+      border-bottom: none !important;
+    }
+
+    // Testi e Logo forzatamente Bianchi per contrasto
+    .navbar .nav-link,
+    .navbar .nav-logo,
+    .navbar .navbar-brand,
+    .navbar a,
+    .navbar span,
+    .navbar .nav-icon {
+      color: $white !important;
+      stroke: $white !important; // Per eventuali icone SVG
+    }
+
+    // Hamburger Menu: Bianco e visibile sul verde
+    .navbar-toggler {
+      border-color: rgba($white, 0.5) !important;
+      .navbar-toggler-icon {
+        // Forza l'inversione se l'icona originale è scura
+        filter: brightness(0) invert(1) !important;
+      }
+    }
+  }
+
+  /* 2. Header compatto: meno spazio tra navbar e contenuto */
+  .header-product {
+    padding-top: $space-4xl !important;
+    padding-bottom: $space-md !important;
+  }
+
+  /* 3. Stacking e Centratura Totale */
+  .product-main-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    gap: $space-md;
+  }
+
+  /* 4. Bottiglia: Centrata, proporzionata e non sticky */
+  .bottiglia-bio-container {
+    position: static !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: $space-md;
+
+    .main-product-img {
+      max-height: 300px !important; // Più piccola per favorire lo scroll
+      width: auto !important;
+      margin: 0 auto !important;
+    }
+  }
+
+  /* 5. Sezione Valori: Stack verticale e padding ridotti */
   .product-values {
-    padding: 1rem 0;
+    padding: $space-lg 0 !important;
+    .flex-about {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: $space-md;
+    }
+    .about-text {
+      margin-bottom: $space-sm;
+      h2 {
+        font-size: $type-h3;
+      }
+    }
+  }
+
+  .value-table {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  /* 6. Ottimizzazione estrema per Smartphone */
+  .header-product {
+    padding-top: $space-5xl !important;
+  }
+
+  .package-selector {
+    grid-template-columns: 1fr !important;
+    gap: $space-sm;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .product-title {
+    font-size: $type-h2;
+  }
+
+  /* 7. Tabella Valori: Trasformazione in Card-List */
+  .value-table td {
+    display: block !important;
+    width: 100%;
+    text-align: center !important;
+    border-bottom: none;
+    &:first-child {
+      background: rgba($primary-color, 0.05);
+      font-weight: 800;
+      padding-top: $space-xs;
+    }
+    &:last-child {
+      padding-bottom: $space-sm;
+      border-bottom: 1px solid $color-disabled-bg;
+      color: $primary-color;
+    }
+  }
+
+  /* 8. Lead Magnet compatto per Mobile */
+  .guide-download-section {
+    padding: $space-xl 0 !important;
+    .guide-image {
+      display: none;
+    }
+    .guide-flex {
+      text-align: center;
+      flex-direction: column;
+    }
   }
 }

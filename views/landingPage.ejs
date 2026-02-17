@@ -3,43 +3,51 @@
   <head>
     <%- include('partials/general/head') %>
   </head>
-  <body>
+  <body class="lp-body">
     <%- include('./partials/general/navbar.ejs') %>
 
     <main class="lp-guide">
       <div class="container lp-guide__wrapper">
         <div class="lp-guide__visual">
-          <img
-            src="/image/pdf-mockup-luxury.webp"
-            alt="Promontolio Olivenöl Guide"
-            class="lp-guide__img"
-          />
+          <div class="lp-guide__img-container">
+            <img
+              src="/image/pdf-mockup-luxury.webp"
+              alt="Promontolio Olivenöl Guide"
+              class="lp-guide__img"
+            />
+          </div>
         </div>
 
         <div class="lp-guide__content">
-          <span class="text-accent">Kostenlose Ressourcen</span>
+          <span class="text-accent">Exklusiver Zugang</span>
           <h1>Die Kunst, erstklassiges Olivenöl zu erkennen</h1>
           <p>
-            Entdecken Sie die Geheimnisse der apulischen Ölmeister in diesem
-            exklusiven 20-seitigen Ratgeber. Erfahren Sie, was wahre Qualität
-            ausmacht.
+            Entdecken Sie lehrreiche Geheimnisse der apulischen Ölmeister in
+            diesem exklusiven 20-seitigen Ratgeber. Erfahren Sie, was wahre
+            Qualität wirklich ausmacht.
           </p>
 
           <ul class="benefit-list">
             <li>
-              <i class="fas fa-leaf"></i>
-              <strong>Etiketten verstehen:</strong> So vermeiden Sie Täuschungen
-              beim Kauf.
+              <i class="fas fa-check-circle"></i>
+              <span
+                ><strong>Etiketten verstehen:</strong> So vermeiden Sie
+                Täuschungen beim Kauf.</span
+              >
             </li>
             <li>
-              <i class="fas fa-tint"></i>
-              <strong>Die 3 Sensorik-Tests:</strong> Wie Sie Qualität zu Hause
-              prüfen können.
+              <i class="fas fa-check-circle"></i>
+              <span
+                ><strong>Die 3 Sensorik-Tests:</strong> Wie Sie Qualität zu
+                Hause prüfen können.</span
+              >
             </li>
             <li>
-              <i class="fas fa-utensils"></i>
-              <strong>Gourmet-Pairing:</strong> Welches Öl zu welchem Gericht
-              passt.
+              <i class="fas fa-check-circle"></i>
+              <span
+                ><strong>Gourmet-Pairing:</strong> Welches Öl zu welchem Gericht
+                passt.</span
+              >
             </li>
           </ul>
 
@@ -49,31 +57,98 @@
             action="/subscribe"
             method="POST"
           >
-            <input
-              type="email"
-              name="email"
-              placeholder="Ihre beste E-Mail-Adresse"
-              required
-            />
+            <input type="hidden" name="source" value="landing_page_guide" />
+            <div class="input-group">
+              <input
+                type="email"
+                name="email"
+                id="email-input"
+                placeholder="Ihre beste E-Mail-Adresse"
+                required
+              />
+            </div>
 
             <div class="consent-wrapper">
               <input type="checkbox" name="consent" id="consent" required />
               <label for="consent">
                 Ich stimme zu, den Guide und exklusive Informationen per E-Mail
-                zu erhalten.
+                zu erhalten. <a href="/privacy" target="_blank">Datenschutz</a>.
               </label>
             </div>
 
-            <button type="submit" class="btn-primary">
-              Jetzt Guide kostenlos anfordern (PDF)
+            <button type="submit" id="submit-btn" class="btn-primary" disabled>
+              <span class="btn-text"
+                >Jetzt Guide kostenlos anfordern (PDF)</span
+              >
             </button>
+
             <p class="form-disclaimer">
-              Wir schätzen Ihre Privatsphäre. Kein Spam, nur pure Qualität.
+              <i class="fas fa-lock"></i> Wir schätzen Ihre Privatsphäre. Kein
+              Spam.
             </p>
           </form>
+
+          <div class="lp-guide__trust">
+            <div class="trust-item">
+              <i class="fas fa-shield-alt"></i>
+              <span>DSGVO Konform</span>
+            </div>
+            <div class="trust-item">
+              <i class="fas fa-leaf"></i>
+              <span>100% Bio-Qualität</span>
+            </div>
+            <div class="trust-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Direkt aus Gargano</span>
+            </div>
+          </div>
         </div>
       </div>
     </main>
+
     <%- include('partials/general/footer') %>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("guide-form");
+        const emailInput = document.getElementById("email-input");
+        const checkbox = document.getElementById("consent");
+        const submitBtn = document.getElementById("submit-btn");
+
+        // Funzione per validare entrambi i campi
+        const validateForm = () => {
+          const isEmailValid = emailInput.checkValidity(); // Controlla se è un'email valida
+          const isCheckboxChecked = checkbox.checked; // Controlla il consenso
+
+          // Il bottone si abilita SOLO se entrambi sono true
+          submitBtn.disabled = !(isEmailValid && isCheckboxChecked);
+
+          // Feedback visivo (puoi gestirlo anche solo via CSS con :disabled)
+          submitBtn.style.opacity =
+            isEmailValid && isCheckboxChecked ? "1" : "0.5";
+          submitBtn.style.cursor =
+            isEmailValid && isCheckboxChecked ? "pointer" : "not-allowed";
+        };
+
+        // Ascolta i cambiamenti su entrambi gli input
+        emailInput.addEventListener("input", validateForm);
+        checkbox.addEventListener("change", validateForm);
+
+        // Effetto caricamento al submit
+        form.addEventListener("submit", (e) => {
+          // Un ultimo controllo di sicurezza
+          if (submitBtn.disabled) {
+            e.preventDefault();
+            return;
+          }
+          submitBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Senden...';
+          submitBtn.style.pointerEvents = "none";
+        });
+
+        // Eseguiamo una volta al caricamento nel caso il browser ricordi i dati (autocomplete)
+        validateForm();
+      });
+    </script>
   </body>
 </html>
