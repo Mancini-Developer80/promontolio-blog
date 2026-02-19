@@ -11,6 +11,7 @@ const {
   getDatenschutz,
   getGuideLanding,
   postSubscribe,
+  handleContactForm,
 } = require("../controllers/publicController");
 
 // Home
@@ -33,6 +34,8 @@ router.get("/impressum", getImpressum);
 router.get("/datenschutz", getDatenschutz);
 
 router.post("/subscribe", postSubscribe);
+
+router.post("/contact", handleContactForm);
 
 // SEO-friendly pagination route (MUST come before blog and slug routes)
 router.get("/blog/page/:page", (req, res) => {

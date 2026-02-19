@@ -2,7 +2,10 @@
 const Article = require("../models/Article");
 const Lead = require("../models/Lead");
 const path = require("path");
-const { sendWelcomePDF } = require("../services/emailService");
+const {
+  sendWelcomePDF,
+  sendContactMessage,
+} = require("../services/emailService");
 
 module.exports = {
   getHome: (req, res) => {
@@ -71,6 +74,35 @@ module.exports = {
         "Entdecken Sie die Geheimnisse des apulischen Olivenöls mit unserem gratis Leitfaden. Lernen Sie, wie Sie erstklassige Qualität von Massenware unterscheiden.",
       bodyClass: "lp-guide", // Utile per CSS specifici
     });
+  },
+
+  handleContactForm: async (req, res) => {
+    try {
+      const { name, email, message } = req.body;
+
+      // Validazione minim
+      if (!name || !email || !message) {
+        return res.status(400).json({
+          success: false,
+          message: "Per favore, compila tutti i campi obbligatori.",
+        });
+      }
+
+      // Chiamata al servizio email
+      await sendContactMessage(name, email, message);
+
+      res.status(200).json({
+        success: true,
+        message:
+          "Grazie! Abbiamo ricevuto il tuo messaggio e ti risponderemo al più presto.",
+      });
+    } catch (error) {
+      console.error("Errore nel Contact Controller:", error);
+      res.status(500).json({
+        success: false,
+        message: "Errore interno al server. Riprova più tardi.",
+      });
+    }
   },
 
   postSubscribe: async (req, res) => {

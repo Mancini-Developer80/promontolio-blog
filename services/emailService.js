@@ -1,18 +1,19 @@
 const nodemailer = require("nodemailer");
 
+// 1. Configurazione unica del trasportatore
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
 /**
- * Invia l'email di benvenuto con il PDF in allegato.
- * Il link nel corpo mail ora punta alla home per evitare ridondanza col PDF allegato.
+ * Invia la Guida PDF all'utente (Lead Magnet)
+ * Utilizza il tuo template originale
  */
 const sendWelcomePDF = async (userEmail, pdfPath) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
   const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -97,7 +98,7 @@ const sendWelcomePDF = async (userEmail, pdfPath) => {
   `;
 
   const mailOptions = {
-    from: '"Promontolio" <giuseppe.mancini80@gmail.com>',
+    from: '"Promontolio" <' + process.env.EMAIL_USER + ">",
     to: userEmail,
     subject: "Ihr PDF-Guide: Entdecken Sie das Gold des Gargano 🌿",
     html: htmlContent,
@@ -112,4 +113,31 @@ const sendWelcomePDF = async (userEmail, pdfPath) => {
   return transporter.sendMail(mailOptions);
 };
 
-module.exports = { sendWelcomePDF };
+/**
+ * Invia i messaggi del modulo Contatti a TE (Notifica interna)
+ */
+const sendContactMessage = async (name, email, message) => {
+  const mailOptions = {
+    from: `"${name} (Promontolio Website)" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER,
+    subject: `📩 Nuovo messaggio da ${name}`,
+    html: `
+      <div style="font-family: sans-serif; padding: 20px; border: 1px solid #4a5d23; border-radius: 8px;">
+        <h2 style="color: #4a5d23; border-bottom: 1px solid #4a5d23; padding-bottom: 10px;">Nuova Richiesta di Contatto</h2>
+        <p><strong>Nome:</strong> ${name}</p>
+        <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+        <p><strong>Messaggio:</strong></p>
+        <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #4a5d23; font-style: italic;">
+          ${message}
+        </div>
+        <hr style="margin-top: 20px; border: 0; border-top: 1px solid #eee;">
+        <p style="font-size: 11px; color: #999;">Inviato dal modulo contatti di promontolio.it</p>
+      </div>
+    `,
+    replyTo: email,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+module.exports = { sendWelcomePDF, sendContactMessage };

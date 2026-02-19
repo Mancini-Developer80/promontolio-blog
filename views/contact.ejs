@@ -1,40 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <%- include('partials/general/head') %>
+    <title>Kontakt & Anfragen - Promontolio</title>
   </head>
+  <body class="contact-page">
+    <%- include('partials/general/navbar.ejs') %>
 
-  <body>
-    <!-- prettier-ignore -->
-    <header class="contact-header">
-      <%- include('partials/general/navbar.ejs') %>
-      <section class="contact container">
-        <div class="contact-description content">
-          <h1>Contact Us</h1>
+    <div class="nav-spacer"></div>
+
+    <main class="contact-container">
+      <section class="contact-grid">
+        <div class="contact-info">
+          <span class="contact-badge">Kontakt</span>
+          <h1>Lassen Sie uns über Olivenöl und den Gargano sprechen</h1>
           <p>
-            We would love to hear from you! Whether you have questions about our products, need assistance with an order or simply want to share your feedback, our team is here to help. Please fill out the form below or reach us through the provided contact details. We look forward to connecting with you!
+            Haben Sie Fragen zu unseren Bio-Produkten, benötigen Sie
+            Informationen zum Territorium oder möchten Sie mehr über unsere
+            Ernte erfahren? Wir sind für Sie da.
           </p>
+
+          <div class="b2b-notice">
+            <h3>Geschäftskunden & Gastronomie</h3>
+            <p>
+              Suchen Sie nach individuellen Angeboten für Ihr Restaurant oder
+              Fachgeschäft? Fordern Sie hier ein maßgeschneidertes Angebot oder
+              Informationen zu unseren Lieferkonditionen an.
+            </p>
+          </div>
         </div>
-        <div class="linea"></div>
-        <div class="contact-form">
-          <form action="">
+
+        <div class="contact-card">
+          <form action="/contact" method="POST" class="contact-form">
             <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required />
+              <label for="name">Name / Unternehmen</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Ihr Name o. Firmenname"
+                required
+              />
             </div>
+
             <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required />
+              <label for="email">E-Mail-Adresse</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="beispiel@mail.de"
+                required
+              />
             </div>
+
             <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="5" required></textarea>
+              <label for="message">Ihre Anfrage</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Wie können wir Ihnen helfen?"
+                required
+              ></textarea>
             </div>
-            <button class="btn-form" type="submit">Send Message</button>
+
+            <div id="form-feedback" class="form-feedback"></div>
+            <button class="btn-send" type="submit">Nachricht senden</button>
           </form>
-           
-    </header>
-    
-   
+        </div>
+      </section>
+    </main>
+
+    <%- include('partials/general/footer') %>
+    <script src="/js/contact.js"></script>
   </body>
 </html>
