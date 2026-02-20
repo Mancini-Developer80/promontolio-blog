@@ -18,6 +18,7 @@
 @use "layout/footer";
 @use "layout/buttons";
 @use "layout/form";
+@use "layout/cart"; // Nuovo file per il carrello
 @use "layout/homeGuideCta";
 
 // 5. PAGES (Stili specifici per ogni rotta)
@@ -27,11 +28,8 @@
 @use "pages/blog";
 @use "pages/product";
 @use "pages/dashboard";
+@use "pages/success";
 @use "pages/thanks";
 @use "pages/legal";
 @use "pages/notfound";
 @use "pages/landingPage";
-
-// 6. TEMPORARY / MIGRATION (File da svuotare e cancellare)
-// @use "pages/indexMediaQueries";
-// @use "pages/aboutMediaQueries";

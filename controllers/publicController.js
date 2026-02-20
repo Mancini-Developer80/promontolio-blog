@@ -6,6 +6,19 @@ const {
   sendWelcomePDF,
   sendContactMessage,
 } = require("../services/emailService");
+const stripe = require("stripe");
+
+// Configurazione Prodotti (Single Source of Truth)
+const PRODUCTS = {
+  "oil-bundle-6": {
+    name: "Bio-Olivenöl Extra Vergine (6er Paket)",
+    amount: 9600, // Prezzo in centesimi (96,00 €)
+  },
+  "oil-bundle-12": {
+    name: "Bio-Olivenöl Extra Vergine (12er Paket)",
+    amount: 19200, // Prezzo in centesimi (192,00 €)
+  },
+};
 
 module.exports = {
   getHome: (req, res) => {
@@ -67,30 +80,26 @@ module.exports = {
       metaKeywords: "Datenschutz, DSGVO, Privatsphäre",
     });
   },
+
   getGuideLanding: (req, res) => {
     res.render("landingPage", {
       title: "Kostenloser Ratgeber: Olivenöl-Qualität erkennen | Promontolio",
       metaDescription:
         "Entdecken Sie die Geheimnisse des apulischen Olivenöls mit unserem gratis Leitfaden. Lernen Sie, wie Sie erstklassige Qualität von Massenware unterscheiden.",
-      bodyClass: "lp-guide", // Utile per CSS specifici
+      bodyClass: "lp-guide",
     });
   },
 
   handleContactForm: async (req, res) => {
     try {
       const { name, email, message } = req.body;
-
-      // Validazione minim
       if (!name || !email || !message) {
         return res.status(400).json({
           success: false,
           message: "Per favore, compila tutti i campi obbligatori.",
         });
       }
-
-      // Chiamata al servizio email
       await sendContactMessage(name, email, message);
-
       res.status(200).json({
         success: true,
         message:
@@ -105,15 +114,105 @@ module.exports = {
     }
   },
 
+  // --- LOGICA STRIPE ---
+  createCheckoutSession: async (req, res) => {
+    try {
+      const { items } = req.body;
+      if (!items || items.length === 0) {
+        return res.status(400).json({ error: "Carrello vuoto" });
+      }
+
+      const stripeLib = require("stripe");
+      const stripeInstance = stripeLib(process.env.STRIPE_SECRET_KEY);
+
+      const line_items = items.map((item) => {
+        const storeItem = PRODUCTS[item.id];
+        if (!storeItem) throw new Error(`Prodotto non valido: ${item.id}`);
+
+        return {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: storeItem.name,
+              images: [`${process.env.APP_URL}/image/BottigliaBio.png`],
+            },
+            unit_amount: storeItem.amount,
+          },
+          quantity: item.quantity,
+        };
+      });
+
+      const session = await stripeInstance.checkout.sessions.create({
+        // Usiamo solo "card" per ora, che è il metodo universale e non fallisce mai
+        payment_method_types: ["card"],
+        line_items,
+        mode: "payment",
+        locale: "auto",
+        shipping_address_collection: {
+          allowed_countries: ["DE", "IT", "AT", "CH"],
+        },
+        phone_number_collection: { enabled: true },
+        success_url: `${process.env.APP_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.APP_URL}/product`,
+        tax_id_collection: { enabled: true },
+      });
+
+      res.json({ url: session.url });
+    } catch (error) {
+      console.error("Stripe Error:", error.message);
+      res.status(500).json({
+        error: "Errore durante la creazione della sessione",
+        details: error.message,
+      });
+    }
+  },
+
+  getSuccess: async (req, res) => {
+    try {
+      const sessionId = req.query.session_id;
+
+      // Se non c'è un ID sessione, l'utente è arrivato qui per errore
+      if (!sessionId) {
+        return res.redirect("/");
+      }
+
+      const stripeLib = require("stripe");
+      const stripeInstance = stripeLib(process.env.STRIPE_SECRET_KEY);
+
+      // Recuperiamo i dati della sessione dal server di Stripe
+      const session =
+        await stripeInstance.checkout.sessions.retrieve(sessionId);
+
+      // Prepariamo i dati per il template EJS
+      res.render("success", {
+        title: "Vielen Dank | Promontolio",
+        metaDescription: "Vielen Dank für Ihre Bestellung bei Promontolio.",
+        bodyClass: "success-page",
+        customerName: session.customer_details.name, // Nome di chi ha pagato
+        totalAmount: session.amount_total / 100, // Da centesimi a Euro
+        orderId: session.id.slice(-10).toUpperCase(), // Ultime 10 cifre come numero ordine
+        customerEmail: session.customer_details.email,
+      });
+    } catch (error) {
+      console.error("Errore recupero sessione Stripe:", error);
+      // Passiamo valori di cortesia per evitare che la pagina si rompa
+      res.render("success", {
+        title: "Vielen Dank | Promontolio",
+        metaDescription: "Vielen Dank für Ihre Bestellung bei Promontolio.",
+        bodyClass: "success-page",
+        customerName: "unser Kunde", // "nostro cliente" in tedesco
+        totalAmount: "---",
+        orderId: "---",
+        customerEmail: "Ihre E-Mail-Adresse",
+      });
+    }
+  },
+
+  // --- NEWSLETTER & GUIDE ---
   postSubscribe: async (req, res) => {
     try {
       const { email, consent, source } = req.body;
-      console.log(
-        `📩 Nuova richiesta di iscrizione: ${email} [Source: ${source}]`,
-      );
-
-      // 1. Mappatura viste e rotte
-      let errorView = "home";
+      let errorView = "index";
       let pageTitle = "Bio-Olivenöl aus Apulien";
       let route = "/";
 
@@ -127,12 +226,10 @@ module.exports = {
         route = "/about";
       }
 
-      // Percorso PDF
       const fileName = "Giuseppe_Mancini_AI_Solution_Architect_2026.pdf";
       const pdfPath = path.join(__dirname, "../public/download/", fileName);
       const downloadLink = `/download/${fileName}`;
 
-      // 2. Helper per il render degli errori
       const renderError = (msg) => {
         return res.status(400).render(errorView, {
           title: pageTitle,
@@ -144,24 +241,14 @@ module.exports = {
         });
       };
 
-      // 3. Validazioni
       if (!consent) return renderError("Zustimmung erforderlich.");
       if (!email)
         return renderError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
 
-      // 4. Logica Database (Lead)
       let lead = await Lead.findOne({ email });
-
       if (lead) {
-        console.log(
-          `🔄 Utente esistente trovato. Aggiornamento source a: ${source}`,
-        );
-
-        // Aggiorniamo il source così sappiamo che è tornato da una nuova pagina
         lead.source = source || lead.source;
         await lead.save();
-
-        // Invio mail e risposta
         await sendWelcomePDF(email, pdfPath);
         return res.render("thanks", {
           title: "Willkommen zurück",
@@ -172,18 +259,13 @@ module.exports = {
         });
       }
 
-      // Creazione nuovo contatto se non esiste
-      console.log(`✨ Creazione nuovo Lead nel database...`);
       const newLead = new Lead({
         email,
         consent: true,
         source: source || "guide_request",
       });
       await newLead.save();
-
-      // 5. Invio Email e Successo
       await sendWelcomePDF(email, pdfPath);
-      console.log(`✅ Ciclo completato con successo per: ${email}`);
 
       res.render("thanks", {
         title: "Vielen Dank",
@@ -200,68 +282,24 @@ module.exports = {
 
   getBlog: async (req, res) => {
     try {
-      // Pagination configuration
-      const POSTS_PER_PAGE = 6; // 6 posts per page for nice grid layout
-
-      // Get page number - check both query and manual setting
-      let currentPage = 1;
-
-      if (req.query.page) {
-        currentPage = parseInt(req.query.page);
-      } else if (req.params && req.params.page) {
-        currentPage = parseInt(req.params.page);
-      } else if (req.url && req.url.includes("/page/")) {
-        // Extract page from URL as fallback
-        const urlParts = req.url.split("/");
-        const pageIndex = urlParts.indexOf("page");
-        if (pageIndex !== -1 && urlParts[pageIndex + 1]) {
-          currentPage = parseInt(urlParts[pageIndex + 1]);
-        }
-      }
-
-      if (isNaN(currentPage) || currentPage < 1) {
-        currentPage = 1;
-      }
+      const POSTS_PER_PAGE = 6;
+      let currentPage =
+        parseInt(req.query.page) || parseInt(req.params.page) || 1;
+      if (isNaN(currentPage) || currentPage < 1) currentPage = 1;
 
       const skip = (currentPage - 1) * POSTS_PER_PAGE;
 
-      // Check database connection
-      if (
-        !require("mongoose").connection.readyState ||
-        require("mongoose").connection.readyState !== 1
-      ) {
-        return res.render("blog", {
-          title: "Blog & Rezepte | Promontolio",
-          metaDescription:
-            "Erfahren Sie mehr über Olivenöl-Kultur, Ernteprozesse und authentische Rezepte aus Apulien in unserem Blog.",
-          metaKeywords:
-            "Olivenöl Blog, Rezepte, Apulien Wissen, Promontolio Magazin",
-          articles: [],
-          pagination: {
-            currentPage: 1,
-            totalPages: 0,
-            hasNext: false,
-            hasPrev: false,
-          },
-          error:
-            "Verbindung zum Server unterbrochen. Bitte versuchen Sie es später erneut.",
-        });
-      }
-
-      // Get total count of published articles only
       const totalArticles = await Article.countDocuments({
         status: "published",
       });
       const totalPages = Math.ceil(totalArticles / POSTS_PER_PAGE);
 
-      // Get published articles for current page
       const articles = await Article.find({ status: "published" })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(POSTS_PER_PAGE)
         .populate("author", "username");
 
-      // Calculate pagination info
       const pagination = {
         currentPage,
         totalPages,
@@ -286,21 +324,13 @@ module.exports = {
         originalUrl: req.originalUrl,
       });
     } catch (err) {
-      console.error("Error loading blog with pagination:", err);
+      console.error("Error loading blog:", err);
       res.status(500).render("blog", {
         title: "Blog & Rezepte | Promontolio",
-        metaDescription:
-          "Entdecken Sie Wissenswertes über apulisches Olivenöl, Ernteprozesse und Rezepte in unserem Magazin.",
-        metaKeywords: "Olivenöl Blog, Rezepte, Apulien Tipps, Promontolio",
         articles: [],
-        pagination: {
-          currentPage: 1,
-          totalPages: 0,
-          hasNext: false,
-          hasPrev: false,
-        },
+        pagination: { currentPage: 1, totalPages: 0 },
         error:
-          "Entschuldigung, beim Laden der Artikel ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
+          "Entschuldigung, beim Laden der Artikel ist ein Fehler aufgetreten.",
         originalUrl: req.originalUrl,
       });
     }

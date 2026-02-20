@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const blogController = require("../controllers/blogController");
+const publicController = require("../controllers/publicController"); // Import completo per pulizia
+
 const {
   getHome,
   getAbout,
@@ -12,39 +14,37 @@ const {
   getGuideLanding,
   postSubscribe,
   handleContactForm,
-} = require("../controllers/publicController");
+  createCheckoutSession, // Aggiunta
+  getSuccess, // Aggiunta
+} = publicController;
 
-// Home
+// --- PUBLIC ROUTES ---
 router.get("/", getHome);
-
-// Landing Page Guida PDF
 router.get("/olivenoel-guide", getGuideLanding);
-
-// About
 router.get("/about", getAbout);
-
-// Product
 router.get("/product", getProduct);
-
-// Contact
 router.get("/contact", getContact);
-
 router.get("/impressum", getImpressum);
-
 router.get("/datenschutz", getDatenschutz);
 
+// --- FORMS & NEWSLETTER ---
 router.post("/subscribe", postSubscribe);
-
 router.post("/contact", handleContactForm);
 
-// SEO-friendly pagination route (MUST come before blog and slug routes)
+// --- STRIPE CHECKOUT ---
+// Questa è la rotta chiamata dal fetch nel tuo cart.js
+router.post("/create-checkout-session", createCheckoutSession);
+
+// Questa è la pagina dove Stripe reindirizza l'utente dopo il pagamento
+router.get("/success", getSuccess);
+
+// --- BLOG LOGIC ---
+// SEO-friendly pagination route
 router.get("/blog/page/:page", (req, res) => {
   const page = parseInt(req.params.page);
-
   if (isNaN(page) || page < 1) {
     return res.redirect("/blog");
   }
-
   req.query.page = page.toString();
   getBlog(req, res);
 });

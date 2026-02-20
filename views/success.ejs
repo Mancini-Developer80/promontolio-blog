@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <%- include('partials/general/head') %>
+  </head>
+  <body class="<%= bodyClass %>">
+    <%- include('partials/general/navbar') %>
+
+    <main class="success-view">
+      <section class="success-card">
+        <div class="success-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+            />
+          </svg>
+        </div>
+
+        <h1 class="success-title">
+          Vielen Dank für Ihr Vertrauen, <%= customerName %>!
+        </h1>
+
+        <p class="success-text">
+          Wir haben Ihre Zahlung über
+          <strong><%= totalAmount %> €</strong> erhalten. <br />
+          Eine Bestätigung Ihrer Bestellung (Nr. #<%= orderId %>) sowie die
+          Rechnung wurden soeben an <em><%= customerEmail %></em> versandt.
+        </p>
+
+        <div
+          class="download-guide-box"
+          style="
+            background: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 12px;
+            text-align: center;
+          "
+        >
+          <h3 style="color: #4a5d38; margin-bottom: 12px">
+            Ein Willkommensgruß aus dem Gargano 🌿
+          </h3>
+          <p style="font-size: 0.95rem; color: #555">
+            Während wir Ihre Bestellung für den Versand vorbereiten, laden wir
+            Sie ein, tiefer in die Welt unseres Olivenöls einzutauchen.
+          </p>
+          <a
+            href="/downloads/guida-promontolio.pdf"
+            class="btn-primary"
+            style="display: inline-block; margin-top: 15px; padding: 12px 25px"
+          >
+            PDF-Guide herunterladen
+          </a>
+        </div>
+
+        <div
+          class="success-actions"
+          style="display: flex; gap: 15px; justify-content: center"
+        >
+          <a href="/blog" class="btn-secondary">Magazin & Rezepte</a>
+          <a href="/" class="btn-primary">Zur Startseite</a>
+        </div>
+      </section>
+    </main>
+
+    <%- include('partials/general/footer') %>
+
+    <script>
+      (function () {
+        // 1. Rimuove il contenuto dal localStorage
+        localStorage.removeItem("promontolio_cart");
+
+        // 2. Forza l'aggiornamento dell'interfaccia (Badge)
+        const cartBadge = document.getElementById("cart-badge");
+        if (cartBadge) {
+          cartBadge.innerText = "0";
+          cartBadge.style.display = "none";
+        }
+
+        // 3. Log di conferma per il debug in fase di test
+        console.log(
+          "Stato Promontolio: Carrello svuotato dopo l'acquisto con successo.",
+        );
+      })();
+    </script>
+  </body>
+</html>
