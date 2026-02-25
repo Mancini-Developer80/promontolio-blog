@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <%- include('partials/head') %>
-    <title>Blog - NodePrincipe</title>
-  </head>
-  <body>
-    <%- include('partials/header') %>
-    <main>
-      <h1>Alerts</h1>
-      <p>Here you can manage alerts for your blog.</p>
-    </main>
-    <%- include('partials/footer') %>
-  </body>
-</html>
+<% if (success_msg && success_msg.length > 0) { %>
+    <div class="alert-container alert-success">
+        <div class="alert-content">
+            <i class="fas fa-check-circle"></i>
+            <span><%= success_msg %></span>
+        </div>
+    </div>
+<% } %>
+
+<% if (error_msg && error_msg.length > 0) { %>
+    <div class="alert-container alert-danger">
+        <div class="alert-content">
+            <i class="fas fa-exclamation-circle"></i>
+            <span><%= error_msg %></span>
+        </div>
+    </div>
+<% } %>

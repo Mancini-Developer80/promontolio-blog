@@ -1,0 +1,217 @@
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+// Palette Admin Professionale (SaaS Style)
+$admin-bg-dark: #0f172a; // Navy/Slate molto profondo
+$admin-accent: #3b82f6; // Blue elettrico moderno
+$admin-border: rgba(255, 255, 255, 0.1);
+$admin-text-muted: #94a3b8;
+
+.dashboard-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 64px; // Altezza standard per tool professionali
+  z-index: 1000;
+  background: $admin-bg-dark;
+  color: $white;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid $admin-border;
+  display: flex;
+  align-items: center;
+
+  .navbar-container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    @include flex-between;
+    padding: 0 $space-lg;
+
+    @include mobile {
+      padding: 0 $space-sm;
+    }
+  }
+
+  .navbar-menu {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .navbar-links {
+    display: flex;
+    gap: $space-xs;
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  .nav-link {
+    color: $admin-text-muted;
+    padding: $space-xs $space-md;
+    border-radius: 6px; // Più squadrato, più moderno
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    @include flex-center;
+    gap: $space-xs;
+    position: relative;
+
+    &:hover {
+      color: $white;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    &.active {
+      color: $white;
+      background-color: rgba($admin-accent, 0.15);
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -18px; // Allineato alla fine della navbar da 64px
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: $admin-accent;
+      }
+    }
+  }
+
+  // --- FIX DROPDOWN (Risolve il problema del testo bianco su bianco) ---
+  .user-info {
+    @include flex-center;
+    gap: $space-md;
+    padding-left: $space-md;
+    border-left: 1px solid $admin-border;
+
+    .dropdown {
+      position: relative;
+
+      .dropdown-toggle {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid $admin-border;
+        border-radius: $radius-pill;
+        color: $white;
+        cursor: pointer;
+        padding: 6px 14px;
+        font-size: 0.85rem;
+        @include flex-center;
+        gap: 8px;
+        transition: $transition;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba($admin-accent, 0.4);
+        }
+      }
+
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: calc(100% + 10px);
+        background: $white; // Sfondo bianco solido
+        min-width: 200px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        padding: 6px; // "Padded menu" style come i moderni OS
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+
+        &.active {
+          display: block;
+          animation: dropdownSlide 0.2s ease-out;
+        }
+
+        .dropdown-header {
+          padding: 10px 12px;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #64748b;
+          font-weight: 700;
+        }
+
+        .dropdown-divider {
+          height: 1px;
+          background: #f1f5f9;
+          margin: 4px 0;
+        }
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 12px;
+          color: #1e293b !important; // TESTO SCURO GARANTITO
+          text-decoration: none;
+          font-size: 0.85rem;
+          border-radius: 4px;
+          transition: background 0.15s;
+
+          &:hover {
+            background: #f1f5f9;
+            color: $admin-accent !important;
+          }
+
+          i {
+            color: #64748b;
+            font-size: 0.9rem;
+            width: 18px;
+            text-align: center;
+          }
+
+          &.logout {
+            color: #ef4444 !important; // Rosso errore standard SaaS
+            &:hover {
+              background: #fef2f2;
+            }
+            i {
+              color: #ef4444;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .mobile-menu-toggle {
+    display: none;
+    @include mobile {
+      display: block;
+    }
+    .mobile-toggle-btn {
+      background: none;
+      border: none;
+      color: $white;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// --- CLASSE DA APPLICARE AL <body> NELLE PAGINE ADMIN ---
+body.admin-page {
+  padding-top: 84px; // Navbar (64) + Spacing (20)
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

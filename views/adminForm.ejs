@@ -1,42 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <%- include('partials/general/head') %>
   </head>
 
-  <body>
-    <!-- prettier-ignore -->
-    <header class="contact-header login">
+  <body class="admin-login-body">
+    <header class="auth-header">
       <%- include('partials/general/navbar.ejs') %>
-      <section class="contact container">
-        <div class="contact-description content login">
-          <h1>Admin Author Login</h1>
-          <p>Please enter your credentials to access the admin panel.</p>
-        </div>
-        <div class="linea login"></div>
-        <div class="contact-form login">
-          <!-- Display error messages -->
-          <% if (typeof error !== 'undefined' && error) { %>
-            <div class="alert alert-error">
-              <%= error %>
-            </div>
-          <% } %>
+      
+      <section class="auth-container">
+        <div class="auth-box">
           
-          <form action="/auth/login" method="POST" class="form login">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" name="username" required />
+          <div class="auth-description">
+            <h1>Promontolio Admin</h1>
+            <p>Accedi al pannello di gestione per il Gargano.</p>
+          </div>
+
+          <div class="auth-form-wrapper">
+            <% if (typeof error !== 'undefined' && error) { %>
+              <div class="alert-box error">
+                <i class="fas fa-exclamation-circle"></i> <%= error %>
+              </div>
+            <% } %>
+            
+            <form action="/auth/login" method="POST" class="auth-form">
+              <div class="auth-field">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Inserisci username" required />
+              </div>
+
+              <div class="auth-field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required />
+              </div>
+             
+              <button class="btn-login" type="submit">Entra nel Pannello</button>
+            </form>
+            
+            <div class="auth-footer">
+              <a href="/">← Torna al sito</a>
             </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" name="password" required />
-            </div>
-           
-            <button class="btn-form" type="submit">Log In</button>
-          </form>
-           
+          </div>
+
+        </div>
+      </section>
     </header>
-    
-   
   </body>
 </html>

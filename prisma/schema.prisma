@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- ENUMS ---
+
+enum UserRole {
+  AUTHOR
+  EDITOR
+  ADMIN
+  SUPER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum Category {
+  OLIVE_OIL_GUIDE
+  RECIPES
+  HEALTH_BENEFITS
+  PRODUCTION
+  NEWS
+}
+
+enum LeadStatus {
+  PENDING
+  CONFIRMED
+  UNSUBSCRIBED
+}
+
+enum MediaCategory {
+  IMAGE
+  DOCUMENT
+  VIDEO
+  AUDIO
+  OTHER
+}
+
+// --- MODELLI ---
+
+model User {
+  id                   Int          @id @default(autoincrement())
+  username             String       @unique
+  email                String       @unique
+  password             String
+  firstName            String?      @db.VarChar(50)
+  lastName             String?      @db.VarChar(50)
+  role                 UserRole     @default(AUTHOR)
+  status               UserStatus   @default(ACTIVE)
+  avatar               String?
+  bio                  String?      @db.VarChar(500)
+  lastLogin            DateTime?
+  loginCount           Int          @default(0)
+  emailVerified        Boolean      @default(false)
+  passwordResetToken   String?
+  passwordResetExpires DateTime?
+  mustChangePassword   Boolean      @default(false)
+  
+  // Relazioni
+  articles             Article[]
+  uploadedMedia        Media[]
+
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+}
+
+model Article {
+  id              Int           @id @default(autoincrement())
+  title           String        @db.VarChar(100)
+  slug            String        @unique
+  content         String        @db.Text
+  excerpt         String?       @db.VarChar(300)
+  status          ArticleStatus @default(DRAFT)
+  category        Category?
+  featuredImage   String?       
+  metaDescription String?       @db.VarChar(160)
+  keywords        String?
+  viewCount       Int           @default(0)
+  
+  authorId        Int
+  author          User          @relation(fields: [authorId], references: [id])
+
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([slug])
+}
+
+model Media {
+  id           Int           @id @default(autoincrement())
+  filename     String        @unique
+  originalName String
+  mimetype     String        // Nota: ho usato 'mimetype' tutto minuscolo come nel tuo primo modello
+  size         Int
+  path         String        // Percorso locale o URL Cloud Storage
+  url          String
+  alt          String        @default("")
+  title        String        @default("")
+  description  String        @default("")
+  category     MediaCategory @default(OTHER)
+  width        Int?
+  height       Int?
+  usageCount   Int           @default(0)
+  tags         String[]      // Supportato nativamente da PostgreSQL!
+
+  // Relazione corretta con l'utente
+  uploadedById Int
+  uploadedBy   User          @relation(fields: [uploadedById], references: [id])
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([category])
+  @@index([mimetype])
+}
+
+model Lead {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  status    LeadStatus @default(PENDING)
+  consent   Boolean    @default(false)
+  source    String     @default("PDF_Guide_Organic_Oil")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Subscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  token     String   @default(uuid())
+  confirmed Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
+model Setting {
+  key       String   @id
+  value     Json     // Questo campo ospiterà tutto l'oggetto settings (site, content, uploads, etc.)
+  updatedAt DateTime @updatedAt
+}

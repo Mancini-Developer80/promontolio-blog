@@ -1,0 +1,57 @@
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $space-md;
+  margin: $space-lg 0;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard-card {
+  background: $white;
+  border-radius: $radius-md;
+  padding: $space-lg;
+  box-shadow: $box-shadow;
+  border-left: 5px solid $primary-color;
+  transition: $transition;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, rgba($primary-color, 0.1), transparent);
+    border-radius: 0 0 0 80px;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $elevation-3;
+  }
+}
+
+.stat-number {
+  font-size: $type-h1;
+  font-weight: 800;
+  color: $primary-color;
+  line-height: 1;
+  margin-bottom: $space-xs;
+}
+
+.stat-label {
+  color: $text-light;
+  font-size: $type-small;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

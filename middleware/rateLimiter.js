@@ -1,17 +1,16 @@
 const rateLimit = require("express-rate-limit");
 
-// General rate limiter for all requests
+// Limitatore generale per proteggere le risorse del server
 const generalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === "production" ? 100 : 500, // Higher limit for development
+  windowMs: 15 * 60 * 1000, // 15 minuti
+  max: process.env.NODE_ENV === "production" ? 100 : 1000,
   message: {
-    error: "Too many requests from this IP, please try again later.",
+    error: "Troppe richieste da questo IP. Riprova più tardi.",
   },
-  standardHeaders: true, // Return rate limit info in headers
-  legacyHeaders: false, // Disable X-RateLimit-* headers
-  // Skip rate limiting for development if needed
+  standardHeaders: true,
+  legacyHeaders: false,
   skip: (req) => {
-    // Skip rate limiting for localhost in development
+    // Non limitiamo il traffico locale in fase di sviluppo (Frankfurt dev)
     return (
       process.env.NODE_ENV !== "production" &&
       (req.ip === "127.0.0.1" ||
@@ -21,46 +20,25 @@ const generalLimiter = rateLimit({
   },
 });
 
-// Strict rate limiter for login attempts
+// Blindaggio per il Login (Cruciale per l'area Admin)
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === "production" ? 5 : 20, // More attempts in development
-  skipSuccessfulRequests: true, // Don't count successful requests
+  windowMs: 15 * 60 * 1000, // 15 minuti
+  max: process.env.NODE_ENV === "production" ? 5 : 30,
+  skipSuccessfulRequests: true, // Se azzecchi la password, il counter non sale
   message: {
-    error:
-      "Too many login attempts from this IP, please try again after 15 minutes.",
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
-  // Skip rate limiting for localhost in development
-  skip: (req) => {
-    return (
-      process.env.NODE_ENV !== "production" &&
-      (req.ip === "127.0.0.1" ||
-        req.ip === "::1" ||
-        req.ip === "::ffff:127.0.0.1")
-    );
-  },
-});
-
-// Rate limiter for password reset
-const passwordResetLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 3, // limit each IP to 3 password reset requests per hour
-  message: {
-    error:
-      "Too many password reset attempts from this IP, please try again after 1 hour.",
+    error: "Troppi tentativi di accesso. Riprova tra 15 minuti.",
   },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
-// Rate limiter for API endpoints
+// Protezione Form Newsletter / Lead Magnet (Hook Guide PDF)
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 50, // limit each IP to 50 API requests per windowMs
+  windowMs: 30 * 60 * 1000, // 30 minuti
+  max: 10, // Evita che bot scarichino la guida PDF centinaia di volte
   message: {
-    error: "Too many API requests from this IP, please try again later.",
+    error:
+      "Hai effettuato troppe richieste per il download della guida. Riprova più tardi.",
   },
   standardHeaders: true,
   legacyHeaders: false,
@@ -69,6 +47,5 @@ const apiLimiter = rateLimit({
 module.exports = {
   generalLimiter,
   loginLimiter,
-  passwordResetLimiter,
   apiLimiter,
 };

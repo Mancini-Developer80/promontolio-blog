@@ -1,20 +1,26 @@
 {
-  "name": "roccia_del_principe",
+  "name": "Promontolio",
   "version": "1.0.0",
   "description": "Web site to promote the product and collect data for the dashboard",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "build": "npm run build:sass",
+    "build": "npm run build:sass && npx prisma generate",
     "build:sass": "sass sass:public/css --style=compressed",
     "watch:sass": "sass sass:public/css --watch --no-source-map",
     "dev": "nodemon app.js",
-    "dev:all": "concurrently \"npm run dev\" \"npm run watch:sass\"",
-    "setup": "node scripts/createSuperuser.js"
+    "dev:all": "npm run docker:up && concurrently \"npm run dev\" \"npm run watch:sass\"",
+    "docker:up": "docker-compose up -d",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio",
+    "setup": "npm run docker:up && npm run db:migrate && node scripts/createSuperuser.js",
+    "audit:ai": "python3 ai_audit_tool.py"
   },
   "author": "Giuseppe Mancini",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.19.2",
+    "@quixo3/prisma-session-store": "^3.1.19",
     "bcryptjs": "^3.0.2",
     "compression": "^1.8.1",
     "connect-flash": "^0.1.1",
@@ -40,6 +46,7 @@
   "devDependencies": {
     "concurrently": "^9.2.0",
     "nodemon": "^3.1.10",
+    "prisma": "^6.19.2",
     "sass": "^1.90.0"
   }
 }

@@ -1,47 +1,55 @@
 require("dotenv").config();
-const mongoose = require("mongoose");
-const User = require("../models/User");
+const { PrismaClient } = require("@prisma/client");
+const bcrypt = require("bcryptjs");
+const prisma = new PrismaClient();
 
 async function createSuperuser() {
   try {
-    // Prevent running in production
+    // 1. Impedisci l'esecuzione in produzione se necessario
     if (process.env.NODE_ENV === "production") {
-      console.log("❌ This script should not be run in production!");
-      process.exit(1);
+      console.log("❌ Questo script non deve essere eseguito in produzione!");
+      return;
     }
 
-    // Connect to MongoDB
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+    console.log("Connessione a PostgreSQL tramite Prisma...");
+
+    // 2. Controlla se il superuser esiste già (Role deve essere MAIUSCOLO)
+    const existingSuperuser = await prisma.user.findFirst({
+      where: { role: "SUPER" },
     });
 
-    console.log("Connected to MongoDB...");
-
-    // Check if superuser already exists
-    const existingSuperuser = await User.findOne({ role: "super" });
     if (existingSuperuser) {
-      console.log("Superuser already exists:", existingSuperuser.username);
-      process.exit(0);
+      console.log("Il Superuser esiste già:", existingSuperuser.username);
+      return;
     }
 
-    // Create superuser
-    const superuser = new User({
-      username: process.env.SUPER_USERNAME || "admin",
-      email: process.env.SUPER_EMAIL || "admin@example.com",
-      password: process.env.SUPER_PASSWORD || "changeThisPassword123!",
-      role: "super",
+    // 3. Prepara i dati (Hash della password fondamentale per Passport)
+    const rawPassword = process.env.SUPER_PASSWORD || "admin123";
+    const hashedPassword = await bcrypt.hash(rawPassword, 12);
+
+    // 4. Crea il superuser su Postgres
+    const superuser = await prisma.user.create({
+      data: {
+        username: process.env.SUPER_USERNAME || "admin",
+        email: process.env.SUPER_EMAIL || "admin@promontolio.it",
+        password: hashedPassword,
+        role: "SUPER", // Coerente con schema.prisma
+        status: "ACTIVE",
+        firstName: "Admin",
+        lastName: "Promontolio",
+      },
     });
 
-    await superuser.save();
-    console.log("✅ Superuser created successfully!");
-    console.log("Username: admin");
-    console.log("Password: admin123");
-    console.log("⚠️  Remember to change the password after first login!");
+    console.log("✅ Superuser creato con successo su PostgreSQL!");
+    console.log(`Username: ${superuser.username}`);
+    console.log(`Password: (quella definita in .env o 'admin123')`);
   } catch (error) {
-    console.error("❌ Error creating superuser:", error.message);
+    console.error(
+      "❌ Errore durante la creazione del superuser:",
+      error.message,
+    );
   } finally {
-    mongoose.connection.close();
+    await prisma.$disconnect();
   }
 }
 

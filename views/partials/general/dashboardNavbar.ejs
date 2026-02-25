@@ -1,167 +1,88 @@
-<!-- Font Awesome CDN -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-/>
-
-<!-- Dashboard Navbar -->
 <nav class="dashboard-navbar">
   <div class="navbar-container">
+    <a href="/admin/dashboard" class="nav-logo">
+      <strong>Promontolio</strong> <span>Admin</span>
+    </a>
+
     <div class="navbar-menu">
       <div class="navbar-links">
         <a
           href="/admin/dashboard"
-          class="nav-link <%= currentRoute === '/admin/dashboard' ? 'active' : '' %>"
-          title="Dashboard Overview"
+          class="nav-link <%= (locals.path && path === '/admin/dashboard') ? 'active' : '' %>"
         >
-          <i class="fas fa-tachometer-alt"></i>
-          <span>Dashboard</span>
+          <i class="fas fa-chart-line"></i> Dashboard
         </a>
         <a
           href="/admin/blog"
-          class="nav-link <%= currentRoute.startsWith('/admin/blog') ? 'active' : '' %>"
-          title="Manage Blog Posts"
+          class="nav-link <%= (locals.path && path.includes('/admin/blog')) ? 'active' : '' %>"
         >
-          <i class="fas fa-edit"></i>
-          <span>Blog Posts</span>
-        </a>
-        <a
-          href="/admin/media"
-          class="nav-link <%= currentRoute.startsWith('/admin/media') ? 'active' : '' %>"
-          title="Media Library"
-        >
-          <i class="fas fa-images"></i>
-          <span>Media</span>
+          <i class="fas fa-edit"></i> Blog Posts
         </a>
         <a
           href="/admin/users"
-          class="nav-link <%= currentRoute.startsWith('/admin/users') ? 'active' : '' %>"
-          title="User Management"
+          class="nav-link <%= (locals.path && path === '/admin/users') ? 'active' : '' %>"
         >
-          <i class="fas fa-users"></i>
-          <span>Users</span>
+          <i class="fas fa-users"></i> Users
         </a>
-        <a
-          href="/blog"
-          class="nav-link view-site"
-          target="_blank"
-          title="View Public Website"
-        >
-          <i class="fas fa-external-link-alt"></i>
-          <span>View Site</span>
+        <a href="/" class="nav-link external" target="_blank">
+          <i class="fas fa-external-link-alt"></i> Sito
         </a>
       </div>
 
       <div class="user-info">
-        <div class="user-details">
-          <span class="user-name"> <%= user.username %> </span>
-        </div>
-        <div class="user-actions">
-          <div class="dropdown">
-            <button class="dropdown-toggle" id="userDropdown" title="User Menu">
-              <i class="fas fa-chevron-down"></i>
-            </button>
-            <div class="dropdown-menu">
-              <div class="dropdown-header">
-                <span class="user-role-indicator">
-                  <i class="fas fa-crown" style="color: #ffd700"></i>
-                  <%= user.role.toUpperCase() %>
-                </span>
-              </div>
-              <hr class="dropdown-divider" />
-              <a href="/admin/profile" class="dropdown-item">
-                <i class="fas fa-user-edit"></i>
-                Profile
-              </a>
-              <a href="/admin/settings" class="dropdown-item">
-                <i class="fas fa-cogs"></i>
-                Settings
-              </a>
-              <hr class="dropdown-divider" />
-              <a href="/auth/logout" class="dropdown-item logout">
-                <i class="fas fa-sign-out-alt"></i>
-                Logout
-              </a>
-            </div>
+        <div class="dropdown">
+          <button class="dropdown-toggle" id="dropdownBtn" type="button">
+            <i class="fas fa-user-circle"></i>
+            <span><%= (locals.user) ? user.username : 'Admin' %></span>
+            <i class="fas fa-chevron-down" style="font-size: 0.7rem"></i>
+          </button>
+
+          <div id="userDropdown" class="dropdown-menu">
+            <div class="dropdown-header">Account</div>
+            <a href="/admin/profile" class="dropdown-item">
+              <i class="fas fa-id-card"></i> Il mio Profilo
+            </a>
+            <a href="/admin/settings" class="dropdown-item">
+              <i class="fas fa-cog"></i> Impostazioni
+            </a>
+
+            <div class="dropdown-divider"></div>
+
+            <a href="/auth/logout" class="dropdown-item logout">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Mobile Menu Toggle -->
-    <div class="mobile-menu-toggle">
-      <button class="mobile-toggle-btn" id="mobileMenuBtn">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-links">
-      <a href="/admin/dashboard" class="mobile-nav-link">
-        <i class="fas fa-tachometer-alt"></i>
-        Dashboard
-      </a>
-      <a href="/admin/blog" class="mobile-nav-link">
-        <i class="fas fa-edit"></i>
-        Blog Posts
-      </a>
-      <a href="/admin/media" class="mobile-nav-link">
-        <i class="fas fa-images"></i>
-        Media
-      </a>
-      <a href="/admin/users" class="mobile-nav-link">
-        <i class="fas fa-users"></i>
-        Users
-      </a>
-      <a href="/blog" class="mobile-nav-link" target="_blank">
-        <i class="fas fa-external-link-alt"></i>
-        View Site
-      </a>
-      <hr class="mobile-divider" />
-      <a href="/auth/logout" class="mobile-nav-link logout">
-        <i class="fas fa-sign-out-alt"></i>
-        Logout
-      </a>
     </div>
   </div>
 </nav>
 
 <script>
-  // Mobile menu functionality only (dropdown handled by script.js)
-  console.log("Navbar script loading...");
+  (function () {
+    const initDropdown = () => {
+      const btn = document.getElementById("dropdownBtn");
+      const menu = document.getElementById("userDropdown");
 
-  // Function to initialize mobile menu
-  function initMobileMenu() {
-    console.log("Initializing mobile menu...");
+      if (btn && menu) {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          menu.classList.toggle("active");
+        });
 
-    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
-    const mobileMenu = document.getElementById("mobileMenu");
+        document.addEventListener("click", function (e) {
+          if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove("active");
+          }
+        });
+      }
+    };
 
-    // Mobile menu toggle
-    if (mobileMenuBtn && mobileMenu) {
-      console.log("Mobile menu elements found");
-      mobileMenuBtn.addEventListener("click", function () {
-        mobileMenu.classList.toggle("active");
-        const icon = mobileMenuBtn.querySelector("i");
-        if (icon) {
-          icon.classList.toggle("fa-bars");
-          icon.classList.toggle("fa-times");
-        }
-      });
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initDropdown);
     } else {
-      console.log("Mobile menu elements not found");
+      initDropdown();
     }
-  }
-
-  // Initialize when DOM is ready
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initMobileMenu);
-  } else {
-    // DOM is already ready
-    setTimeout(initMobileMenu, 100);
-  }
-
-  console.log("Navbar script loaded - dropdown handled by script.js");
+  })();
 </script>

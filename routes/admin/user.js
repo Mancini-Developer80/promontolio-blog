@@ -1,69 +1,81 @@
 ﻿const express = require("express");
 const router = express.Router();
 const userController = require("../../controllers/userController");
-const upload = require("../../middleware/upload");
+const upload = require("../../middleware/upload"); // Middleware per avatar
 const ensureAuth = require("../../middleware/ensureAuth");
 const ensureRole = require("../../middleware/ensureRole");
 
-// List users (admin or super)
-router.get("/", ensureAuth, userController.adminList);
+/* ── PROFILO PERSONALE (Accessibile a tutti gli utenti loggati) ── */
 
-// Show "New User" form
+// Visualizza il proprio profilo
+router.get("/profile", ensureAuth, userController.getProfile);
+
+// Aggiorna il proprio profilo (con upload avatar opzionale)
+router.post(
+  "/profile",
+  ensureAuth,
+  upload.single("avatar"),
+  userController.updateProfile,
+);
+
+/* ── MANAGEMENT UTENTI (Admin & Super Only) ─────────────────────── */
+
+// Elenco utenti
+router.get(
+  "/",
+  ensureAuth,
+  ensureRole(["admin", "super"]),
+  userController.adminList,
+);
+
+// Form e creazione nuovo utente
 router.get(
   "/new",
   ensureAuth,
   ensureRole(["admin", "super"]),
-  userController.newForm
+  userController.newForm,
 );
-
-// Create user (with file upload)
 router.post(
   "/new",
   ensureAuth,
   ensureRole(["admin", "super"]),
   upload.single("avatar"),
-  userController.create
+  userController.create,
 );
 
-// Edit user form
+// Form e aggiornamento utente specifico
 router.get(
   "/:id/edit",
   ensureAuth,
   ensureRole(["admin", "super"]),
-  userController.editForm
+  userController.editForm,
 );
-
-// Update user (with file upload)
 router.post(
   "/:id/edit",
   ensureAuth,
   ensureRole(["admin", "super"]),
   upload.single("avatar"),
-  userController.update
+  userController.update,
 );
 
-// Delete user
+// Azioni rapide (Delete, Reset, Toggle)
 router.post(
   "/:id/delete",
   ensureAuth,
   ensureRole(["admin", "super"]),
-  userController.remove
+  userController.remove,
 );
-
-// Reset user password
 router.post(
   "/:id/reset-password",
   ensureAuth,
   ensureRole(["admin", "super"]),
-  userController.resetPassword
+  userController.resetPassword,
 );
-
-// Toggle user status
 router.post(
   "/:id/toggle-status",
   ensureAuth,
   ensureRole(["admin", "super"]),
-  userController.toggleStatus
+  userController.toggleStatus,
 );
 
 module.exports = router;

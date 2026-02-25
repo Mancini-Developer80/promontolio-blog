@@ -1,0 +1,55 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.admin-table-container {
+  background: $white;
+  border-radius: $radius-md;
+  box-shadow: $elevation-2;
+  margin: $space-lg 0;
+  overflow-x: auto; // Fondamentale per il responsive
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th,
+  td {
+    padding: $space-sm $space-md;
+    border-bottom: 1px solid $color-disabled-bg;
+  }
+
+  th {
+    background-color: $bg-light;
+    color: $primary-color;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: $type-small;
+  }
+
+  tr:hover {
+    background-color: rgba($primary-color, 0.02);
+  }
+
+  // Badge di stato (es. ADMIN, USER, ACTIVE)
+  .badge {
+    padding: $space-xs $space-sm;
+    border-radius: $radius-pill;
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    &.badge-admin {
+      background: $secondary-color;
+      color: $white;
+    }
+    &.badge-user {
+      background: $primary-color;
+      color: $white;
+    }
+    &.badge-active {
+      background: $color-success;
+      color: $white;
+    }
+  }
+}

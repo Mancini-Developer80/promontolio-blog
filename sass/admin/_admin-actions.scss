@@ -1,0 +1,48 @@
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: $space-sm;
+  margin: $space-lg 0;
+}
+
+.btn-admin {
+  @include flex-center;
+  padding: $space-sm $space-md;
+  border-radius: $radius-md;
+  font-weight: 600;
+  transition: $transition;
+  cursor: pointer;
+  border: none;
+  gap: $space-xs;
+  box-shadow: $elevation-1;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $elevation-2;
+  }
+
+  &.btn-create {
+    background: $color-success;
+    color: $white;
+  }
+  &.btn-danger {
+    background: $color-error;
+    color: $white;
+  }
+  &.btn-info {
+    background: #17a2b8;
+    color: $white;
+  }
+  &.btn-gold {
+    background: $secondary-color;
+    color: $white;
+  }
+
+  @include mobile {
+    width: 100%;
+  }
+}

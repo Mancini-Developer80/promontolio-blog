@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ensureAuth = require("../../middleware/ensureAuth");
 const ensureRole = require("../../middleware/ensureRole");
-const mediaUpload = require("../../middleware/mediaUpload");
+const { mediaUpload } = require("../../middleware/mediaUpload");
 const mediaController = require("../../controllers/mediaController");
 
 // All routes require authentication
@@ -21,14 +21,14 @@ router.get("/:id", mediaController.mediaDetailsView);
 router.post(
   "/upload",
   mediaUpload.single("mediaFile"),
-  mediaController.uploadMedia
+  mediaController.uploadMedia,
 );
 
 // Multiple file upload
 router.post(
   "/upload-multiple",
-  mediaUpload.multiple("mediaFiles", 10),
-  mediaController.uploadMedia
+  mediaUpload.array("mediaFiles", 10),
+  mediaController.uploadMedia,
 );
 
 // Get media details (API)

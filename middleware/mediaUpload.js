@@ -2,230 +2,119 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const sharp = require("sharp");
-const Media = require("../models/Media");
+const prisma = require("../db"); // Il nostro client Prisma
 
-// Create upload directories if they don't exist
+// 1. Creazione directory (Invariata)
 const createUploadDirs = () => {
   const dirs = [
-    "./public/media",
     "./public/media/images",
     "./public/media/documents",
-    "./public/media/videos",
-    "./public/media/audio",
     "./public/media/thumbnails",
   ];
-
   dirs.forEach((dir) => {
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   });
 };
-
-// Initialize directories
 createUploadDirs();
 
-// Enhanced storage configuration for media library
+// 2. Configurazione Storage (Organizzata)
 const mediaStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    let uploadPath = "./public/media";
-
-    // Organize files by type
-    if (file.mimetype.startsWith("image/")) {
-      uploadPath += "/images";
-    } else if (file.mimetype.startsWith("video/")) {
-      uploadPath += "/videos";
-    } else if (file.mimetype.startsWith("audio/")) {
-      uploadPath += "/audio";
-    } else {
-      uploadPath += "/documents";
-    }
-
+    let uploadPath = "./public/media/documents";
+    if (file.mimetype.startsWith("image/"))
+      uploadPath = "./public/media/images";
     cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
-    // Generate unique filename with timestamp
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const extension = path.extname(file.originalname);
     const baseName = path
       .basename(file.originalname, extension)
       .replace(/[^a-zA-Z0-9]/g, "-")
       .substring(0, 50);
-
-    const filename = `${baseName}-${uniqueSuffix}${extension}`;
-    cb(null, filename);
+    cb(null, `${baseName}-${uniqueSuffix}${extension}`);
   },
 });
 
-// Enhanced file filter for media library
-const mediaFileFilter = (req, file, cb) => {
-  const allowedTypes = [
-    // Images
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/gif",
-    "image/webp",
-    "image/svg+xml",
-    // Documents
-    "application/pdf",
-    "application/msword",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "application/vnd.ms-excel",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "text/plain",
-    "text/csv",
-    // Videos
-    "video/mp4",
-    "video/webm",
-    "video/ogg",
-    // Audio
-    "audio/mpeg",
-    "audio/wav",
-    "audio/ogg",
-  ];
-
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error(`File type ${file.mimetype} is not allowed!`), false);
-  }
-};
-
-// Configure enhanced multer for media library
 const mediaUpload = multer({
   storage: mediaStorage,
-  fileFilter: mediaFileFilter,
-  limits: {
-    fileSize: 50 * 1024 * 1024, // 50MB limit
-  },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB sono sufficienti per Promontolio
 });
 
-// Middleware to process uploaded files and save to database
-const processMediaUpload = async (req, res, next) => {
-  if (!req.file) {
-    return next();
+// 3. Processore Media con salvataggio su PostgreSQL via Prisma
+// ... (mantiene i punti 1 e 2 uguali)
+
+// 3. Processore Media (Refactored per gestire file singoli e multipli)
+const processMedia = async (file, req) => {
+  let dimensions = null;
+  let category = file.mimetype.startsWith("image/") ? "IMAGE" : "DOCUMENT";
+
+  if (category === "IMAGE") {
+    const metadata = await sharp(file.path).metadata();
+    dimensions = { width: metadata.width, height: metadata.height };
+
+    const thumbName = "thumb-" + file.filename;
+    await sharp(file.path)
+      .resize(300, 300, { fit: "cover" })
+      .jpeg({ quality: 80 })
+      .toFile(path.join("./public/media/thumbnails", thumbName));
   }
 
-  try {
-    let dimensions = {};
-    let category = "other";
-
-    // Determine category based on mimetype
-    if (req.file.mimetype.startsWith("image/")) {
-      category = "image";
-
-      // Get image dimensions using sharp
-      try {
-        const metadata = await sharp(req.file.path).metadata();
-        dimensions = {
-          width: metadata.width,
-          height: metadata.height,
-        };
-
-        // Generate thumbnail for images
-        const thumbnailPath = path.join(
-          "./public/media/thumbnails",
-          "thumb-" + req.file.filename
-        );
-
-        await sharp(req.file.path)
-          .resize(300, 300, { fit: "cover" })
-          .jpeg({ quality: 80 })
-          .toFile(thumbnailPath);
-      } catch (error) {
-        console.log("Error processing image:", error);
-      }
-    } else if (req.file.mimetype.startsWith("video/")) {
-      category = "video";
-    } else if (req.file.mimetype.startsWith("audio/")) {
-      category = "audio";
-    } else {
-      category = "document";
-    }
-
-    // Create media record in database
-    const mediaRecord = new Media({
-      filename: req.file.filename,
-      originalName: req.file.originalname,
-      mimetype: req.file.mimetype,
-      size: req.file.size,
-      path: req.file.path,
-      url: req.file.path.replace("./public", ""),
-      category,
-      dimensions: Object.keys(dimensions).length > 0 ? dimensions : undefined,
-      uploadedBy: req.user._id,
+  return await prisma.media.create({
+    data: {
+      filename: file.filename,
+      originalName: file.originalname,
+      mimetype: file.mimetype,
+      size: file.size,
+      path: file.path,
+      url: file.path.replace("public", "").replace(/\\/g, "/"),
+      category: category,
+      width: dimensions?.width,
+      height: dimensions?.height,
+      uploadedBy: req.user.id,
       alt: req.body.alt || "",
-      title: req.body.title || req.file.originalname,
-      description: req.body.description || "",
-      tags: req.body.tags
-        ? req.body.tags.split(",").map((tag) => tag.trim())
-        : [],
-    });
+      title: req.body.title || file.originalname,
+    },
+  });
+};
 
-    await mediaRecord.save();
-
-    // Add media record to request for further processing
-    req.mediaRecord = mediaRecord;
-    next();
-  } catch (error) {
-    console.error("Error processing media upload:", error);
-
-    // Clean up uploaded file if database save fails
-    if (fs.existsSync(req.file.path)) {
-      fs.unlinkSync(req.file.path);
+// Middleware per carichi singoli
+const single = (fieldName) => async (req, res, next) => {
+  const upload = mediaUpload.single(fieldName);
+  upload(req, res, async (err) => {
+    if (err) return next(err);
+    if (!req.file) return next();
+    try {
+      req.mediaRecord = await processMedia(req.file, req);
+      next();
+    } catch (error) {
+      next(error);
     }
+  });
+};
 
-    res.status(500).json({
-      success: false,
-      message: "Error processing uploaded file",
-      error: error.message,
+// Middleware per carichi multipli (QUELLO CHE MANCAVA!)
+const array =
+  (fieldName, maxCount = 10) =>
+  async (req, res, next) => {
+    const upload = mediaUpload.array(fieldName, maxCount);
+    upload(req, res, async (err) => {
+      if (err) return next(err);
+      if (!req.files || req.files.length === 0) return next();
+      try {
+        req.mediaRecords = await Promise.all(
+          req.files.map((file) => processMedia(file, req)),
+        );
+        next();
+      } catch (error) {
+        next(error);
+      }
     });
-  }
-};
+  };
 
-// Legacy upload (for backward compatibility)
-const legacyStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/image");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
-  },
-});
-
-const legacyFileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only image files are allowed!"), false);
-  }
-};
-
-const legacyUpload = multer({
-  storage: legacyStorage,
-  fileFilter: legacyFileFilter,
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit for legacy uploads
-  },
-});
-
+// Esportazione coerente con routes/admin/media.js
 module.exports = {
-  // New media library upload
-  single: (fieldName) => [mediaUpload.single(fieldName), processMediaUpload],
-  multiple: (fieldName, maxCount = 10) => [
-    mediaUpload.array(fieldName, maxCount),
-    processMediaUpload,
-  ],
-
-  // Legacy upload (for backward compatibility)
-  legacy: legacyUpload,
-
-  // Direct multer instance for custom handling
-  mediaUpload,
-  processMediaUpload,
+  single,
+  array,
+  mediaUpload, // Esportiamo anche l'istanza base se servisse
 };

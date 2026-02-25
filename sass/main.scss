@@ -27,9 +27,20 @@
 @use "pages/contact";
 @use "pages/blog";
 @use "pages/product";
-@use "pages/dashboard";
+// @use "pages/dashboard";
+@use "pages/adminLogin";
 @use "pages/success";
 @use "pages/thanks";
 @use "pages/legal";
 @use "pages/notfound";
 @use "pages/landingPage";
+
+@use "admin/admin-navbar";
+@use "admin/admin-alerts";
+@use "admin/admin-footer";
+@use "admin/admin-cards";
+@use "admin/admin-tables";
+@use "admin/admin-forms";
+@use "admin/admin-actions";
+@use "admin/admin-dashboard";
+@use "admin/admin-charts";

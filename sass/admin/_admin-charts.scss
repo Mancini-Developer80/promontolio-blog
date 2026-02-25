@@ -1,0 +1,27 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: $space-lg;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-box {
+  background: $white;
+  padding: $space-md;
+  border-radius: $radius-md;
+  box-shadow: $box-shadow;
+  border: 1px solid $color-disabled-bg;
+
+  .chart-header {
+    @include flex-between;
+    margin-bottom: $space-md;
+    border-bottom: 2px solid $bg-light;
+    padding-bottom: $space-xs;
+  }
+}

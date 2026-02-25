@@ -1,0 +1,91 @@
+.admin-login-body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e3822 0%, #2d5a27 45%, #a3b18a 100%);
+  background-attachment: fixed;
+}
+.admin-login-body .auth-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.admin-login-body .auth-box {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.admin-login-body .auth-description {
+  margin-bottom: 2rem;
+}
+.admin-login-body .auth-description h1 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+.admin-login-body .auth-description p {
+  color: #7f8c8d;
+}
+.admin-login-body .auth-field {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+.admin-login-body .auth-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #34495e;
+}
+.admin-login-body .auth-field input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #dcdde1;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+.admin-login-body .auth-field input:focus {
+  outline: none;
+  border-color: #27ae60;
+}
+.admin-login-body .btn-login {
+  width: 100%;
+  padding: 1rem;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.admin-login-body .btn-login:hover {
+  background-color: #219150;
+}
+.admin-login-body .alert-box.error {
+  background-color: #fab1a0;
+  color: #c0392b;
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+.admin-login-body .auth-footer {
+  margin-top: 1.5rem;
+}
+.admin-login-body .auth-footer a {
+  color: #7f8c8d;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.admin-login-body .auth-footer a:hover {
+  text-decoration: underline;
+}

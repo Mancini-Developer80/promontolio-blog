@@ -1,0 +1,141 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.admin-page {
+  padding-top: 100px; // Aumentato per la nuova navbar fixed
+  background-color: #f8fafc; // Grigio chiarissimo SaaS invece del crema
+  min-height: 100vh;
+}
+
+.admin-page-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: $space-lg;
+
+  @include mobile {
+    padding: $space-sm;
+  }
+}
+
+// --- NUOVE CLASSI MANCANTI ---
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: $space-md;
+  margin-bottom: $space-xl;
+}
+
+.admin-card {
+  background: $white;
+  padding: $space-md;
+  border-radius: $radius-md;
+  border: 1px solid #e2e8f0;
+  box-shadow: $elevation-1;
+
+  .stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3b82f6; // Blue Indigo professionale
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: $type-small;
+    color: $text-light;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-lg;
+  margin-bottom: $space-xl;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-box {
+  background: $white;
+  border-radius: $radius-md;
+  padding: $space-md;
+  border: 1px solid #e2e8f0;
+
+  .chart-header {
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: $space-md;
+    padding-bottom: $space-xs;
+    h3 {
+      font-size: 1rem;
+      color: $font-dark;
+    }
+  }
+}
+
+.chart-container {
+  height: 300px;
+  position: relative;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+  margin-top: $space-md;
+}
+
+.btn-admin {
+  padding: $space-xs $space-md;
+  border-radius: $radius-sm;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: $type-small;
+  transition: $transition;
+
+  &.btn-create {
+    background: #3b82f6;
+    color: $white;
+  }
+  &.btn-gold {
+    background: $primary-color;
+    color: $white;
+  }
+  &.btn-info {
+    background: #f1f5f9;
+    color: $font-dark;
+    border: 1px solid #e2e8f0;
+  }
+  &.btn-danger {
+    background: #fee2e2;
+    color: #ef4444;
+  }
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+}
+
+// Tua classe esistente migliorata
+.admin-article-card {
+  background: #f8fafc;
+  border-radius: $radius-sm;
+  padding: $space-sm;
+  margin-bottom: $space-xs;
+  border-left: 4px solid #3b82f6;
+  @include flex-between;
+
+  h4 {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  span {
+    font-size: 0.8rem;
+    color: $text-light;
+  }
+}

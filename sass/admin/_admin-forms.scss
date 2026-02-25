@@ -1,0 +1,70 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+// assets/scss/partials/_admin-forms.scss
+
+.admin-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.form-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border-left: 5px solid #556b2f; // Verde Oliva Promontolio
+
+  .form-header {
+    background: #f8f9fa;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #eee;
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+  }
+
+  .form-body {
+    padding: 2rem;
+  }
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #444;
+  }
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+    &:focus {
+      border-color: #556b2f;
+      outline: none;
+    }
+  }
+}
+
+// Stile per Quill Editor
+#editor-container {
+  height: 400px;
+  margin-bottom: 1rem;
+  .ql-toolbar {
+    background: #f8f9fa;
+    border-radius: 4px 4px 0 0;
+  }
+  .ql-container {
+    border-radius: 0 0 4px 4px;
+  }
+}

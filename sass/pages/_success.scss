@@ -1,3 +1,5 @@
+@use "sass:color";
+@use "../abstracts/variables" as *;
 .success-view {
   display: flex;
   justify-content: center;
@@ -60,7 +62,7 @@
           background-color 0.2s;
 
         &:hover {
-          background-color: darken(#556b2f, 10%);
+          background-color: color.adjust(#556b2f, $lightness: -10%);
           transform: translateY(-2px);
         }
       }
