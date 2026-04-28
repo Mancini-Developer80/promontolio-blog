@@ -9,10 +9,11 @@ const mediaLibrary = async (req, res) => {
     const limit = parseInt(req.query.limit) || 20;
     const category = req.query.category || undefined;
     const search = req.query.search || "";
+    const sort = req.query.sort || "newest";
     const skip = (page - 1) * limit;
 
     let where = {};
-    if (category) where.category = category;
+    if (category) where.category = category.toUpperCase();
     if (search) {
       where.OR = [
         { originalName: { contains: search, mode: "insensitive" } },
@@ -20,12 +21,21 @@ const mediaLibrary = async (req, res) => {
       ];
     }
 
+    const sortMap = {
+      newest: { createdAt: "desc" },
+      oldest: { createdAt: "asc" },
+      name: { originalName: "asc" },
+      size: { size: "desc" },
+      usage: { usageCount: "desc" },
+    };
+    const orderBy = sortMap[sort] || sortMap.newest;
+
     // Usiamo mediaFiles per evitare conflitti di nomi con l'oggetto globale media
     const [mediaFiles, totalMedia] = await Promise.all([
       prisma.media.findMany({
         where,
         include: { uploadedBy: { select: { username: true } } },
-        orderBy: { createdAt: "desc" },
+        orderBy,
         skip,
         take: limit,
       }),
@@ -45,18 +55,43 @@ const mediaLibrary = async (req, res) => {
       0,
     );
 
+    // Normalizzazione per il template (enum uppercase → lowercase, computed fields)
+    const formatSize = (bytes) => {
+      if (!bytes) return "0 B";
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    };
+    const processedMedia = mediaFiles.map((item) => ({
+      ...item,
+      category: item.category.toLowerCase(),
+      fileType: item.mimetype.split("/")[1] || item.category.toLowerCase(),
+      formattedSize: formatSize(item.size),
+    }));
+
     res.render("admin/mediaLibrary", {
-      title: "Media Library", // Titolo per head.ejs
-      media: mediaFiles, // Passiamo mediaFiles come 'media' per il template
-      stats,
-      totalSize, // Risolve il crash alla riga 474
+      title: "Media Library",
+      media: processedMedia,
+      stats: stats.map((s) => ({
+        _id: s.category.toLowerCase(),
+        count: s._count._all,
+      })),
+      totalSize,
       totalMedia,
       currentRoute: "/admin/media",
       pagination: {
         current: page,
         total: Math.ceil(totalMedia / limit),
+        hasPrev: page > 1,
+        hasNext: page < Math.ceil(totalMedia / limit),
+        prev: page - 1,
+        next: page + 1,
       },
-      filters: { category, search },
+      filters: {
+        category: category || "",
+        search,
+        sort: req.query.sort || "newest",
+      },
       user: req.user,
     });
   } catch (error) {
@@ -130,7 +165,7 @@ const getMediaDetails = async (req, res) => {
     });
 
     if (!mediaItem) {
-      return res.status(440).json({ error: "File non trovato." });
+      return res.status(404).json({ error: "File non trovato." });
     }
 
     // Rispondiamo con un JSON perché solitamente questa chiamata
@@ -208,7 +243,7 @@ const updateMedia = async (req, res) => {
     });
 
     req.flash("success", "Dati multimediali aggiornati correttamente!");
-    res.redirect(`/admin/media/details/${id}`);
+    res.redirect(`/admin/media/${id}`);
   } catch (error) {
     console.error("Error updating media details:", error);
     req.flash("error", "Errore durante l'aggiornamento dei dati.");

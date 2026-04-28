@@ -31,82 +31,6 @@
         gap: 0.5rem;
       }
 
-      /* Fix dropdown functionality */
-      .dropdown {
-        position: relative;
-      }
-
-      .dropdown-toggle {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 2px solid rgba(255, 255, 255, 0.2) !important;
-        color: white !important;
-        padding: 0.75rem;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .dropdown-toggle:hover {
-        background: rgba(255, 255, 255, 0.2) !important;
-        transform: rotate(90deg);
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        min-width: 200px;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-        z-index: 1000;
-        margin-top: 0.5rem;
-      }
-
-      .dropdown.active .dropdown-menu {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-
-      .dropdown-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1rem;
-        color: #333;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        font-size: 0.9rem;
-      }
-
-      .dropdown-item:hover {
-        background-color: #f8f9fa;
-        color: #3498db;
-      }
-
-      .dropdown-item.logout {
-        color: #dc3545;
-      }
-
-      .dropdown-item.logout:hover {
-        background-color: #dc3545;
-        color: white;
-      }
-
-      .dropdown-divider {
-        margin: 0.5rem 0;
-        border: none;
-        border-top: 1px solid #eee;
-      }
-
       .filter-tabs {
         display: flex;
         gap: 1rem;
@@ -382,13 +306,13 @@
       }
     </style>
   </head>
-  <body>
+  <body class="admin-page">
     <%- include('../partials/general/dashboardNavbar') %>
 
-    <div class="admin-content">
+    <main class="admin-page-content">
       <!-- Page Header -->
-      <div class="page-header">
-        <h1 class="page-title">
+      <header class="admin-header">
+        <h1 class="form-title">
           <i class="fas fa-newspaper"></i>
           Manage Blog Posts
         </h1>
@@ -396,31 +320,39 @@
           <i class="fas fa-plus"></i>
           Create New Post
         </a>
-      </div>
+      </header>
 
       <!-- Statistics -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-number">
-            <%= articles.filter(a => a.status === 'published').length %>
+      <div class="dashboard-grid">
+        <div class="admin-card">
+          <div class="card-content" style="text-align:center">
+            <div class="stat-number">
+              <%= articles.filter(a => a.status === 'PUBLISHED').length %>
+            </div>
+            <p class="stat-label">Published Posts</p>
           </div>
-          <p class="stat-label">Published Posts</p>
         </div>
-        <div class="stat-card">
-          <div class="stat-number">
-            <%= articles.filter(a => a.status === 'draft').length %>
+        <div class="admin-card">
+          <div class="card-content" style="text-align:center">
+            <div class="stat-number">
+              <%= articles.filter(a => a.status === 'DRAFT').length %>
+            </div>
+            <p class="stat-label">Draft Posts</p>
           </div>
-          <p class="stat-label">Draft Posts</p>
         </div>
-        <div class="stat-card">
-          <div class="stat-number">
-            <%= articles.reduce((sum, a) => sum + (a.viewCount || 0), 0) %>
+        <div class="admin-card">
+          <div class="card-content" style="text-align:center">
+            <div class="stat-number">
+              <%= articles.reduce((sum, a) => sum + (a.viewCount || 0), 0) %>
+            </div>
+            <p class="stat-label">Total Views</p>
           </div>
-          <p class="stat-label">Total Views</p>
         </div>
-        <div class="stat-card">
-          <div class="stat-number"><%= articles.length %></div>
-          <p class="stat-label">Total Posts</p>
+        <div class="admin-card">
+          <div class="card-content" style="text-align:center">
+            <div class="stat-number"><%= articles.length %></div>
+            <p class="stat-label">Total Posts</p>
+          </div>
         </div>
       </div>
 
@@ -429,13 +361,13 @@
         <input
           type="text"
           id="searchInput"
-          class="search-input"
+          class="form-control"
           placeholder="Search articles by title..."
         />
         <select
           id="categoryFilter"
-          class="search-input"
-          style="flex: 0 0 200px"
+          class="form-control"
+          style="max-width: 200px"
         >
           <option value="">All Categories</option>
           <option value="olive-oil-guide">Olive Oil Guide</option>
@@ -455,8 +387,8 @@
 
       <!-- Articles Table -->
       <% if (articles && articles.length > 0) { %>
-      <div class="articles-table">
-        <table class="table">
+      <div class="admin-table-container">
+        <table class="admin-table">
           <thead>
             <tr>
               <th>Image</th>
@@ -472,8 +404,8 @@
           <tbody id="articlesTableBody">
             <% articles.forEach(article => { %>
             <tr
-              data-status="<%= article.status %>"
-              data-category="<%= article.category || '' %>"
+              data-status="<%= article.status.toLowerCase() %>"
+              data-category="<%= article.category ? article.category.toLowerCase().replace(/_/g, '-') : '' %>"
               data-title="<%= article.title.toLowerCase() %>"
             >
               <td>
@@ -500,16 +432,16 @@
               </td>
               <td>
                 <% if (article.category) { %>
-                <span class="category-tag">
+                <span class="badge badge-neutral">
                   <%= article.category.replace(/-/g, ' ').replace(/\b\w/g, l =>
                   l.toUpperCase()) %>
                 </span>
                 <% } else { %>
-                <span class="category-tag">Uncategorized</span>
+                <span class="badge badge-neutral">Uncategorized</span>
                 <% } %>
               </td>
               <td>
-                <span class="status-badge status-<%= article.status %>">
+                <span class="badge badge-<%= article.status === 'PUBLISHED' ? 'success' : 'warning' %>">
                   <%= article.status %>
                 </span>
               </td>
@@ -520,7 +452,7 @@
               <td><%= article.author?.username || 'Unknown' %></td>
               <td><%= new Date(article.createdAt).toLocaleDateString() %></td>
               <td>
-                <div class="article-actions">
+                <div class="td-actions">
                   <a
                     href="/blog/<%= article.slug %>"
                     target="_blank"
@@ -530,7 +462,7 @@
                     <i class="fas fa-eye"></i>
                   </a>
                   <a
-                    href="/admin/blog/<%= article._id %>/edit"
+                    href="/admin/blog/<%= article.id %>/edit"
                     class="btn btn-primary btn-sm"
                     title="Edit"
                   >
@@ -540,7 +472,7 @@
                     type="button"
                     class="btn btn-danger btn-sm delete-btn"
                     title="Delete"
-                    data-article-id="<%= article._id %>"
+                    data-article-id="<%= article.id %>"
                     data-article-title="<%= article.title %>"
                     data-article-status="<%= article.status %>"
                     data-article-date="<%= new Date(article.createdAt).toLocaleDateString() %>"
@@ -566,98 +498,9 @@
         </a>
       </div>
       <% } %>
-    </div>
+    </main>
 
-    <script>
-      // Filter functionality
-      const filterTabs = document.querySelectorAll(".filter-tab");
-      const searchInput = document.getElementById("searchInput");
-      const categoryFilter = document.getElementById("categoryFilter");
-      const tableBody = document.getElementById("articlesTableBody");
-
-      let currentStatusFilter = "all";
-      let currentSearchTerm = "";
-      let currentCategoryFilter = "";
-
-      // Tab filtering
-      filterTabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          // Update active tab
-          filterTabs.forEach((t) => t.classList.remove("active"));
-          tab.classList.add("active");
-
-          currentStatusFilter = tab.dataset.status;
-          applyFilters();
-        });
-      });
-
-      // Search filtering
-      searchInput.addEventListener("input", (e) => {
-        currentSearchTerm = e.target.value.toLowerCase();
-        applyFilters();
-      });
-
-      // Category filtering
-      categoryFilter.addEventListener("change", (e) => {
-        currentCategoryFilter = e.target.value;
-        applyFilters();
-      });
-
-      function applyFilters() {
-        const rows = tableBody.querySelectorAll("tr");
-
-        rows.forEach((row) => {
-          const status = row.dataset.status;
-          const title = row.dataset.title;
-          const category = row.dataset.category;
-
-          let showRow = true;
-
-          // Status filter
-          if (currentStatusFilter !== "all" && status !== currentStatusFilter) {
-            showRow = false;
-          }
-
-          // Search filter
-          if (currentSearchTerm && !title.includes(currentSearchTerm)) {
-            showRow = false;
-          }
-
-          // Category filter
-          if (currentCategoryFilter && category !== currentCategoryFilter) {
-            showRow = false;
-          }
-
-          row.style.display = showRow ? "" : "none";
-        });
-      }
-
-      // Dropdown functionality
-      const userDropdown = document.getElementById("userDropdown");
-      console.log("User dropdown element:", userDropdown);
-
-      if (userDropdown) {
-        console.log("Dropdown found, adding event listener");
-        userDropdown.addEventListener("click", function (e) {
-          console.log("Dropdown clicked!");
-          e.preventDefault();
-          const dropdown = this.parentElement;
-          console.log("Dropdown parent:", dropdown);
-          dropdown.classList.toggle("active");
-          console.log("Active class toggled, classes:", dropdown.className);
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener("click", function (e) {
-          const dropdown = userDropdown.parentElement;
-          if (!dropdown.contains(e.target)) {
-            dropdown.classList.remove("active");
-          }
-        });
-      } else {
-        console.log("Dropdown element not found!");
-      }
-    </script>
+    <script src="/js/admin-blog-list.js" defer></script>
 
     <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="modal-overlay">
@@ -883,92 +726,6 @@
       }
     </style>
 
-    <script>
-      let currentArticleId = null;
-
-      // Delete button click handlers
-      document.querySelectorAll(".delete-btn").forEach((btn) => {
-        btn.addEventListener("click", function () {
-          const articleId = this.dataset.articleId;
-          const articleTitle = this.dataset.articleTitle;
-          const articleStatus = this.dataset.articleStatus;
-          const articleDate = this.dataset.articleDate;
-          const articleViews = this.dataset.articleViews;
-
-          showDeleteModal(
-            articleId,
-            articleTitle,
-            articleStatus,
-            articleDate,
-            articleViews
-          );
-        });
-      });
-
-      // Modal event listeners
-      document
-        .getElementById("modalCloseBtn")
-        .addEventListener("click", hideDeleteModal);
-      document
-        .getElementById("modalCancelBtn")
-        .addEventListener("click", hideDeleteModal);
-      document
-        .getElementById("modalConfirmBtn")
-        .addEventListener("click", confirmDelete);
-
-      function showDeleteModal(articleId, title, status, date, views) {
-        currentArticleId = articleId;
-
-        // Populate modal with article details
-        document.getElementById("modalArticleTitle").textContent = title;
-
-        const statusElement = document.getElementById("modalArticleStatus");
-        statusElement.textContent = status;
-        statusElement.className = `status-badge status-${status}`;
-
-        document.getElementById("modalArticleDate").textContent = date;
-        document.getElementById(
-          "modalArticleViews"
-        ).innerHTML = `<i class="fas fa-eye"></i> ${views}`;
-
-        // Show modal
-        document.getElementById("deleteModal").classList.add("active");
-        document.body.style.overflow = "hidden";
-      }
-
-      function hideDeleteModal() {
-        document.getElementById("deleteModal").classList.remove("active");
-        document.body.style.overflow = "auto";
-        currentArticleId = null;
-      }
-
-      function confirmDelete() {
-        if (currentArticleId) {
-          // Create and submit the delete form
-          const form = document.getElementById("deleteForm");
-          form.action = `/admin/blog/${currentArticleId}/delete`;
-          form.submit();
-        }
-      }
-
-      // Close modal when clicking overlay
-      document
-        .getElementById("deleteModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) {
-            hideDeleteModal();
-          }
-        });
-
-      // Close modal with Escape key
-      document.addEventListener("keydown", function (e) {
-        if (
-          e.key === "Escape" &&
-          document.getElementById("deleteModal").classList.contains("active")
-        ) {
-          hideDeleteModal();
-        }
-      });
-    </script>
+    <%# Delete modal JS handled by admin-blog-list.js %>
   </body>
 </html>

@@ -71,23 +71,6 @@
 
     <%- include('partials/general/footer') %>
 
-    <script>
-      (function () {
-        // 1. Rimuove il contenuto dal localStorage
-        localStorage.removeItem("promontolio_cart");
-
-        // 2. Forza l'aggiornamento dell'interfaccia (Badge)
-        const cartBadge = document.getElementById("cart-badge");
-        if (cartBadge) {
-          cartBadge.innerText = "0";
-          cartBadge.style.display = "none";
-        }
-
-        // 3. Log di conferma per il debug in fase di test
-        console.log(
-          "Stato Promontolio: Carrello svuotato dopo l'acquisto con successo.",
-        );
-      })();
-    </script>
+    <script src="/js/success.js" defer></script>
   </body>
 </html>

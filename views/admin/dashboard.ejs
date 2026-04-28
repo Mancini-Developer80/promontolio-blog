@@ -123,35 +123,6 @@
 
     <div id="analytics-data" style="display: none" data-analytics="<%- JSON.stringify(analytics || {}) %>"></div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const dataElement = document.getElementById("analytics-data");
-            const analyticsData = JSON.parse(dataElement.getAttribute("data-analytics") || "{}");
-            
-            // Impostazioni globali Chart.js per matchare lo stile Premium
-            Chart.defaults.font.family = "'Montserrat', sans-serif";
-            Chart.defaults.color = "#333";
-
-            // 1. Posts Timeline Chart
-            const postsCtx = document.getElementById("postsChart").getContext("2d");
-            new Chart(postsCtx, {
-                type: "line",
-                data: {
-                    labels: ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu"], // Sostituire con logica dinamica se necessario
-                    datasets: [{
-                        label: "Post",
-                        data: [0, 0, 0, 0, 0, 0], // Inserire dati da analyticsData
-                        borderColor: "#556b2f",
-                        backgroundColor: "rgba(85, 107, 47, 0.1)",
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-
-            // Logica analoga per gli altri grafici...
-        });
-    </script>
+    <script src="/js/admin-dashboard.js" defer></script>
 </body>
 </html>

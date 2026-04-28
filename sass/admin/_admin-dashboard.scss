@@ -1,14 +1,13 @@
+// ==========================================================================
+// ADMIN DASHBOARD — Layout pagina, griglia KPI, sezioni
+// ==========================================================================
+@use "sass:color";
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-.admin-page {
-  padding-top: 100px; // Aumentato per la nuova navbar fixed
-  background-color: #f8fafc; // Grigio chiarissimo SaaS invece del crema
-  min-height: 100vh;
-}
-
+// ── LAYOUT PAGINA ─────────────────────────────────────────────────────────────
 .admin-page-content {
-  max-width: 1400px;
+  max-width: $adm-content-max;
   margin: 0 auto;
   padding: $space-lg;
 
@@ -17,125 +16,242 @@
   }
 }
 
-// --- NUOVE CLASSI MANCANTI ---
+// ── HEADER DI PAGINA ─────────────────────────────────────────────────────────
+.admin-header {
+  margin-bottom: $space-xl;
+  padding: $space-md $space-lg;
+  background: $adm-surface;
+  border-radius: $adm-radius;
+  border: 1px solid $adm-border;
+  box-shadow: $adm-shadow;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: $space-sm;
 
+  .form-title,
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $adm-text;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    color: $adm-text-muted;
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+  }
+}
+
+// ── GRIGLIA STATISTICHE ───────────────────────────────────────────────────────
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: $space-md;
-  margin-bottom: $space-xl;
-}
-
-.admin-card {
-  background: $white;
-  padding: $space-md;
-  border-radius: $radius-md;
-  border: 1px solid #e2e8f0;
-  box-shadow: $elevation-1;
-
-  .stat-number {
-    display: block;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #3b82f6; // Blue Indigo professionale
-    margin-bottom: 4px;
-  }
-
-  .stat-label {
-    font-size: $type-small;
-    color: $text-light;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-}
-
-.analytics-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: $space-lg;
   margin-bottom: $space-xl;
 
   @include mobile {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-.chart-box {
-  background: $white;
-  border-radius: $radius-md;
+// ── KPI CARD ─────────────────────────────────────────────────────────────────
+.admin-card {
+  background: $adm-surface;
+  border-radius: $adm-radius;
+  border: 1px solid $adm-border;
+  box-shadow: $adm-shadow;
   padding: $space-md;
-  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  transition: $adm-transition;
 
-  .chart-header {
-    border-bottom: 1px solid #f1f5f9;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: $adm-blue;
+    border-radius: $adm-radius 0 0 $adm-radius;
+  }
+
+  &:hover {
+    box-shadow: $adm-shadow-lg;
+    transform: translateY(-2px);
+  }
+
+  // Wrapper interno usato nel template
+  .card-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-number {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: $adm-text;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $adm-text-muted;
+  }
+
+  // Varianti colore strip laterale
+  &.accent-green::before {
+    background: $adm-accent;
+  }
+  &.accent-orange::before {
+    background: $adm-warning;
+  }
+  &.accent-red::before {
+    background: $adm-danger;
+  }
+  &.accent-teal::before {
+    background: $adm-info;
+  }
+}
+
+// ── SEZIONI CON TITOLO ────────────────────────────────────────────────────────
+.admin-section {
+  margin-bottom: $space-xl;
+
+  .section-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $adm-text;
     margin-bottom: $space-md;
     padding-bottom: $space-xs;
-    h3 {
-      font-size: 1rem;
-      color: $font-dark;
+    border-bottom: 2px solid $adm-border;
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+
+    i {
+      color: $adm-blue;
     }
   }
 }
 
-.chart-container {
-  height: 300px;
-  position: relative;
+// ── PERFORMANCE LIST (dashboard top-content panel) ────────────────────────────
+.performance-list {
+  .admin-article-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .article-info {
+      flex: 1;
+      overflow: hidden;
+
+      h4 {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $adm-text;
+        margin: 0 0 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      span {
+        font-size: 0.75rem;
+        color: $adm-text-muted;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+  }
+
+  .no-data {
+    text-align: center;
+    padding: $space-lg;
+    color: $adm-text-muted;
+    font-size: 0.875rem;
+  }
 }
 
-.quick-actions {
+// ── PANEL BOX (contenitore con header) ───────────────────────────────────────
+.admin-panel {
+  background: $adm-surface;
+  border-radius: $adm-radius;
+  border: 1px solid $adm-border;
+  box-shadow: $adm-shadow;
+  overflow: hidden;
+  margin-bottom: $space-lg;
+
+  .panel-header {
+    padding: $space-sm $space-md;
+    border-bottom: 1px solid $adm-border;
+    background: #fafbfc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: $adm-text;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: $space-xs;
+      i {
+        color: $adm-blue;
+      }
+    }
+  }
+
+  .panel-body {
+    padding: $space-md;
+  }
+}
+
+// ── RECENT ARTICLES LIST ─────────────────────────────────────────────────────
+.admin-article-card {
   display: flex;
-  flex-wrap: wrap;
-  gap: $space-sm;
-  margin-top: $space-md;
-}
-
-.btn-admin {
-  padding: $space-xs $space-md;
-  border-radius: $radius-sm;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px $space-sm;
+  border-radius: $adm-radius-sm;
+  border-left: 3px solid $adm-blue;
+  background: $adm-page-bg;
+  margin-bottom: 8px;
+  transition: $adm-transition;
   text-decoration: none;
-  font-weight: 600;
-  font-size: $type-small;
-  transition: $transition;
-
-  &.btn-create {
-    background: #3b82f6;
-    color: $white;
-  }
-  &.btn-gold {
-    background: $primary-color;
-    color: $white;
-  }
-  &.btn-info {
-    background: #f1f5f9;
-    color: $font-dark;
-    border: 1px solid #e2e8f0;
-  }
-  &.btn-danger {
-    background: #fee2e2;
-    color: #ef4444;
-  }
 
   &:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
+    background: color.adjust($adm-page-bg, $lightness: -2%);
   }
-}
-
-// Tua classe esistente migliorata
-.admin-article-card {
-  background: #f8fafc;
-  border-radius: $radius-sm;
-  padding: $space-sm;
-  margin-bottom: $space-xs;
-  border-left: 4px solid #3b82f6;
-  @include flex-between;
 
   h4 {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 600;
     margin: 0;
+    color: $adm-text;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
   }
+
   span {
-    font-size: 0.8rem;
-    color: $text-light;
+    font-size: 0.75rem;
+    color: $adm-text-muted;
+    white-space: nowrap;
   }
 }

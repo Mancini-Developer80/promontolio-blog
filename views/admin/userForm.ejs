@@ -14,26 +14,6 @@
     <link rel="stylesheet" href="/css/main.css" />
     
     <style>
-      /* Fix navbar user text visibility */
-      .dashboard-navbar .user-info,
-      .dashboard-navbar .user-info *,
-      .dashboard-navbar .user-details,
-      .dashboard-navbar .user-details *,
-      .dashboard-navbar .user-name,
-      .dashboard-navbar .user-role {
-        color: white !important;
-      }
-      
-      .dashboard-navbar .dropdown-toggle {
-        color: white !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      }
-      
-      .dashboard-navbar .user-info i {
-        color: white !important;
-      }
-
       .user-form-container {
         max-width: 800px;
         margin: 0 auto;
@@ -186,7 +166,7 @@
       }
     </style>
   </head>
-  <body>
+  <body class="admin-page">
     <%- include('../partials/general/dashboardNavbar') %>
     
     <div class="user-form-container">
@@ -213,7 +193,7 @@
         </div>
       <% } %>
 
-      <form method="POST" action="<%= formAction || (userToEdit ? `/admin/users/${userToEdit._id}/edit` : '/admin/users/new') %>">
+      <form method="POST" action="<%= formAction || (userToEdit ? `/admin/users/${userToEdit.id}/edit` : '/admin/users/new') %>">
         <div class="form-grid">
           <!-- Personal Information -->
           <div class="form-section">

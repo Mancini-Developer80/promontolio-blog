@@ -226,6 +226,7 @@ exports.remove = async (req, res) => {
 exports.newForm = (req, res) => {
   res.render("admin/userForm", {
     user: null,
+    userToEdit: null,
     formAction: "/admin/users/new",
     pageTitle: "Nuovo Utente",
   });
@@ -238,6 +239,7 @@ exports.editForm = async (req, res) => {
     });
     res.render("admin/userForm", {
       user,
+      userToEdit: user,
       formAction: `/admin/users/${user.id}/edit`,
       pageTitle: "Modifica Utente",
     });

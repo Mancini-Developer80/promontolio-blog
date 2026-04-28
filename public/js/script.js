@@ -84,27 +84,5 @@ document.addEventListener("DOMContentLoaded", function () {
     .querySelectorAll(".scroll-fade-up")
     .forEach((el) => observer.observe(el));
 
-  /**
-   * 4. ADMIN DASHBOARD DROPDOWN
-   * Gestisce il menu a tendina del profilo utente/admin
-   */
-  const userDropdown = document.getElementById("userDropdown");
-  if (userDropdown) {
-    userDropdown.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      const dropdown = this.parentElement;
-      if (dropdown) {
-        dropdown.classList.toggle("active");
-      }
-    });
-
-    // Chiude il dropdown se si clicca in un punto qualsiasi fuori da esso
-    document.addEventListener("click", (e) => {
-      const dropdown = userDropdown.parentElement;
-      if (dropdown && !dropdown.contains(e.target)) {
-        dropdown.classList.remove("active");
-      }
-    });
-  }
+  // Il dropdown dell'admin è gestito dallo script in dashboardNavbar.ejs
 });

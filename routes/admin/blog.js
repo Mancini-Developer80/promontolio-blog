@@ -3,23 +3,24 @@ const express = require("express");
 const router = express.Router();
 const blogController = require("../../controllers/blogController");
 const upload = require("../../middleware/upload");
+const ensureRole = require("../../middleware/ensureRole");
 
 // List articles in admin panel
-router.get("/", blogController.adminList);
+router.get("/", ensureRole(["admin", "super"]), blogController.adminList);
 
-// Show “New Article” form
-router.get("/new", blogController.newForm);
+// Show "New Article" form
+router.get("/new", ensureRole(["admin", "super"]), blogController.newForm);
 
 // Create article (with file upload)
-router.post("/new", upload.single("featuredImage"), blogController.create);
+router.post("/new", ensureRole(["admin", "super"]), upload.single("featuredImage"), blogController.create);
 
-// Show “Edit Article” form
-router.get("/:id/edit", blogController.editForm);
+// Show "Edit Article" form
+router.get("/:id/edit", ensureRole(["admin", "super"]), blogController.editForm);
 
 // Update article (with file upload)
-router.post("/:id/edit", upload.single("featuredImage"), blogController.update);
+router.post("/:id/edit", ensureRole(["admin", "super"]), upload.single("featuredImage"), blogController.update);
 
 // Delete article
-router.post("/:id/delete", blogController.remove);
+router.post("/:id/delete", ensureRole(["admin", "super"]), blogController.remove);
 
 module.exports = router;

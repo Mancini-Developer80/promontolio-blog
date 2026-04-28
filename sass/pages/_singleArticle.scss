@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../abstracts/variables" as *;
 @use "../layout/layout" as *;
 
@@ -12,7 +13,7 @@
 
 // Article Hero Section
 .article-hero {
-  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  background: linear-gradient(135deg, $bg-light, $white);
   color: #2c3e50;
   padding: 3rem 2rem 2rem;
   text-align: center;
@@ -35,7 +36,7 @@
       font-size: 0.9rem;
 
       &:hover {
-        color: #2ecc71;
+        color: $brand-accent;
         text-decoration: underline;
       }
     }
@@ -46,7 +47,7 @@
     }
 
     .current {
-      color: #2ecc71;
+      color: $brand-accent;
       font-weight: 500;
     }
   }
@@ -78,7 +79,7 @@
       color: #666;
 
       i {
-        color: #2ecc71;
+        color: $brand-accent;
         font-size: 1rem;
       }
     }
@@ -158,7 +159,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #2ecc71, #3498db);
+    background: linear-gradient(90deg, $brand-accent, $secondary-color);
     border-radius: 12px 12px 0 0;
   }
 
@@ -228,7 +229,7 @@
   }
 
   blockquote {
-    border-left: 4px solid #2ecc71;
+    border-left: 4px solid $brand-accent;
     margin: 2rem 0;
     padding: 1rem 2rem;
     background-color: #f8f9fa;
@@ -317,7 +318,7 @@
 
     .tag {
       display: inline-block;
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      background: linear-gradient(135deg, $brand-accent, $primary-color);
       color: white;
       padding: 0.5rem 1rem;
       border-radius: 20px;
@@ -325,11 +326,11 @@
       font-weight: 500;
       margin: 0.25rem 0.5rem 0.25rem 0;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
+      box-shadow: 0 2px 8px rgba(74, 93, 35, 0.3);
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+        box-shadow: 0 4px 12px rgba(74, 93, 35, 0.4);
       }
     }
   }
@@ -429,14 +430,13 @@
       }
 
       &.cta-btn {
-        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        background: linear-gradient(135deg, $brand-accent, $primary-color);
         color: white;
         border: 2px solid transparent;
 
         &:hover {
-          // background: linear-gradient(135deg, #c0392b, #a93226);
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 6px 16px rgba(74, 93, 35, 0.4);
         }
       }
 
@@ -467,13 +467,13 @@
       color: #2c3e50;
       margin-bottom: 1.5rem;
       padding-bottom: 0.5rem;
-      border-bottom: 2px solid #2ecc71;
+      border-bottom: 2px solid $brand-accent;
       display: flex;
       align-items: center;
       gap: 0.5rem;
 
       i {
-        color: #2ecc71;
+        color: $brand-accent;
       }
     }
   }
@@ -500,17 +500,17 @@
           border-left: 3px solid transparent;
 
           &:hover {
-            background-color: #f8f9fa;
-            color: #2ecc71;
-            border-left-color: #2ecc71;
+            background-color: $bg-light;
+            color: $brand-accent;
+            border-left-color: $brand-accent;
             transform: translateX(4px);
             text-decoration: none;
           }
 
           &.active {
-            background-color: #e8f5e8;
-            color: #2ecc71;
-            border-left-color: #2ecc71;
+            background-color: color.adjust($brand-accent, $lightness: 45%);
+            color: $brand-accent;
+            border-left-color: $brand-accent;
             font-weight: 500;
           }
         }
@@ -545,7 +545,7 @@
       height: 80px;
       border-radius: 50%;
       margin: 0 auto 1rem;
-      border: 4px solid #2ecc71;
+      border: 4px solid $brand-accent;
       object-fit: cover;
     }
 
@@ -581,7 +581,7 @@
         transition: color 0.3s ease;
 
         &:hover {
-          color: #2ecc71;
+          color: $brand-accent;
         }
       }
     }
@@ -696,7 +696,7 @@
             display: block;
 
             &:hover {
-              color: #2ecc71;
+              color: $brand-accent;
               text-decoration: none;
             }
           }

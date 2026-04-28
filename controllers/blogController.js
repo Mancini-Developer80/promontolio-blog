@@ -55,7 +55,9 @@ exports.adminList = async (req, res) => {
   try {
     const articles = await prisma.article.findMany({
       orderBy: { createdAt: "desc" },
-      include: { author: { select: { firstName: true, lastName: true } } },
+      include: {
+        author: { select: { username: true, firstName: true, lastName: true } },
+      },
     });
     res.render("admin/blogList", { title: "Gestione Blog", articles });
   } catch (err) {
@@ -76,9 +78,9 @@ exports.create = async (req, res) => {
         content,
         excerpt,
         status: finalStatus,
-        category: category.toUpperCase(), // Sincronizzato con ENUM Prisma
+        category: category.replace(/-/g, "_").toUpperCase(),
         authorId: req.user.id,
-        featuredImage: req.file ? `/media/images/${req.file.filename}` : null,
+        featuredImage: req.file ? `/image/${req.file.filename}` : null,
       },
     });
 
@@ -97,12 +99,17 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { title, content, excerpt, category, action } = req.body;
-    const articleId = req.params.id;
+    const articleId = parseInt(req.params.id);
 
     // Recuperiamo l'articolo per gestire l'immagine esistente
     const existing = await prisma.article.findUnique({
       where: { id: articleId },
     });
+
+    if (!existing) {
+      req.flash("error", "Articolo non trovato.");
+      return res.redirect("/admin/blog");
+    }
 
     await prisma.article.update({
       where: { id: articleId },
@@ -111,10 +118,10 @@ exports.update = async (req, res) => {
         slug: slugify(title, { lower: true, strict: true }),
         content,
         excerpt,
-        category: category.toUpperCase(),
+        category: category.replace(/-/g, "_").toUpperCase(),
         status: action === "publish" ? "PUBLISHED" : "DRAFT",
         featuredImage: req.file
-          ? `/media/images/${req.file.filename}`
+          ? `/image/${req.file.filename}`
           : existing.featuredImage,
       },
     });
@@ -129,7 +136,7 @@ exports.update = async (req, res) => {
 // Eliminazione
 exports.remove = async (req, res) => {
   try {
-    await prisma.article.delete({ where: { id: req.params.id } });
+    await prisma.article.delete({ where: { id: parseInt(req.params.id) } });
     res.redirect("/admin/blog");
   } catch (err) {
     res.redirect("/admin/blog");
@@ -140,8 +147,17 @@ exports.remove = async (req, res) => {
 exports.newForm = (req, res) =>
   res.render("admin/blogForm", { article: {}, title: "Nuovo Articolo" });
 exports.editForm = async (req, res) => {
-  const article = await prisma.article.findUnique({
-    where: { id: req.params.id },
-  });
-  res.render("admin/blogForm", { article, title: "Modifica Articolo" });
+  try {
+    const article = await prisma.article.findUnique({
+      where: { id: parseInt(req.params.id) },
+    });
+    if (!article) {
+      req.flash("error", "Articolo non trovato.");
+      return res.redirect("/admin/blog");
+    }
+    res.render("admin/blogForm", { article, title: "Modifica Articolo" });
+  } catch (err) {
+    console.error("Error loading edit form:", err);
+    res.redirect("/admin/blog");
+  }
 };

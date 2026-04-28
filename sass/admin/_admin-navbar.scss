@@ -1,32 +1,32 @@
+// ==========================================================================
+// ADMIN NAVBAR — Fixed top bar: logo, nav, user dropdown
+// ==========================================================================
 @use "sass:color";
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-// Palette Admin Professionale (SaaS Style)
-$admin-bg-dark: #0f172a; // Navy/Slate molto profondo
-$admin-accent: #3b82f6; // Blue elettrico moderno
-$admin-border: rgba(255, 255, 255, 0.1);
-$admin-text-muted: #94a3b8;
+// ── BODY ADMIN ────────────────────────────────────────────────────────────────
+body.admin-page {
+  padding-top: $adm-navbar-h;
+  background-color: $adm-page-bg;
+  min-height: 100vh;
+  font-family: $font-stack;
+  color: $adm-text;
+}
 
 .dashboard-navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 64px; // Altezza standard per tool professionali
+  inset: 0 0 auto 0;
+  height: $adm-navbar-h;
   z-index: 1000;
-  background: $admin-bg-dark;
-  color: $white;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid $admin-border;
+  background: $adm-bg;
+  border-bottom: 1px solid $adm-border-dark;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
   display: flex;
   align-items: center;
 
   .navbar-container {
-    max-width: 1400px;
+    max-width: $adm-content-max;
     width: 100%;
     margin: 0 auto;
     @include flex-between;
@@ -37,16 +37,46 @@ $admin-text-muted: #94a3b8;
     }
   }
 
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+
+    strong {
+      color: $white;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-badge {
+      color: $adm-text-nav;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 2px 8px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: $radius-pill;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  }
+
   .navbar-menu {
     display: flex;
     align-items: center;
-    width: 100%;
+    flex: 1;
+    padding-left: $space-xl;
     justify-content: space-between;
+
+    @include mobile {
+      padding-left: $space-sm;
+    }
   }
 
   .navbar-links {
     display: flex;
-    gap: $space-xs;
+    gap: 2px;
 
     @include mobile {
       display: none;
@@ -54,131 +84,148 @@ $admin-text-muted: #94a3b8;
   }
 
   .nav-link {
-    color: $admin-text-muted;
-    padding: $space-xs $space-md;
-    border-radius: 6px; // Più squadrato, più moderno
-    transition: all 0.2s ease;
-    font-weight: 500;
-    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: $adm-text-nav;
+    padding: 7px 14px;
+    border-radius: $adm-radius-sm;
     text-decoration: none;
-    @include flex-center;
-    gap: $space-xs;
-    position: relative;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: $adm-transition;
+
+    i {
+      font-size: 0.85rem;
+    }
 
     &:hover {
       color: $white;
-      background-color: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.07);
     }
 
     &.active {
       color: $white;
-      background-color: rgba($admin-accent, 0.15);
+      background: rgba($adm-blue, 0.18);
 
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: -18px; // Allineato alla fine della navbar da 64px
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: $admin-accent;
+      i {
+        color: $adm-blue;
       }
     }
   }
 
-  // --- FIX DROPDOWN (Risolve il problema del testo bianco su bianco) ---
   .user-info {
-    @include flex-center;
-    gap: $space-md;
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
     padding-left: $space-md;
-    border-left: 1px solid $admin-border;
+    border-left: 1px solid $adm-border-dark;
+  }
 
-    .dropdown {
-      position: relative;
+  .dropdown {
+    position: relative;
+  }
 
-      .dropdown-toggle {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid $admin-border;
-        border-radius: $radius-pill;
-        color: $white;
-        cursor: pointer;
-        padding: 6px 14px;
-        font-size: 0.85rem;
-        @include flex-center;
-        gap: 8px;
-        transition: $transition;
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: $radius-pill;
+    color: $white;
+    cursor: pointer;
+    padding: 7px 16px 7px 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: $adm-transition;
 
-        &:hover {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba($admin-accent, 0.4);
+    .fa-user-circle {
+      font-size: 1.1rem;
+      color: #93c5fd;
+    }
+    .fa-chevron-down {
+      font-size: 0.65rem;
+      color: $adm-text-nav;
+      transition: transform 0.2s;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba($adm-blue, 0.5);
+    }
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    background: $adm-surface;
+    min-width: 210px;
+    border-radius: $adm-radius;
+    border: 1px solid $adm-border;
+    box-shadow: $adm-shadow-lg;
+    padding: 5px;
+    z-index: 1100;
+
+    &.active {
+      display: block;
+      animation: adm-dropdown 0.18s ease-out;
+    }
+
+    // Specificità (0,3,0): .dashboard-navbar .dropdown-menu .dropdown-item
+    // Batte qualsiasi "color: white !important" su selettori .user-info *
+    .dropdown-header {
+      padding: 10px 14px 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: $adm-text-muted !important;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: $adm-border;
+      margin: 4px 5px;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      color: $adm-text !important;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: $adm-radius-sm;
+      transition: background 0.15s;
+
+      i {
+        width: 16px;
+        text-align: center;
+        font-size: 0.875rem;
+        color: $adm-text-muted !important;
+        flex-shrink: 0;
+      }
+
+      &:hover {
+        background: $adm-page-bg;
+        color: $adm-blue !important;
+        i {
+          color: $adm-blue !important;
         }
       }
 
-      .dropdown-menu {
-        display: none;
-        position: absolute;
-        right: 0;
-        top: calc(100% + 10px);
-        background: $white; // Sfondo bianco solido
-        min-width: 200px;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-        padding: 6px; // "Padded menu" style come i moderni OS
-        overflow: hidden;
-        border: 1px solid #e2e8f0;
-
-        &.active {
-          display: block;
-          animation: dropdownSlide 0.2s ease-out;
+      &.logout {
+        color: $adm-danger !important;
+        i {
+          color: $adm-danger !important;
         }
-
-        .dropdown-header {
-          padding: 10px 12px;
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #64748b;
-          font-weight: 700;
-        }
-
-        .dropdown-divider {
-          height: 1px;
-          background: #f1f5f9;
-          margin: 4px 0;
-        }
-
-        .dropdown-item {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 10px 12px;
-          color: #1e293b !important; // TESTO SCURO GARANTITO
-          text-decoration: none;
-          font-size: 0.85rem;
-          border-radius: 4px;
-          transition: background 0.15s;
-
-          &:hover {
-            background: #f1f5f9;
-            color: $admin-accent !important;
-          }
-
-          i {
-            color: #64748b;
-            font-size: 0.9rem;
-            width: 18px;
-            text-align: center;
-          }
-
-          &.logout {
-            color: #ef4444 !important; // Rosso errore standard SaaS
-            &:hover {
-              background: #fef2f2;
-            }
-            i {
-              color: #ef4444;
-            }
-          }
+        &:hover {
+          background: $adm-danger-bg;
         }
       }
     }
@@ -186,32 +233,29 @@ $admin-text-muted: #94a3b8;
 
   .mobile-menu-toggle {
     display: none;
+
     @include mobile {
       display: block;
     }
+
     .mobile-toggle-btn {
       background: none;
       border: none;
       color: $white;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 4px;
     }
   }
 }
 
-// --- CLASSE DA APPLICARE AL <body> NELLE PAGINE ADMIN ---
-body.admin-page {
-  padding-top: 84px; // Navbar (64) + Spacing (20)
-  background-color: #f8fafc;
-  min-height: 100vh;
-}
-
-@keyframes dropdownSlide {
+@keyframes adm-dropdown {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-6px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }

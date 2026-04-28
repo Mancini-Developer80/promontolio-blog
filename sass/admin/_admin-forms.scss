@@ -1,70 +1,231 @@
+// ==========================================================================
+// ADMIN FORMS — Layout, input, editor, form card
+// ==========================================================================
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-// assets/scss/partials/_admin-forms.scss
-
+// ── CONTAINER PRINCIPALE ──────────────────────────────────────────────────────
 .admin-container {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 $space-sm;
 }
 
+// ── FORM CARD ─────────────────────────────────────────────────────────────────
 .form-card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: $adm-surface;
+  border-radius: $adm-radius;
+  border: 1px solid $adm-border;
+  box-shadow: $adm-shadow;
   overflow: hidden;
-  border-left: 5px solid #556b2f; // Verde Oliva Promontolio
+  margin-bottom: $space-lg;
 
   .form-header {
-    background: #f8f9fa;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #eee;
+    padding: $space-md $space-lg;
+    border-bottom: 1px solid $adm-border;
+    background: #fafbfc;
 
-    h1 {
+    h1,
+    h2 {
       margin: 0;
-      font-size: 1.5rem;
-      color: #333;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $adm-text;
+    }
+
+    p {
+      margin: 4px 0 0;
+      font-size: 0.85rem;
+      color: $adm-text-muted;
     }
   }
 
   .form-body {
-    padding: 2rem;
+    padding: $space-lg;
+
+    @include mobile {
+      padding: $space-md;
+    }
+  }
+
+  .form-footer {
+    padding: $space-sm $space-lg;
+    border-top: 1px solid $adm-border;
+    background: #fafbfc;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $space-xs;
   }
 }
 
-.form-group {
-  margin-bottom: 1.5rem;
-  label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #444;
+// ── SEZIONE DI FORM ───────────────────────────────────────────────────────────
+.form-section {
+  margin-bottom: $space-lg;
+  padding-bottom: $space-lg;
+  border-bottom: 1px solid $adm-border;
+
+  &:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
   }
-  input,
-  textarea,
-  select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: border-color 0.3s;
-    &:focus {
-      border-color: #556b2f;
-      outline: none;
+
+  .section-label {
+    font-size: 0.73rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: $adm-text-muted;
+    margin-bottom: $space-md;
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+
+    i {
+      color: $adm-blue;
     }
   }
 }
 
-// Stile per Quill Editor
-#editor-container {
-  height: 400px;
-  margin-bottom: 1rem;
-  .ql-toolbar {
-    background: #f8f9fa;
-    border-radius: 4px 4px 0 0;
+// ── GRIGLIA CAMPI ─────────────────────────────────────────────────────────────
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-md;
+
+  @include mobile {
+    grid-template-columns: 1fr;
   }
+
+  &.form-row-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+// ── GRUPPO CAMPO ─────────────────────────────────────────────────────────────
+.form-group {
+  margin-bottom: $space-md;
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $adm-text;
+    margin-bottom: 6px;
+  }
+
+  .field-hint {
+    font-size: 0.78rem;
+    color: $adm-text-muted;
+    margin-top: 5px;
+  }
+
+  &.has-error {
+    input,
+    textarea,
+    select {
+      border-color: $adm-danger;
+    }
+    .field-hint {
+      color: $adm-danger;
+    }
+  }
+}
+
+// ── INPUT, TEXTAREA, SELECT ───────────────────────────────────────────────────
+.form-control,
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 9px 13px;
+  border: 1.5px solid $adm-border;
+  border-radius: $adm-radius-sm;
+  font-size: 0.875rem;
+  color: $adm-text;
+  background: $adm-surface;
+  outline: none;
+  transition: $adm-transition;
+  font-family: $font-stack;
+  line-height: 1.5;
+
+  &:focus {
+    border-color: $adm-blue;
+    box-shadow: 0 0 0 3px rgba($adm-blue, 0.12);
+  }
+
+  &::placeholder {
+    color: $adm-text-muted;
+  }
+  &:disabled {
+    background: $adm-page-bg;
+    cursor: not-allowed;
+  }
+}
+
+textarea.form-control,
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+// ── QUILL EDITOR ──────────────────────────────────────────────────────────────
+#editor-container {
+  border-radius: $adm-radius-sm;
+  overflow: hidden;
+  border: 1.5px solid $adm-border;
+  margin-bottom: $space-md;
+  transition: $adm-transition;
+
+  &:focus-within {
+    border-color: $adm-blue;
+    box-shadow: 0 0 0 3px rgba($adm-blue, 0.12);
+  }
+
+  .ql-toolbar {
+    background: #fafbfc;
+    border: none;
+    border-bottom: 1px solid $adm-border;
+  }
+
   .ql-container {
-    border-radius: 0 0 4px 4px;
+    border: none;
+    font-family: $font-stack;
+    font-size: 0.95rem;
+    min-height: 380px;
+  }
+}
+
+// ── SETTINGS TABS ─────────────────────────────────────────────────────────────
+.settings-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 2px solid $adm-border;
+  margin-bottom: $space-lg;
+
+  .settings-tab {
+    padding: 10px $space-md;
+    border: none;
+    background: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $adm-text-muted;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: $adm-transition;
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+
+    &:hover {
+      color: $adm-text;
+    }
+
+    &.active {
+      color: $adm-blue;
+      border-bottom-color: $adm-blue;
+    }
   }
 }

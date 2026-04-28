@@ -101,6 +101,12 @@ exports.updateSettings = async (req, res) => {
           .split(",")
           .map((s) => s.trim()),
       },
+      security: {
+        sessionTimeout:
+          parseInt(req.body.sessionTimeout) ||
+          defaultSettings.security.sessionTimeout,
+        twoFactorAuth: req.body.twoFactorAuth === "on",
+      },
     };
 
     await prisma.setting.upsert({

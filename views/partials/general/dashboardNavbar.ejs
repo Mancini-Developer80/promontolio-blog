@@ -24,6 +24,12 @@
         >
           <i class="fas fa-users"></i> Users
         </a>
+        <a
+          href="/admin/media"
+          class="nav-link <%= (locals.path && path.includes('/admin/media')) ? 'active' : '' %>"
+        >
+          <i class="fas fa-images"></i> Media
+        </a>
         <a href="/" class="nav-link external" target="_blank">
           <i class="fas fa-external-link-alt"></i> Sito
         </a>
@@ -39,7 +45,7 @@
 
           <div id="userDropdown" class="dropdown-menu">
             <div class="dropdown-header">Account</div>
-            <a href="/admin/profile" class="dropdown-item">
+            <a href="/admin/users/profile" class="dropdown-item">
               <i class="fas fa-id-card"></i> Il mio Profilo
             </a>
             <a href="/admin/settings" class="dropdown-item">
@@ -58,31 +64,4 @@
   </div>
 </nav>
 
-<script>
-  (function () {
-    const initDropdown = () => {
-      const btn = document.getElementById("dropdownBtn");
-      const menu = document.getElementById("userDropdown");
-
-      if (btn && menu) {
-        btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          menu.classList.toggle("active");
-        });
-
-        document.addEventListener("click", function (e) {
-          if (!btn.contains(e.target) && !menu.contains(e.target)) {
-            menu.classList.remove("active");
-          }
-        });
-      }
-    };
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initDropdown);
-    } else {
-      initDropdown();
-    }
-  })();
-</script>
+<script src="/js/admin-navbar.js" defer></script>

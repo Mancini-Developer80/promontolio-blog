@@ -1,57 +1,184 @@
+// ==========================================================================
+// ADMIN CARDS — Componenti card generici riutilizzabili
+// ==========================================================================
 @use "sass:color";
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: $space-md;
-  margin: $space-lg 0;
-
-  @include mobile {
-    grid-template-columns: 1fr;
-  }
-}
-
-.dashboard-card {
-  background: $white;
-  border-radius: $radius-md;
-  padding: $space-lg;
-  box-shadow: $box-shadow;
-  border-left: 5px solid $primary-color;
-  transition: $transition;
-  position: relative;
+// ── CARD GENERICA ─────────────────────────────────────────────────────────────
+.card {
+  background: $adm-surface;
+  border-radius: $adm-radius;
+  border: 1px solid $adm-border;
+  box-shadow: $adm-shadow;
   overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, rgba($primary-color, 0.1), transparent);
-    border-radius: 0 0 0 80px;
-  }
+  transition: $adm-transition;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: $elevation-3;
+    box-shadow: $adm-shadow-lg;
+  }
+
+  .card-header {
+    padding: $space-sm $space-md;
+    border-bottom: 1px solid $adm-border;
+    background: #fafbfc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3,
+    h4 {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: $adm-text;
+    }
+  }
+
+  .card-body {
+    padding: $space-md;
+  }
+
+  .card-footer {
+    padding: $space-sm $space-md;
+    border-top: 1px solid $adm-border;
+    background: #fafbfc;
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
   }
 }
 
-.stat-number {
-  font-size: $type-h1;
-  font-weight: 800;
-  color: $primary-color;
-  line-height: 1;
-  margin-bottom: $space-xs;
+// ── MEDIA CARD ───────────────────────────────────────────────────────────────
+.media-card {
+  background: $adm-surface;
+  border-radius: $adm-radius;
+  border: 1px solid $adm-border;
+  box-shadow: $adm-shadow;
+  overflow: hidden;
+  transition: $adm-transition;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: $adm-shadow-lg;
+  }
+
+  .media-thumb {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: $adm-page-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    i {
+      font-size: 2.5rem;
+      color: $adm-text-muted;
+    }
+
+    &:hover img {
+      transform: scale(1.04);
+    }
+  }
+
+  .media-info {
+    padding: 10px 14px;
+
+    .media-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: $adm-text;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+
+    .media-meta {
+      font-size: 0.75rem;
+      color: $adm-text-muted;
+    }
+  }
 }
 
-.stat-label {
-  color: $text-light;
-  font-size: $type-small;
-  font-weight: 600;
+// ── BADGE / STATUS CHIP ───────────────────────────────────────────────────────
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: $radius-pill;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+
+  &.badge-success,
+  &.badge-published,
+  &.badge-active {
+    background: $adm-success-bg;
+    color: $adm-success;
+  }
+  &.badge-danger,
+  &.badge-deleted {
+    background: $adm-danger-bg;
+    color: $adm-danger;
+  }
+  &.badge-warning,
+  &.badge-draft {
+    background: $adm-warning-bg;
+    color: $adm-warning;
+  }
+  &.badge-info,
+  &.badge-pending {
+    background: $adm-info-bg;
+    color: $adm-info;
+  }
+  &.badge-neutral,
+  &.badge-user {
+    background: $adm-page-bg;
+    color: $adm-text-muted;
+    border: 1px solid $adm-border;
+  }
+  &.badge-admin {
+    background: rgba($adm-blue, 0.1);
+    color: $adm-blue;
+  }
+  &.badge-super {
+    background: rgba($adm-accent, 0.12);
+    color: $adm-accent;
+  }
+}
+
+// ── EMPTY STATE ───────────────────────────────────────────────────────────────
+.empty-state {
+  text-align: center;
+  padding: $space-3xl $space-lg;
+
+  .empty-icon {
+    font-size: 3.5rem;
+    color: $adm-border;
+    margin-bottom: $space-md;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $adm-text;
+    margin-bottom: $space-xs;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: $adm-text-muted;
+    margin-bottom: $space-md;
+  }
 }

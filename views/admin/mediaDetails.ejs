@@ -424,12 +424,12 @@
       }
     </style>
   </head>
-  <body>
+  <body class="admin-page">
     <%- include('../partials/general/dashboardNavbar') %>
 
-    <div class="admin-content">
+    <div class="admin-page-content">
       <!-- Page Header -->
-      <div class="page-header">
+      <div class="admin-header">
         <a href="/admin/media" class="back-btn">
           <i class="fas fa-arrow-left"></i>
           Back to Library
@@ -639,175 +639,9 @@
 
     <!-- Data script for client-side JavaScript -->
     <script id="media-data" type="application/json">
-      <%- JSON.stringify({ tags: media.tags || [] }) %>
+      <%- JSON.stringify({ tags: media.tags || [], id: media.id }) %>
     </script>
 
-    <script>
-      // Get data from the JSON script tag
-      const mediaData = JSON.parse(document.getElementById('media-data').textContent);
-      let tags = mediaData.tags;
-
-      // Tag input handler
-      function handleTagInput(e) {
-        if (e.key === 'Enter' && e.target.value.trim()) {
-          e.preventDefault();
-          const tag = e.target.value.trim();
-          if (!tags.includes(tag)) {
-            tags.push(tag);
-            updateTagDisplay();
-            document.getElementById('tagsHidden').value = tags.join(',');
-          }
-          e.target.value = '';
-        }
-      }
-
-      // Remove tag
-      function removeTag(tagText) {
-        const index = tags.indexOf(tagText);
-        if (index > -1) {
-          tags.splice(index, 1);
-          updateTagDisplay();
-          document.getElementById('tagsHidden').value = tags.join(',');
-        }
-      }
-
-      // Update tag display
-      function updateTagDisplay() {
-        const tagInput = document.getElementById('tagInput');
-        const inputElement = tagInput.querySelector('#tagInputFieldDetails');
-        
-        // Remove existing tags
-        tagInput.querySelectorAll('.tag').forEach(tag => tag.remove());
-        
-        // Add current tags
-        tags.forEach(tag => {
-          const tagElement = document.createElement('div');
-          tagElement.className = 'tag';
-          tagElement.innerHTML = `
-            ${tag}
-            <button type="button" class="tag-remove" data-tag-text="${tag}">
-              <i class="fas fa-times"></i>
-            </button>
-          `;
-          
-          // Add event listener to remove button
-          const removeBtn = tagElement.querySelector('.tag-remove');
-          removeBtn.addEventListener('click', function() {
-            removeTag(this.dataset.tagText);
-          });
-          
-          tagInput.insertBefore(tagElement, inputElement);
-        });
-      }
-
-      // Initialize event listeners
-      document.addEventListener('DOMContentLoaded', function() {
-        // Copy URL button
-        const copyBtn = document.getElementById('copyUrlBtn');
-        if (copyBtn) {
-          copyBtn.addEventListener('click', function() {
-            copyToClipboard(this.dataset.url);
-          });
-        }
-
-        // Delete media button
-        const deleteBtn = document.getElementById('deleteMediaBtn');
-        if (deleteBtn) {
-          deleteBtn.addEventListener('click', function() {
-            deleteMedia(this.dataset.mediaId);
-          });
-        }
-
-        // Reset form button
-        const resetBtn = document.getElementById('resetFormBtn');
-        if (resetBtn) {
-          resetBtn.addEventListener('click', function() {
-            location.reload();
-          });
-        }
-
-        // Form submit
-        const editForm = document.getElementById('editForm');
-        if (editForm) {
-          editForm.addEventListener('submit', updateMedia);
-        }
-
-        // Tag input
-        const tagInputField = document.getElementById('tagInputFieldDetails');
-        if (tagInputField) {
-          tagInputField.addEventListener('keydown', handleTagInput);
-        }
-
-        // Existing tag remove buttons
-        document.querySelectorAll('.tag-remove').forEach(btn => {
-          btn.addEventListener('click', function() {
-            removeTag(this.dataset.tagText);
-          });
-        });
-      });
-
-      // Update media
-      async function updateMedia(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        
-        try {
-          const response = await fetch(`/admin/media/<%= media._id %>`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-          });
-          
-          if (response.ok) {
-            alert('Media updated successfully!');
-            location.reload();
-          } else {
-            throw new Error('Update failed');
-          }
-        } catch (error) {
-          alert('Failed to update media. Please try again.');
-        }
-      }
-
-      // Copy to clipboard
-      function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-          alert('URL copied to clipboard!');
-        }).catch(err => {
-          // Fallback for older browsers
-          const textArea = document.createElement('textarea');
-          textArea.value = text;
-          document.body.appendChild(textArea);
-          textArea.select();
-          document.execCommand('copy');
-          document.body.removeChild(textArea);
-          alert('URL copied to clipboard!');
-        });
-      }
-
-      // Delete media
-      function deleteMedia(mediaId) {
-        if (confirm('Are you sure you want to delete this media file? This action cannot be undone.')) {
-          fetch(`/admin/media/${mediaId}`, {
-            method: 'DELETE'
-          })
-          .then(response => {
-            if (response.ok) {
-              alert('Media deleted successfully!');
-              window.location.href = '/admin/media';
-            } else {
-              throw new Error('Delete failed');
-            }
-          })
-          .catch(error => {
-            alert('Failed to delete media. Please try again.');
-          });
-        }
-      }
-    </script>
+    <script src="/js/admin-media-details.js" defer></script>
   </body>
 </html>

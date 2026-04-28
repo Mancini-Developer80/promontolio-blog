@@ -14,26 +14,6 @@
     <link rel="stylesheet" href="/css/main.css" />
     
     <style>
-      /* Fix navbar user text visibility */
-      .dashboard-navbar .user-info,
-      .dashboard-navbar .user-info *,
-      .dashboard-navbar .user-details,
-      .dashboard-navbar .user-details *,
-      .dashboard-navbar .user-name,
-      .dashboard-navbar .user-role {
-        color: white !important;
-      }
-      
-      .dashboard-navbar .dropdown-toggle {
-        color: white !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      }
-      
-      .dashboard-navbar .user-info i {
-        color: white !important;
-      }
-
       .settings-container {
         max-width: 1000px;
         margin: 0 auto;
@@ -205,11 +185,11 @@
       }
     </style>
   </head>
-  <body>
+  <body class="admin-page">
     <%- include('../partials/general/dashboardNavbar') %>
     
-    <div class="settings-container">
-      <div class="page-header">
+    <div class="admin-page-content">
+      <div class="admin-header">
         <h1>
           <i class="fas fa-cogs"></i>
           System Settings

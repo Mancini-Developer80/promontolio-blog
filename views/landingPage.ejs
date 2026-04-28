@@ -108,47 +108,6 @@
 
     <%- include('partials/general/footer') %>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("guide-form");
-        const emailInput = document.getElementById("email-input");
-        const checkbox = document.getElementById("consent");
-        const submitBtn = document.getElementById("submit-btn");
-
-        // Funzione per validare entrambi i campi
-        const validateForm = () => {
-          const isEmailValid = emailInput.checkValidity(); // Controlla se è un'email valida
-          const isCheckboxChecked = checkbox.checked; // Controlla il consenso
-
-          // Il bottone si abilita SOLO se entrambi sono true
-          submitBtn.disabled = !(isEmailValid && isCheckboxChecked);
-
-          // Feedback visivo (puoi gestirlo anche solo via CSS con :disabled)
-          submitBtn.style.opacity =
-            isEmailValid && isCheckboxChecked ? "1" : "0.5";
-          submitBtn.style.cursor =
-            isEmailValid && isCheckboxChecked ? "pointer" : "not-allowed";
-        };
-
-        // Ascolta i cambiamenti su entrambi gli input
-        emailInput.addEventListener("input", validateForm);
-        checkbox.addEventListener("change", validateForm);
-
-        // Effetto caricamento al submit
-        form.addEventListener("submit", (e) => {
-          // Un ultimo controllo di sicurezza
-          if (submitBtn.disabled) {
-            e.preventDefault();
-            return;
-          }
-          submitBtn.innerHTML =
-            '<i class="fas fa-spinner fa-spin"></i> Senden...';
-          submitBtn.style.pointerEvents = "none";
-        });
-
-        // Eseguiamo una volta al caricamento nel caso il browser ricordi i dati (autocomplete)
-        validateForm();
-      });
-    </script>
+    <script src="/js/landing-page.js" defer></script>
   </body>
 </html>

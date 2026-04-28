@@ -446,34 +446,34 @@
       }
     </style>
   </head>
-  <body>
+  <body class="admin-page">
     <%- include('../partials/general/dashboardNavbar') %>
 
-    <div class="admin-content">
+    <main class="admin-page-content">
       <!-- Page Header -->
-      <div class="page-header">
-        <h1 class="page-title">
+      <header class="admin-header">
+        <h1 class="form-title">
           <i class="fas fa-images"></i>
           Media Library
         </h1>
-        <a href="/admin/media/upload" class="upload-btn">
+        <a href="/admin/media/upload" class="btn-admin btn-create">
           <i class="fas fa-plus"></i>
           Upload Media
         </a>
-      </div>
+      </header>
 
       <!-- Media Statistics -->
-      <div class="media-stats">
+      <div class="dashboard-grid">
         <% stats.forEach(stat => { %>
-        <div class="stat-card">
+        <div class="admin-card"><div class="card-content" style="text-align:center">
           <div class="stat-number"><%= stat.count %></div>
           <p class="stat-label"><%= stat._id %> Files</p>
-        </div>
+        </div></div>
         <% }) %>
-        <div class="stat-card">
+        <div class="admin-card"><div class="card-content" style="text-align:center">
           <div class="stat-number"><%= (totalSize / (1024 * 1024)).toFixed(1) %></div>
           <p class="stat-label">MB Total</p>
-        </div>
+        </div></div>
       </div>
 
       <!-- Filters -->
@@ -570,7 +570,7 @@
           <i class="fas fa-images"></i>
           <h3>No Media Files Found</h3>
           <p>Upload some files to get started with your media library.</p>
-          <a href="/admin/media/upload" class="upload-btn" style="display: inline-flex; margin-top: 1rem;">
+          <a href="/admin/media/upload" class="btn-admin btn-create" style="display: inline-flex; margin-top: 1rem;">
             <i class="fas fa-plus"></i>
             Upload Your First File
           </a>
@@ -596,7 +596,7 @@
         <% } %>
       </div>
       <% } %>
-    </div>
+    </main>
 
     <!-- Image Lightbox -->
     <div class="lightbox" id="imageLightbox">
@@ -609,181 +609,6 @@
       </div>
     </div>
 
-    <script>
-      // Filter functionality
-      const searchInput = document.getElementById('searchInput');
-      const categoryFilter = document.getElementById('categoryFilter');
-      const sortFilter = document.getElementById('sortFilter');
-      const mediaGrid = document.getElementById('mediaGrid');
-      const viewToggles = document.querySelectorAll('.view-toggle');
-
-      // Debounce function for search
-      function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-          const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-          };
-          clearTimeout(timeout);
-          timeout = setTimeout(later, wait);
-        };
-      }
-
-      // Apply filters
-      function applyFilters() {
-        const params = new URLSearchParams();
-        if (searchInput.value) params.set('search', searchInput.value);
-        if (categoryFilter.value) params.set('category', categoryFilter.value);
-        if (sortFilter.value) params.set('sort', sortFilter.value);
-        
-        window.location.href = `/admin/media?${params.toString()}`;
-      }
-
-      // Event listeners
-      searchInput.addEventListener('input', debounce(applyFilters, 500));
-      categoryFilter.addEventListener('change', applyFilters);
-      sortFilter.addEventListener('change', applyFilters);
-
-      // View toggle functionality
-      viewToggles.forEach(toggle => {
-        toggle.addEventListener('click', () => {
-          viewToggles.forEach(t => t.classList.remove('active'));
-          toggle.classList.add('active');
-          
-          const view = toggle.dataset.view;
-          if (view === 'list') {
-            mediaGrid.classList.add('list-view');
-            mediaGrid.querySelectorAll('.media-item').forEach(item => {
-              item.classList.add('list-view');
-              item.querySelector('.media-preview').classList.add('list-view');
-              item.querySelector('.media-info').classList.add('list-view');
-            });
-          } else {
-            mediaGrid.classList.remove('list-view');
-            mediaGrid.querySelectorAll('.media-item').forEach(item => {
-              item.classList.remove('list-view');
-              item.querySelector('.media-preview').classList.remove('list-view');
-              item.querySelector('.media-info').classList.remove('list-view');
-            });
-          }
-        });
-      });
-
-      // Media details navigation
-      function openMediaDetails(mediaId) {
-        // Add loading state
-        const mediaItem = document.querySelector(`[data-id="${mediaId}"]`);
-        if (mediaItem) {
-          mediaItem.style.opacity = '0.7';
-          mediaItem.style.pointerEvents = 'none';
-          
-          // Add loading indicator
-          const loadingIndicator = document.createElement('div');
-          loadingIndicator.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(52, 152, 219, 0.95);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            z-index: 20;
-          `;
-          loadingIndicator.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-          mediaItem.appendChild(loadingIndicator);
-        }
-        
-        window.location.href = `/admin/media/${mediaId}`;
-      }
-
-      // Keyboard navigation for media items
-      function handleMediaKeydown(event, mediaId) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          openMediaDetails(mediaId);
-        }
-      }
-
-      // Image lightbox functionality
-      function openImageLightbox(imageUrl, imageTitle) {
-        const lightbox = document.getElementById('imageLightbox');
-        const lightboxImage = document.getElementById('lightboxImage');
-        const lightboxTitle = document.getElementById('lightboxTitle');
-        
-        lightboxImage.src = imageUrl;
-        lightboxImage.alt = imageTitle;
-        lightboxTitle.textContent = imageTitle;
-        
-        lightbox.classList.add('show');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeLightbox() {
-        const lightbox = document.getElementById('imageLightbox');
-        lightbox.classList.remove('show');
-        document.body.style.overflow = '';
-      }
-
-      // Close lightbox with Escape key
-      document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-          closeLightbox();
-        }
-      });
-
-      // Initialize event listeners when DOM is loaded
-      document.addEventListener('DOMContentLoaded', function() {
-        // Media item click handlers
-        document.querySelectorAll('.media-item').forEach(item => {
-          const mediaId = item.dataset.id;
-          
-          // Click handler for media item
-          item.addEventListener('click', function() {
-            openMediaDetails(mediaId);
-          });
-          
-          // Keyboard handler for media item
-          item.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              openMediaDetails(mediaId);
-            }
-          });
-        });
-
-        // Image lightbox handlers
-        document.querySelectorAll('.media-image').forEach(image => {
-          image.addEventListener('click', function(event) {
-            event.stopPropagation();
-            const url = this.dataset.lightboxUrl;
-            const title = this.dataset.lightboxTitle;
-            openImageLightbox(url, title);
-          });
-        });
-
-        // Lightbox close handlers
-        const lightbox = document.getElementById('imageLightbox');
-        const lightboxClose = document.getElementById('lightboxCloseBtn');
-        const lightboxContent = lightbox.querySelector('.lightbox-content');
-
-        // Close when clicking on backdrop
-        lightbox.addEventListener('click', function(event) {
-          if (event.target === lightbox) {
-            closeLightbox();
-          }
-        });
-
-        // Close button
-        lightboxClose.addEventListener('click', closeLightbox);
-
-        // Prevent content clicks from closing lightbox
-        lightboxContent.addEventListener('click', function(event) {
-          event.stopPropagation();
-        });
-      });
-    </script>
+    <script src="/js/admin-media-library.js" defer></script>
   </body>
 </html>

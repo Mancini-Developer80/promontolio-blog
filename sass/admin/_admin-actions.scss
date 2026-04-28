@@ -1,45 +1,266 @@
+// ==========================================================================
+// ADMIN ACTIONS — Bottoni, quick actions, azioni tabelle
+// Tutti i .btn scoped sotto body.admin-page per non
+// sovrascrivere i bottoni della homepage in _buttons.scss
+// ==========================================================================
 @use "sass:color";
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
+// ── BOTTONI ADMIN (scoped — non impattano la homepage) ───────────────────────
+body.admin-page {
+  // ── RESET BASE ─────────────────────────────────────────────────────────────
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 18px;
+    border-radius: $adm-radius-sm;
+    font-size: 0.855rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: $adm-transition;
+    font-family: $font-stack;
+    white-space: nowrap;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: 0;
+
+    i {
+      font-size: 0.85rem;
+    }
+
+    &:disabled,
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  // ── VARIANTI ───────────────────────────────────────────────────────────────
+  .btn-primary {
+    background: $adm-blue;
+    color: $white !important;
+    border-color: $adm-blue;
+
+    &:hover {
+      background: color.adjust($adm-blue, $lightness: -8%);
+      border-color: color.adjust($adm-blue, $lightness: -8%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($adm-blue, 0.35);
+    }
+  }
+
+  .btn-success {
+    background: $adm-accent;
+    color: $white !important;
+    border-color: $adm-accent;
+
+    &:hover {
+      background: color.adjust($adm-accent, $lightness: -6%);
+      border-color: color.adjust($adm-accent, $lightness: -6%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($adm-accent, 0.3);
+    }
+  }
+
+  .btn-danger {
+    background: $adm-danger;
+    color: $white !important;
+    border-color: $adm-danger;
+
+    &:hover {
+      background: color.adjust($adm-danger, $lightness: -8%);
+      border-color: color.adjust($adm-danger, $lightness: -8%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($adm-danger, 0.3);
+    }
+  }
+
+  .btn-secondary {
+    background: $adm-surface;
+    color: $adm-text !important;
+    border-color: $adm-border;
+
+    &:hover {
+      background: $adm-page-bg;
+      border-color: color.adjust($adm-border, $lightness: -8%);
+    }
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: $adm-text-muted !important;
+    border-color: transparent;
+
+    &:hover {
+      background: $adm-page-bg;
+      color: $adm-text !important;
+    }
+  }
+
+  .btn-warning {
+    background: $adm-warning;
+    color: $white !important;
+    border-color: $adm-warning;
+
+    &:hover {
+      background: color.adjust($adm-warning, $lightness: -6%);
+      transform: translateY(-1px);
+    }
+  }
+
+  .btn-info {
+    background: $adm-info-bg;
+    color: $adm-info !important;
+    border-color: rgba($adm-info, 0.25);
+
+    &:hover {
+      background: rgba($adm-info, 0.15);
+    }
+  }
+
+  // Outline variants (usati nei template admin)
+  .btn-outline-primary {
+    background: transparent;
+    color: $adm-blue !important;
+    border-color: $adm-blue;
+
+    &:hover {
+      background: $adm-blue;
+      color: $white !important;
+    }
+  }
+
+  .btn-outline-warning {
+    background: transparent;
+    color: $adm-warning !important;
+    border-color: $adm-warning;
+
+    &:hover {
+      background: $adm-warning;
+      color: $white !important;
+    }
+  }
+
+  // ── DIMENSIONI ─────────────────────────────────────────────────────────────
+  .btn-sm {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    gap: 5px;
+  }
+
+  .btn-lg {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+  .btn-full {
+    width: 100%;
+  }
+
+  .btn-icon {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: $adm-radius-sm;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+  }
+} // end body.admin-page
+
+// ── QUICK ACTIONS GRID (non necessita scope — classi uniche admin) ────────────
 .quick-actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: $space-sm;
-  margin: $space-lg 0;
+  margin-bottom: $space-xl;
+
+  @include mobile {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .btn-admin {
-  @include flex-center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   padding: $space-sm $space-md;
-  border-radius: $radius-md;
+  border-radius: $adm-radius;
   font-weight: 600;
-  transition: $transition;
+  font-family: $font-stack;
+  text-decoration: none;
   cursor: pointer;
-  border: none;
-  gap: $space-xs;
-  box-shadow: $elevation-1;
+  border: 1px solid $adm-border;
+  background: $adm-surface;
+  box-shadow: $adm-shadow;
+  color: $adm-text;
+  transition: $adm-transition;
+
+  i {
+    font-size: 1.1rem;
+    color: $adm-blue;
+  }
+  span {
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
 
   &:hover {
+    border-color: $adm-blue;
+    background: $adm-blue-light;
     transform: translateY(-2px);
-    box-shadow: $elevation-2;
+    box-shadow: $adm-shadow-lg;
+    i {
+      color: $adm-blue;
+    }
   }
 
   &.btn-create {
-    background: $color-success;
-    color: $white;
+    i {
+      color: $adm-accent;
+    }
+    &:hover {
+      border-color: $adm-accent;
+      background: $adm-accent-light;
+    }
   }
+
   &.btn-danger {
-    background: $color-error;
-    color: $white;
+    i {
+      color: $adm-danger;
+    }
+    &:hover {
+      border-color: $adm-danger;
+      background: $adm-danger-bg;
+    }
   }
-  &.btn-info {
-    background: #17a2b8;
-    color: $white;
-  }
+
   &.btn-gold {
-    background: $secondary-color;
-    color: $white;
+    i {
+      color: $adm-warning;
+    }
+    &:hover {
+      border-color: $adm-warning;
+      background: $adm-warning-bg;
+    }
+  }
+
+  // usato nella dashboard per navigazione neutrale
+  &.btn-info {
+    i {
+      color: $adm-info;
+    }
+    &:hover {
+      border-color: $adm-info;
+      background: $adm-info-bg;
+    }
   }
 
   @include mobile {

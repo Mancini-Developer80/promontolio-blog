@@ -78,3 +78,48 @@ $radius-pill: 999px;
 $breakpoint-mobile: 768px;
 $breakpoint-tablet: 1024px;
 $breakpoint-desktop: 1200px;
+
+// ==========================================================================
+// ADMIN DESIGN SYSTEM — Token centralizzati per tutta la sezione admin
+// ==========================================================================
+
+// Palette
+$adm-bg: #0f172a; // Navbar dark (Slate 900)
+$adm-surface: #ffffff; // Card/Panel background
+$adm-page-bg: #f1f5f9; // Sfondo pagina (Slate 100)
+$adm-border: #e2e8f0; // Bordi standard (Slate 200)
+$adm-border-dark: rgba(255, 255, 255, 0.1); // Bordi sulla navbar dark
+
+// Brand accent (unico, coerente)
+$adm-accent: #4f6f27; // Verde Promontolio (derivato da $primary-color)
+$adm-accent-light: #eef3e8; // Tint verde per hover/badge
+$adm-blue: #3b82f6; // Azioni primarie, link
+$adm-blue-light: #eff6ff; // Tint blu
+
+// Testo
+$adm-text: #1e293b; // Testo principale (Slate 800)
+$adm-text-muted: #64748b; // Testo secondario (Slate 500)
+$adm-text-nav: #94a3b8; // Link navbar inattivi (Slate 400)
+
+// Stato
+$adm-success: #16a34a;
+$adm-success-bg: #f0fdf4;
+$adm-danger: #dc2626;
+$adm-danger-bg: #fef2f2;
+$adm-warning: #d97706;
+$adm-warning-bg: #fffbeb;
+$adm-info: #0891b2;
+$adm-info-bg: #ecfeff;
+
+// Layout
+$adm-navbar-h: 64px;
+$adm-content-max: 1400px;
+$adm-radius: 10px; // Radius card/panel standard
+$adm-radius-sm: 6px; // Radius bottoni/badge
+$adm-shadow:
+  0 1px 3px rgba(0, 0, 0, 0.08),
+  0 4px 16px rgba(0, 0, 0, 0.04);
+$adm-shadow-lg:
+  0 8px 24px rgba(0, 0, 0, 0.1),
+  0 2px 8px rgba(0, 0, 0, 0.06);
+$adm-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);

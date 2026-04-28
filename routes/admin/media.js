@@ -14,9 +14,6 @@ router.get("/", mediaController.mediaLibrary);
 // Upload Form
 router.get("/upload", mediaController.uploadForm);
 
-// Media Details View
-router.get("/:id", mediaController.mediaDetailsView);
-
 // Handle Upload
 router.post(
   "/upload",
@@ -31,6 +28,12 @@ router.post(
   mediaController.uploadMedia,
 );
 
+// Bulk operations (admin only)
+router.post("/bulk", ensureRole(["admin"]), mediaController.bulkOperation);
+
+// API endpoint for TinyMCE image list — must be before /api/:id to avoid shadowing
+router.get("/api/editor/images", mediaController.getMediaForEditor);
+
 // Get media details (API)
 router.get("/api/:id", mediaController.getMediaDetails);
 
@@ -40,10 +43,7 @@ router.put("/api/:id", mediaController.updateMedia);
 // Delete media
 router.delete("/api/:id", ensureRole(["admin"]), mediaController.deleteMedia);
 
-// Bulk operations (admin only)
-router.post("/bulk", ensureRole(["admin"]), mediaController.bulkOperation);
-
-// API endpoint for TinyMCE image list
-router.get("/api/editor/images", mediaController.getMediaForEditor);
+// Media Details View — dynamic route last to avoid shadowing /api/* routes
+router.get("/:id", mediaController.mediaDetailsView);
 
 module.exports = router;

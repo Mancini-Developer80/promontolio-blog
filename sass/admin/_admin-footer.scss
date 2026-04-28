@@ -1,52 +1,58 @@
+// ==========================================================================
+// ADMIN FOOTER
+// ==========================================================================
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
 .admin-footer {
-  background: $white;
-  border-top: 1px solid $color-disabled-bg;
-  padding: $space-md 0;
-  margin-top: $space-3xl; // Spazio generoso per separare dal contenuto
-  width: 100%;
+  margin-top: $space-3xl;
+  padding: $space-md $space-lg;
+  border-top: 1px solid $adm-border;
+  background: $adm-surface;
 
   .admin-footer-content {
-    max-width: 1200px;
+    max-width: $adm-content-max;
     margin: 0 auto;
-    padding: 0 $space-lg;
-    @include flex-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-sm;
 
     @include mobile {
       flex-direction: column;
-      gap: $space-sm;
       text-align: center;
     }
+  }
 
-    p {
-      margin: 0;
-      color: $text-light;
-      font-size: $type-small;
-      font-weight: 500;
+  p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: $adm-text-muted;
+  }
+
+  .footer-brand {
+    font-family: $font-secondary;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: $adm-accent;
+
+    span {
+      color: $secondary-color;
     }
+  }
 
-    .footer-brand {
-      font-family: $font-secondary;
-      color: $primary-color;
-      font-weight: 700;
+  .footer-links {
+    display: flex;
+    gap: $space-md;
 
-      span {
-        color: $secondary-color; // L'oro di Promontolio
-      }
-    }
+    a {
+      font-size: 0.8rem;
+      color: $adm-text-muted;
+      text-decoration: none;
+      transition: $adm-transition;
 
-    .footer-links {
-      display: flex;
-      gap: $space-md;
-
-      a {
-        color: $text-light;
-        font-size: $type-small;
-        &:hover {
-          color: $primary-color;
-        }
+      &:hover {
+        color: $adm-blue;
       }
     }
   }

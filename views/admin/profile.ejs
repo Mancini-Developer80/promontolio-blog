@@ -14,26 +14,6 @@
     <link rel="stylesheet" href="/css/main.css" />
 
     <style>
-      /* Fix navbar user text visibility */
-      .dashboard-navbar .user-info,
-      .dashboard-navbar .user-info *,
-      .dashboard-navbar .user-details,
-      .dashboard-navbar .user-details *,
-      .dashboard-navbar .user-name,
-      .dashboard-navbar .user-role {
-        color: white !important;
-      }
-
-      .dashboard-navbar .dropdown-toggle {
-        color: white !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      }
-
-      .dashboard-navbar .user-info i {
-        color: white !important;
-      }
-
       .profile-container {
         max-width: 800px;
         margin: 0 auto;
@@ -200,17 +180,17 @@
       }
     </style>
   </head>
-  <body>
+  <body class="admin-page">
     <%- include('../partials/general/dashboardNavbar') %>
 
-    <div class="profile-container">
-      <div class="page-header">
+    <div class="admin-page-content">
+      <header class="admin-header" style="flex-direction:column; text-align:center; align-items:center">
         <h1>
           <i class="fas fa-user-edit"></i>
           Profile Settings
         </h1>
         <p>Manage your personal information and account settings</p>
-      </div>
+      </header>
 
       <!-- Flash Messages -->
       <% if (success_msg && success_msg.length > 0) { %>
@@ -227,7 +207,7 @@
 
       <form method="POST" action="/admin/profile">
         <!-- Personal Information -->
-        <div class="form-section">
+        <div class="form-card"><div class="form-body">
           <h3>
             <i class="fas fa-user"></i>
             Personal Information
@@ -294,10 +274,10 @@
 <%= profile.bio || '' %></textarea
             >
           </div>
-        </div>
+        </div></div>
 
         <!-- Password Change -->
-        <div class="form-section">
+        <div class="form-card"><div class="form-body">
           <h3>
             <i class="fas fa-lock"></i>
             Security Settings
@@ -347,9 +327,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div></div>
 
-        <div class="form-actions">
+        <div class="form-card"><div class="form-footer">
           <a href="/admin/dashboard" class="btn btn-secondary">
             <i class="fas fa-times"></i>
             Cancel
@@ -358,28 +338,10 @@
             <i class="fas fa-save"></i>
             Save Changes
           </button>
-        </div>
+        </div></div>
       </form>
     </div>
 
-    <script>
-      function togglePasswordFields() {
-        const fields = document.getElementById("passwordFields");
-        const button = document.querySelector(".password-toggle");
-
-        if (fields.classList.contains("active")) {
-          fields.classList.remove("active");
-          button.innerHTML = '<i class="fas fa-key"></i> Change Password';
-          // Clear password fields when hiding
-          document.getElementById("currentPassword").value = "";
-          document.getElementById("newPassword").value = "";
-          document.getElementById("confirmPassword").value = "";
-        } else {
-          fields.classList.add("active");
-          button.innerHTML =
-            '<i class="fas fa-eye-slash"></i> Cancel Password Change';
-        }
-      }
-    </script>
+    <script src="/js/admin-profile.js" defer></script>
   </body>
 </html>

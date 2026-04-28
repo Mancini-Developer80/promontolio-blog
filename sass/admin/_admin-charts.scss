@@ -1,10 +1,14 @@
+// ==========================================================================
+// ADMIN CHARTS — Griglia analytics e contenitori Chart.js
+// ==========================================================================
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
 .analytics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
   gap: $space-lg;
+  margin-bottom: $space-xl;
 
   @include mobile {
     grid-template-columns: 1fr;
@@ -12,16 +16,47 @@
 }
 
 .chart-box {
-  background: $white;
-  padding: $space-md;
-  border-radius: $radius-md;
-  box-shadow: $box-shadow;
-  border: 1px solid $color-disabled-bg;
+  background: $adm-surface;
+  border-radius: $adm-radius;
+  border: 1px solid $adm-border;
+  box-shadow: $adm-shadow;
+  overflow: hidden;
 
   .chart-header {
-    @include flex-between;
-    margin-bottom: $space-md;
-    border-bottom: 2px solid $bg-light;
-    padding-bottom: $space-xs;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-sm $space-md;
+    border-bottom: 1px solid $adm-border;
+    background: #fafbfc;
+
+    h3 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: $adm-text;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: $space-xs;
+
+      i {
+        color: $adm-blue;
+        font-size: 0.85rem;
+      }
+    }
+
+    .chart-meta {
+      font-size: 0.75rem;
+      color: $adm-text-muted;
+    }
   }
+
+  .chart-body {
+    padding: $space-md;
+  }
+}
+
+.chart-container {
+  position: relative;
+  height: 260px;
 }

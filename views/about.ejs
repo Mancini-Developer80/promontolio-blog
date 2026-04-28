@@ -162,23 +162,6 @@
 
     <%- include('partials/general/footer') %>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const consentCheckbox = document.getElementById('consent-about');
-        const submitBtn = document.getElementById('submit-btn-about');
-
-        const toggleButton = () => {
-          if (consentCheckbox && submitBtn) {
-            submitBtn.disabled = !consentCheckbox.checked;
-            // L'opacità viene gestita meglio dal CSS con :disabled, 
-            // ma lasciamo un piccolo feedback inline per sicurezza
-            submitBtn.style.cursor = consentCheckbox.checked ? "pointer" : "not-allowed";
-          }
-        };
-
-        consentCheckbox.addEventListener('change', toggleButton);
-        toggleButton(); 
-      });
-    </script>
+    <script src="/js/about.js" defer></script>
   </body>
 </html>

@@ -1,21 +1,126 @@
-// _admin-alerts.scss
-.alert-container {
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  font-weight: 500;
+// ==========================================================================
+// ADMIN ALERTS & NOTIFICATIONS
+// ==========================================================================
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
 
-  &.alert-success {
-    background-color: #e6f4ea; // Verde chiaro Promontolio
-    color: #1e7e34;
-    border: 1px solid #b7e1cd;
+// ── ALERT INLINE ──────────────────────────────────────────────────────────────
+.alert,
+.alert-container {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-sm;
+  padding: 12px $space-md;
+  border-radius: $adm-radius-sm;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: $space-md;
+  border: 1px solid transparent;
+
+  i {
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
   }
 
-  &.alert-danger {
-    background-color: #fce8e6; // Rosso chiaro
-    color: #c5221f;
-    border: 1px solid #f9d2ce;
+  .alert-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    padding: 0 4px;
+    margin-left: auto;
+    font-size: 1rem;
+    line-height: 1;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.alert-success,
+.alert-container.alert-success {
+  background: $adm-success-bg;
+  border-color: rgba($adm-success, 0.25);
+  color: color.adjust($adm-success, $lightness: -10%);
+  i {
+    color: $adm-success;
+  }
+}
+
+.alert-danger,
+.alert-container.alert-danger {
+  background: $adm-danger-bg;
+  border-color: rgba($adm-danger, 0.25);
+  color: color.adjust($adm-danger, $lightness: -10%);
+  i {
+    color: $adm-danger;
+  }
+}
+
+.alert-warning {
+  background: $adm-warning-bg;
+  border-color: rgba($adm-warning, 0.3);
+  color: color.adjust($adm-warning, $lightness: -15%);
+  i {
+    color: $adm-warning;
+  }
+}
+
+.alert-info {
+  background: $adm-info-bg;
+  border-color: rgba($adm-info, 0.25);
+  color: color.adjust($adm-info, $lightness: -15%);
+  i {
+    color: $adm-info;
+  }
+}
+
+// ── TOAST / FLASH ─────────────────────────────────────────────────────────────
+.flash-messages {
+  position: fixed;
+  top: calc(#{$adm-navbar-h} + 16px);
+  right: $space-md;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  max-width: 380px;
+  width: calc(100vw - 2rem);
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-sm;
+  padding: 12px $space-md;
+  border-radius: $adm-radius-sm;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  box-shadow: $adm-shadow-lg;
+  animation: toast-in 0.25s ease-out;
+
+  &.toast-hiding {
+    animation: toast-out 0.2s ease forwards;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    transform: translateX(20px);
   }
 }
