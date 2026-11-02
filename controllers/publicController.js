@@ -5,74 +5,69 @@ const {
   sendWelcomePDF,
   sendContactMessage,
 } = require("../services/emailService");
+const { getPageByRoute } = require("../config/i18n");
 
 // Configurazione Prodotti (Single Source of Truth)
 const PRODUCTS = {
   "oil-bundle-6": {
-    name: "Bio-Olivenöl Extra Vergine (6er Paket)",
     amount: 9600, // In centesimi (96,00 €)
+    bundleIndex: 0,
   },
   "oil-bundle-12": {
-    name: "Bio-Olivenöl Extra Vergine (12er Paket)",
     amount: 19200, // In centesimi (192,00 €)
+    bundleIndex: 1,
   },
 };
+
+function getPage(req, routePath) {
+  const locale = req.res && req.res.locals ? req.res.locals.locale : "de";
+  return getPageByRoute(locale, routePath) || {};
+}
+
+function renderPage(req, res, view, routePath, fallback = {}) {
+  const page = getPage(req, routePath);
+  const content = page.content || {};
+  const metaTags = page.metaTags || {};
+
+  res.render(view, {
+    title: page.title || metaTags.title,
+    metaDescription: page.metaDescription || metaTags.metaDescription,
+    metaKeywords: page.metaKeywords || metaTags.metaKeywords,
+    bodyClass: fallback.bodyClass,
+    pageCopy: content,
+  });
+}
 
 module.exports = {
   // --- VIEW GETTERS ---
   getHome: (req, res) => {
-    res.render("index", {
-      title: "Promontolio | Premium Bio-Olivenöl aus Apulien",
-      metaDescription:
-        "Willkommen bei Promontolio. Wir selektieren für Sie das beste zertifizierte Bio-Olivenöl aus Apulien. Höchste Qualität direkt in Frankfurt am Main.",
-      metaKeywords:
-        "Olivenöl, Bio, Apulien, Gargano, Premium Olivenöl, Frankfurt, Feinkost",
-    });
+    renderPage(req, res, "index", "/");
   },
 
   getAbout: (req, res) => {
-    res.render("about", {
-      title: "Über uns | Die Kunst der Olivenöl-Selektion",
-      metaDescription:
-        "Erfahren Sie mehr über Promontolio: Als zertifizierte Experten selektieren wir nur die außergewöhnlichsten Olivenöle Apuliens nach strengsten Kriterien.",
-    });
+    renderPage(req, res, "about", "/about");
   },
 
   getContact: (req, res) => {
-    res.render("contact", {
-      title: "Kontakt | Ihre Fragen an den Experten",
-      metaDescription:
-        "Haben Sie Fragen zu unserer Selektion oder den aktuellen Erntepartien? Kontaktieren Sie Promontolio.",
-    });
+    renderPage(req, res, "contact", "/contact");
   },
 
   getProduct: (req, res) => {
-    res.render("product", {
-      title: "Unsere Selektion | Exklusives Bio-Olivenöl",
-      metaDescription:
-        "Entdecken Sie unsere streng limitierten Erntepartien. Zertifiziertes, reines Bio-Olivenöl direttamente dal Gargano.",
-    });
+    renderPage(req, res, "product", "/product");
   },
 
   getImpressum: (req, res) => {
-    res.render("impressum", {
-      title: "Impressum | Promontolio",
-      bodyClass: "legal-view",
-    });
+    renderPage(req, res, "impressum", "/impressum", { bodyClass: "legal-view" });
   },
 
   getDatenschutz: (req, res) => {
-    res.render("datenschutz", {
-      title: "Datenschutzerklärung | Promontolio",
+    renderPage(req, res, "datenschutz", "/datenschutz", {
       bodyClass: "legal-view",
     });
   },
 
   getGuideLanding: (req, res) => {
-    res.render("landingPage", {
-      title: "Kostenloser Ratgeber: Olivenöl-Qualität erkennen | Promontolio",
-      metaDescription:
-        "Entdecken Sie die Geheimnisse del Gargano con la nostra guida gratuita.",
+    renderPage(req, res, "landingPage", "/olivenoel-guide", {
       bodyClass: "lp-guide",
     });
   },
@@ -81,16 +76,18 @@ module.exports = {
   handleContactForm: async (req, res) => {
     try {
       const { name, email, message } = req.body;
+      const page = getPage(req, "/contact");
+      const messages = page.content?.messages || {};
       if (!name || !email || !message) {
         return res.status(400).json({
           success: false,
-          message: "Per favore, compila tutti i campi obbligatori.",
+          message: messages.required,
         });
       }
       await sendContactMessage(name, email, message);
       res.status(200).json({
         success: true,
-        message: "Grazie! Abbiamo ricevuto il tuo messaggio.",
+        message: messages.success,
       });
     } catch (error) {
       console.error("Errore nel Contact Controller:", error);
@@ -104,34 +101,39 @@ module.exports = {
   postSubscribe: async (req, res) => {
     try {
       const { email, consent, source } = req.body;
-      let errorView = "index",
-        pageTitle = "Bio-Olivenöl aus Apulien",
-        route = "/";
+      let errorView = "index";
+      let route = "/";
 
       // Mappatura Source degli Hooks (Come da strategia 17/02)
       if (source === "landing_page_guide") {
         errorView = "landingPage";
-        pageTitle = "Exklusiver Olivenöl Guide";
         route = "/olivenoel-guide";
       } else if (source === "product_quality_focus") {
         errorView = "product";
-        pageTitle = "Unsere Selektion";
         route = "/product";
       }
+      const page = getPage(req, route);
+      const pageCopy = page.content || {};
+      const messages = pageCopy.messages || {};
 
-      const fileName = "Guida_Olio_Gargano_Promontolio.pdf";
+      const fileName = "Giuseppe_Mancini_AI_Solution_Architect_2026.pdf";
       const pdfPath = path.join(__dirname, "../public/download/", fileName);
       const downloadLink = `/download/${fileName}`;
 
       if (!consent)
         return res.status(400).render(errorView, {
-          title: pageTitle,
-          error: "Zustimmung erforderlich.",
+          title: page.title,
+          pageCopy,
+          error: messages.consentRequired,
         });
       if (!email)
         return res
           .status(400)
-          .render(errorView, { title: pageTitle, error: "E-Mail ungültig." });
+          .render(errorView, {
+            title: page.title,
+            pageCopy,
+            error: messages.invalidEmail,
+          });
 
       const normalizedEmail = email.toLowerCase().trim();
 
@@ -149,12 +151,15 @@ module.exports = {
 
       await sendWelcomePDF(normalizedEmail, pdfPath);
 
+      const thanksPage = getPage(req, "/thanks");
+      const thanksCopy = thanksPage.content || {};
+
       res.render("thanks", {
-        title: "Vielen Dank",
+        title: thanksPage.title,
         currentRoute: route,
-        message:
-          "Ihr Guide ist auf dem Weg! Sie können ihn auch direkt hier herunterladen.",
+        message: thanksCopy.mainMessage,
         downloadUrl: downloadLink,
+        pageCopy: thanksCopy,
       });
     } catch (err) {
       console.error("❌ Errore Prisma postSubscribe:", err);
@@ -186,9 +191,10 @@ module.exports = {
       ]);
 
       const totalPages = Math.ceil(totalArticles / POSTS_PER_PAGE);
+      const page = getPage(req, "/blog");
 
       res.render("blog", {
-        title: "Blog & Rezepte | Promontolio",
+        title: page.title,
         articles,
         pagination: {
           currentPage,
@@ -199,13 +205,16 @@ module.exports = {
           prevPage: currentPage - 1,
         },
         originalUrl: req.originalUrl,
+        pageCopy: page.content || {},
       });
     } catch (err) {
       console.error("Error loading blog:", err);
+      const page = getPage(req, "/blog");
       res.status(500).render("blog", {
-        title: "Blog",
+        title: page.title,
         articles: [],
         pagination: { currentPage: 1, totalPages: 0 },
+        pageCopy: page.content || {},
       });
     }
   },
@@ -215,14 +224,22 @@ module.exports = {
     try {
       const { items } = req.body;
       const stripeInstance = require("stripe")(process.env.STRIPE_SECRET_KEY);
+      const productPage = getPage(req, "/product");
+      const productCopy = productPage.content || {};
+      const product = productCopy.product || {};
+      const bundles = productCopy.bundles || [];
 
       const line_items = items.map((item) => {
         const storeItem = PRODUCTS[item.id];
         if (!storeItem) throw new Error(`Prodotto non valido: ${item.id}`);
+        const bundle = bundles[storeItem.bundleIndex];
+        if (!product.title || !bundle?.name) {
+          throw new Error("Localized product data is incomplete");
+        }
         return {
           price_data: {
             currency: "eur",
-            product_data: { name: storeItem.name },
+            product_data: { name: `${product.title} - ${bundle.name}` },
             unit_amount: storeItem.amount,
           },
           quantity: item.quantity,
@@ -255,12 +272,15 @@ module.exports = {
       const session =
         await stripeInstance.checkout.sessions.retrieve(sessionId);
 
+      const page = getPage(req, "/success");
+
       res.render("success", {
-        title: "Vielen Dank",
+        title: page.title,
         customerName: session.customer_details.name,
         totalAmount: session.amount_total / 100,
         orderId: session.id.slice(-10).toUpperCase(),
         customerEmail: session.customer_details.email,
+        pageCopy: page.content || {},
       });
     } catch (error) {
       res.redirect("/");

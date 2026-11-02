@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="<%= locale || 'de' %>">
   <head>
     <%- include('partials/general/head') %>
   </head>
   <body class="lp-body">
+    <% const copy = pageCopy || {}; %>
+    <% const hero = copy.hero || {}; %>
+    <% const benefits = copy.benefits || []; %>
+    <% const form = copy.form || {}; %>
+    <% const trust = copy.trust || []; %>
     <%- include('./partials/general/navbar.ejs') %>
 
     <main class="lp-guide">
@@ -11,7 +16,7 @@
         <div class="lp-guide__visual">
           <div class="lp-guide__img-container">
             <img
-              src="/image/pdf-mockup-luxury.webp"
+              src="/image/promontolio-olive-oil-bottles.webp"
               alt="Promontolio Olivenöl Guide"
               class="lp-guide__img"
             />
@@ -19,36 +24,17 @@
         </div>
 
         <div class="lp-guide__content">
-          <span class="text-accent">Exklusiver Zugang</span>
-          <h1>Die Kunst, erstklassiges Olivenöl zu erkennen</h1>
-          <p>
-            Entdecken Sie lehrreiche Geheimnisse der apulischen Ölmeister in
-            diesem exklusiven 20-seitigen Ratgeber. Erfahren Sie, was wahre
-            Qualität wirklich ausmacht.
-          </p>
+          <span class="text-accent"><%= hero.badge || '' %></span>
+          <h1><%= hero.title || '' %></h1>
+          <p><%= hero.text || '' %></p>
 
           <ul class="benefit-list">
+            <% benefits.forEach(function(item) { %>
             <li>
               <i class="fas fa-check-circle"></i>
-              <span
-                ><strong>Etiketten verstehen:</strong> So vermeiden Sie
-                Täuschungen beim Kauf.</span
-              >
+              <span><strong><%= item.title %>:</strong> <%= item.text %></span>
             </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              <span
-                ><strong>Die 3 Sensorik-Tests:</strong> Wie Sie Qualität zu
-                Hause prüfen können.</span
-              >
-            </li>
-            <li>
-              <i class="fas fa-check-circle"></i>
-              <span
-                ><strong>Gourmet-Pairing:</strong> Welches Öl zu welchem Gericht
-                passt.</span
-              >
-            </li>
+            <% }); %>
           </ul>
 
           <form
@@ -63,7 +49,7 @@
                 type="email"
                 name="email"
                 id="email-input"
-                placeholder="Ihre beste E-Mail-Adresse"
+                placeholder="<%= form.emailPlaceholder || '' %>"
                 required
               />
             </div>
@@ -71,36 +57,26 @@
             <div class="consent-wrapper">
               <input type="checkbox" name="consent" id="consent" required />
               <label for="consent">
-                Ich stimme zu, den Guide und exklusive Informationen per E-Mail
-                zu erhalten. <a href="/privacy" target="_blank">Datenschutz</a>.
+                <%= form.consentText || '' %> <a href="/datenschutz" target="_blank"><%= form.privacyLinkText || 'Datenschutz' %></a>.
               </label>
             </div>
 
             <button type="submit" id="submit-btn" class="btn-primary" disabled>
-              <span class="btn-text"
-                >Jetzt Guide kostenlos anfordern (PDF)</span
-              >
+              <span class="btn-text"><%= form.button || '' %></span>
             </button>
 
             <p class="form-disclaimer">
-              <i class="fas fa-lock"></i> Wir schätzen Ihre Privatsphäre. Kein
-              Spam.
+              <i class="fas fa-lock"></i> <%= form.disclaimer || '' %>
             </p>
           </form>
 
           <div class="lp-guide__trust">
+            <% trust.forEach(function(item) { %>
             <div class="trust-item">
-              <i class="fas fa-shield-alt"></i>
-              <span>DSGVO Konform</span>
+              <i class="fas fa-check"></i>
+              <span><%= item %></span>
             </div>
-            <div class="trust-item">
-              <i class="fas fa-leaf"></i>
-              <span>100% Bio-Qualität</span>
-            </div>
-            <div class="trust-item">
-              <i class="fas fa-map-marker-alt"></i>
-              <span>Direkt aus Gargano</span>
-            </div>
+            <% }); %>
           </div>
         </div>
       </div>

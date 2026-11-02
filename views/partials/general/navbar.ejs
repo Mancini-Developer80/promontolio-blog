@@ -1,4 +1,29 @@
 <% const normRoute = currentRoute && currentRoute.replace(/\/$/, ''); %>
+<% const navLabels = {
+  de: {
+    home: 'Home',
+    about: 'Über uns',
+    product: 'Produkte',
+    blog: 'Magazin',
+    cart: 'Warenkorb öffnen',
+    toggle: 'Toggle menu'
+  },
+  it: {
+    home: 'Home',
+    about: 'Chi siamo',
+    product: 'Prodotti',
+    blog: 'Blog',
+    cart: 'Apri carrello',
+    toggle: 'Apri menu'
+  }
+}[locale || 'de'] || {
+  home: 'Home',
+  about: 'Über uns',
+  product: 'Produkte',
+  blog: 'Magazin',
+  cart: 'Warenkorb öffnen',
+  toggle: 'Toggle menu'
+}; %>
 <nav class="navbar" id="main-navbar" aria-label="Main navigation">
   <div class="navbar__container container">
     <div class="navbar__logo">
@@ -17,38 +42,42 @@
           <a
             href="/"
             class="navbar__link <%= (normRoute === '' || normRoute === '/') ? 'navbar__link--active' : '' %>"
-            >Home</a
+            ><%= navLabels.home %></a
           >
         </li>
         <li class="navbar__item">
           <a
             href="/about"
             class="navbar__link <%= normRoute && normRoute.startsWith('/about') ? 'navbar__link--active' : '' %>"
-            >Über uns</a
+            ><%= navLabels.about %></a
           >
         </li>
         <li class="navbar__item">
           <a
             href="/product"
             class="navbar__link <%= normRoute && normRoute.startsWith('/product') ? 'navbar__link--active' : '' %>"
-            >Produkte</a
+            ><%= navLabels.product %></a
           >
         </li>
         <li class="navbar__item">
           <a
             href="/blog"
             class="navbar__link <%= normRoute && normRoute.startsWith('/blog') ? 'navbar__link--active' : '' %>"
-            >Magazin</a
+            ><%= navLabels.blog %></a
           >
         </li>
       </ul>
     </div>
 
     <div class="navbar__actions">
+      <div class="navbar__language-switch" aria-label="Language switcher">
+        <a class="navbar__language-link <%= locale === 'de' ? 'is-active' : '' %>" href="<%= languageUrls && languageUrls.de ? languageUrls.de : '/?lang=de' %>" hreflang="de" aria-current="<%= locale === 'de' ? 'true' : 'false' %>">DE</a>
+        <a class="navbar__language-link <%= locale === 'it' ? 'is-active' : '' %>" href="<%= languageUrls && languageUrls.it ? languageUrls.it : '/?lang=it' %>" hreflang="it" aria-current="<%= locale === 'it' ? 'true' : 'false' %>">IT</a>
+      </div>
       <button
         id="open-cart"
         class="navbar__cart-btn"
-        aria-label="Warenkorb öffnen"
+        aria-label="<%= navLabels.cart %>"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +103,7 @@
     <button
       class="navbar__hamburger"
       id="navbar-hamburger"
-      aria-label="Toggle menu"
+      aria-label="<%= navLabels.toggle %>"
     >
       <span></span>
       <span></span>

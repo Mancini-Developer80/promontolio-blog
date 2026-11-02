@@ -1,111 +1,226 @@
 @use "../abstracts/variables" as *;
 
 .site-footer {
-  background-color: $font-dark; // Il tuo grigio scuro/nero professionale
-  color: #fff;
-  padding: $space-lg 0 $space-sm; // Ridotto: 32px sopra, 16px sotto
-  border-top: 1px solid rgba($secondary-color, 0.2);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 0%, rgba($secondary-color, 0.12), transparent 32rem),
+    linear-gradient(145deg, #171b18 0%, $font-dark 58%, #111311 100%);
+  color: $white;
+  padding: clamp(3rem, 7vw, 5.5rem) 0 $space-md;
+  border-top: 1px solid rgba($secondary-color, 0.32);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: min(1120px, calc(100% - 3rem));
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba($secondary-color, 0.8), transparent);
+    transform: translateX(-50%);
+  }
 }
 
 .footer-container {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(240px, 1.15fr) minmax(280px, 1fr);
+  gap: $space-xl $space-2xl;
   align-items: center;
-  gap: $space-md; // Spazio tra i blocchi ridotto a 24px
 }
 
 .footer-brand {
   display: flex;
   align-items: center;
-  gap: $space-sm;
+  gap: $space-md;
 
   .footer-logo {
-    width: 45px; // Più piccolo e discreto
-    height: 45px;
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    border: 1px solid rgba($secondary-color, 0.55);
     border-radius: 50%;
-    background: #fff;
+    background: $white;
     padding: 4px;
+    box-shadow: 0 10px 24px rgba($black, 0.25);
+  }
+
+  .footer-brand-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
   }
 
   .footer-title {
+    color: $secondary-color;
     font-family: $font-secondary;
-    font-size: 1.2rem; // Più sottile
-    letter-spacing: 2px;
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1.1;
     text-transform: uppercase;
-    color: $secondary-color; // Oro solido per leggibilità veloce
+  }
+
+  .footer-tagline {
+    max-width: 32rem;
+    color: rgba($white, 0.68);
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
 }
 
 .footer-middle {
   display: flex;
-  align-items: center;
-  gap: $space-lg; // Social e Contact sulla stessa riga su desktop
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $space-md;
+  width: 100%;
 
-  .footer-social {
+  .footer-trust {
     display: flex;
-    gap: $space-md;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.45rem 0.7rem;
+    color: rgba($white, 0.64);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+    text-align: right;
 
-    i {
-      font-size: 1.2rem;
-      opacity: 0.7;
-      transition: $transition;
-      &:hover {
-        color: $secondary-color;
-        opacity: 1;
-      }
+    .separator {
+      color: $secondary-color;
+      opacity: 0.8;
     }
   }
 
-  .footer-link {
-    font-size: 0.9rem;
-    color: #fff;
-    opacity: 0.8;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    &:hover {
-      opacity: 1;
-      color: $secondary-color;
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    gap: $space-md;
+
+    .footer-social {
+      display: flex;
+      gap: 0.6rem;
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.45rem;
+        height: 2.45rem;
+        border: 1px solid rgba($white, 0.18);
+        border-radius: 50%;
+        color: rgba($white, 0.82);
+        background: rgba($white, 0.04);
+        text-decoration: none;
+        transition: $transition;
+
+        &:hover {
+          border-color: $secondary-color;
+          color: $secondary-color;
+          background: rgba($secondary-color, 0.12);
+          transform: translateY(-2px);
+        }
+      }
+
+      i {
+        font-size: 0.95rem;
+      }
+    }
+
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.45rem;
+      padding: 0.55rem 1.1rem;
+      border: 1px solid rgba($secondary-color, 0.65);
+      border-radius: $radius-pill;
+      color: $white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: $transition;
+
+      &:hover {
+        border-color: $secondary-color;
+        color: $font-dark;
+        background: $secondary-color;
+        transform: translateY(-2px);
+      }
     }
   }
 }
 
 .footer-legal {
+  grid-column: 1 / -1;
   width: 100%;
   margin-top: $space-sm;
-  padding-top: $space-sm;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: $space-md;
+  border-top: 1px solid rgba($white, 0.1);
   text-align: center;
 
   .legal-nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: $space-md;
-    margin-bottom: $space-xs;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: $space-sm;
 
     a {
-      font-size: 0.75rem;
-      opacity: 0.5;
+      color: rgba($white, 0.62);
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: $transition;
+
       &:hover {
-        opacity: 1;
+        color: $secondary-color;
       }
     }
   }
 
   .footer-copyright {
+    color: rgba($white, 0.38);
     font-size: 0.7rem;
-    opacity: 0.3;
+    letter-spacing: 0.02em;
   }
 }
 
-// --- FIX ERRORE MIXIN: Media Query Standard ---
+.site-footer a:focus-visible {
+  outline: 2px solid $secondary-color;
+  outline-offset: 4px;
+}
+
 @media (max-width: 768px) {
-  .footer-middle {
-    flex-direction: column; // Incolonna su mobile
-    gap: $space-sm;
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: $space-lg;
   }
 
-  .legal-nav {
-    flex-wrap: wrap;
-    gap: $space-sm;
+  .footer-brand {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .footer-middle {
+    align-items: center;
+
+    .footer-trust {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  .footer-legal {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .footer-middle .footer-actions {
+    flex-direction: column;
   }
 }

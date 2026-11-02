@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="<%= locale || 'de' %>">
   <head>
     <%- include('partials/general/head') %>
   </head>
   <body class="<%= bodyClass %>">
+    <% const copy = pageCopy || {}; %>
     <%- include('partials/general/navbar') %>
 
     <main class="success-view">
@@ -22,14 +23,13 @@
         </div>
 
         <h1 class="success-title">
-          Vielen Dank für Ihr Vertrauen, <%= customerName %>!
+          <%= copy.title || 'Vielen Dank' %>, <%= customerName %>!
         </h1>
 
         <p class="success-text">
-          Wir haben Ihre Zahlung über
+          <%= copy.paymentText || 'Wir haben Ihre Zahlung über' %>
           <strong><%= totalAmount %> €</strong> erhalten. <br />
-          Eine Bestätigung Ihrer Bestellung (Nr. #<%= orderId %>) sowie die
-          Rechnung wurden soeben an <em><%= customerEmail %></em> versandt.
+          <%= copy.orderPrefix || 'Eine Bestätigung Ihrer Bestellung (Nr. #' %><%= orderId %><%= copy.orderSuffix || ') sowie die Rechnung wurden soeben an' %> <em><%= customerEmail %></em> <%= copy.sentText || 'versandt.' %>
         </p>
 
         <div
@@ -44,18 +44,17 @@
           "
         >
           <h3 style="color: #4a5d38; margin-bottom: 12px">
-            Ein Willkommensgruß aus dem Gargano 🌿
+            <%= copy.welcomeTitle || 'Ein Willkommensgruß aus dem Gargano 🌿' %>
           </h3>
           <p style="font-size: 0.95rem; color: #555">
-            Während wir Ihre Bestellung für den Versand vorbereiten, laden wir
-            Sie ein, tiefer in die Welt unseres Olivenöls einzutauchen.
+            <%= copy.welcomeText || 'Während wir Ihre Bestellung für den Versand vorbereiten, laden wir Sie ein, tiefer in die Welt unseres Olivenöls einzutauchen.' %>
           </p>
           <a
-            href="/downloads/guida-promontolio.pdf"
+            href="/download/Giuseppe_Mancini_AI_Solution_Architect_2026.pdf"
             class="btn-primary"
             style="display: inline-block; margin-top: 15px; padding: 12px 25px"
           >
-            PDF-Guide herunterladen
+            <%= copy.downloadGuide || 'PDF-Guide herunterladen' %>
           </a>
         </div>
 
@@ -63,8 +62,8 @@
           class="success-actions"
           style="display: flex; gap: 15px; justify-content: center"
         >
-          <a href="/blog" class="btn-secondary">Magazin & Rezepte</a>
-          <a href="/" class="btn-primary">Zur Startseite</a>
+          <a href="/blog" class="btn-secondary"><%= copy.blogCta || 'Magazin & Rezepte' %></a>
+          <a href="/" class="btn-primary"><%= copy.homeCta || 'Zur Startseite' %></a>
         </div>
       </section>
     </main>

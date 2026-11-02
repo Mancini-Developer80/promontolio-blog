@@ -1,34 +1,32 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="<%= locale || 'de' %>">
   <head>
     <%- include('partials/general/head') %>
   </head>
   <body>
+    <% const copy = pageCopy || {}; %>
+    <% const hero = copy.hero || {}; %>
+    <% const sections = copy.sections || []; %>
+    <% const sectionOne = sections[0] || {}; %>
+    <% const sectionTwo = sections[1] || {}; %>
+    <% const sectionThree = sections[2] || {}; %>
+    <% const sectionFour = sections[3] || {}; %>
     <%- include('./partials/general/navbar.ejs') %>
 
     <header class="home-header">
       <section class="hero container">
         <div class="hero__content">
           <h1 class="hero__title">
-            <span class="hero__title--highlight"
-              >Bio-Olivenöl Extra Vergine aus Italien</span
-            >
+            <span class="hero__title--highlight"><%= hero.titleHighlight || '' %></span>
           </h1>
           <h2 class="hero__subtitle">
-            <span class="hero__brand">Promontolio</span>
-            <span class="hero__slogan"
-              >Jahrhundertealte Tradition – Ein einziger Tropfen
-              Exzellenz.</span
-            >
+            <span class="hero__brand"><%= hero.subtitleBrand || 'Promontolio' %></span>
+            <span class="hero__slogan"><%= hero.slogan || '' %></span>
           </h2>
-          <p class="hero__description">
-            Genießen Sie kaltgepresstes Olivenöl, gewachsen auf antikem Boden
-            und veredelt durch moderne Nachhaltigkeit – kreiert für
-            anspruchsvollste Kenner.
-          </p>
+          <p class="hero__description"><%= hero.description || '' %></p>
         </div>
         <div class="hero__actions slideInDown">
-          <a class="btn-primary" href="contact">Kontaktieren Sie uns</a>
+          <a class="btn-primary" href="/product"><%= hero.primaryCta || 'Kontaktieren Sie uns' %></a>
         </div>
       </section>
     </header>
@@ -36,19 +34,14 @@
     <main class="home-main">
       <div class="container">
         <h2 class="section-title scroll-fade-up">
-          Entdecken Sie das feinste italienische Bio-Olivenöl
+          <%= sectionOne.title || '' %>
         </h2>
 
         <article class="feature-grid scroll-fade-up">
           <div class="feature-grid__image feature-grid__image--apulia"></div>
           <div class="feature-grid__text">
-            <h3 class="feature-grid__title">Die Essenz Apuliens erleben</h3>
-            <p>
-              Tauchen Sie ein in die reichen Aromen unseres Bio-Olivenöls extra
-              vergine. Hergestellt nach jahrhundertealter Tradition und mit
-              tiefem Respekt für die Umwelt – die perfekte Ergänzung für Ihre
-              kulinarischen Kreationen.
-            </p>
+            <h3 class="feature-grid__title"><%= sectionOne.features && sectionOne.features[0] ? sectionOne.features[0].title : '' %></h3>
+            <p><%= sectionOne.features && sectionOne.features[0] ? sectionOne.features[0].text : '' %></p>
             <div class="feature-grid__banner">
               <img
                 class="banner-img"
@@ -63,24 +56,12 @@
 
       <section class="impact-section impact--quality">
         <div class="container impact-section__content">
-          <span class="impact-section__badge scroll-fade-up"
-            >Limitierte Jahresproduktion</span
-          >
-          <h3 class="impact-section__title scroll-fade-up">
-            Flüssiges Gold: Wo Tradition auf Perfektion trifft
-          </h3>
-          <p class="impact-section__description scroll-fade-up">
-            Vergessen Sie industrielles Olivenöl. Promontolio ist das Ergebnis
-            einer leidenschaftlichen Selektion: Handverlesene Oliven, sofortige
-            Kaltpressung und ein unverwechselbares Aroma, das Ihre Gerichte in
-            Gourmet-Erlebnisse verwandelt.
-            <strong
-              >Reinheit, die man schmeckt. Qualität, die man fühlt.</strong
-            >
-          </p>
+          <span class="impact-section__badge scroll-fade-up"><%= sectionTwo.badge || '' %></span>
+          <h3 class="impact-section__title scroll-fade-up"><%= sectionTwo.title || '' %></h3>
+          <p class="impact-section__description scroll-fade-up"><%= sectionTwo.text || '' %></p>
           <div class="impact-section__actions scroll-fade-up">
-            <a href="/shop" class="btn-primary">Jetzt Probieren</a>
-            <a href="/quality" class="btn-outline-white">Unser Zertifikat</a>
+            <a href="/product" class="btn-primary"><%= sectionTwo.ctaPrimary || 'Jetzt Probieren' %></a>
+            <a href="/about" class="btn-outline-white"><%= sectionTwo.ctaSecondary || 'Unser Zertifikat' %></a>
           </div>
         </div>
       </section>
@@ -88,13 +69,8 @@
       <div class="container">
         <article class="feature-grid feature-grid--reverse scroll-fade-up">
           <div class="feature-grid__text">
-            <h3 class="feature-grid__title">Unser zeitloses Terroir</h3>
-            <p>
-              Mit Blick auf kristallklares Wasser und Kalksteinhügel gedeihen
-              unsere Haine seit Jahrhunderten. Die sonnenverwöhnten Koroneiki-
-              und Ogliarola-Bäume ziehen ihre Kraft aus Apuliens fruchtbarem
-              Boden und der Meeresbrise, um Oliven voller Charakter zu liefern.
-            </p>
+            <h3 class="feature-grid__title"><%= sectionOne.features && sectionOne.features[1] ? sectionOne.features[1].title : '' %></h3>
+            <p><%= sectionOne.features && sectionOne.features[1] ? sectionOne.features[1].text : '' %></p>
           </div>
           <div
             class="feature-grid__image feature-grid__image--terroir"
@@ -105,24 +81,11 @@
 
         <article class="feature-grid scroll-fade-up">
           <div class="feature-grid__text">
-            <h3 class="feature-grid__title">Warum unser Olivenöl wählen?</h3>
+            <h3 class="feature-grid__title"><%= sectionOne.features && sectionOne.features[2] ? sectionOne.features[2].title : '' %></h3>
             <ul class="check-list">
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> 100% Bio und Extra Vergine
-              </li>
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> Kaltgepresst für maximales Aroma
-              </li>
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> Reich an Antioxidantien
-              </li>
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> Vielseitig für Küche und
-                Gourmet-Gerichte
-              </li>
-              <li class="check-list__item">
-                <i class="fas fa-check"></i> Nachhaltig aus Familienbesitz
-              </li>
+              <% (sectionOne.features && sectionOne.features[2] && sectionOne.features[2].bullets ? sectionOne.features[2].bullets : []).forEach(function(bullet) { %>
+              <li class="check-list__item"><i class="fas fa-check"></i> <%= bullet %></li>
+              <% }); %>
             </ul>
             <div class="feature-grid__banner">
               <img
@@ -142,20 +105,11 @@
       </div>
       <section class="impact-section impact--guide scroll-fade-up">
         <div class="container impact-section__content">
-          <span class="impact-section__badge">Gratis PDF-Ratgeber</span>
-          <h3 class="impact-section__title">
-            Woran erkennt man echtes Premium-Olivenöl?
-          </h3>
-          <p class="impact-section__description">
-            Vermeiden Sie teure Fehler beim Kauf. Laden Sie unseren kostenlosen
-            Ratgeber herunter und lernen Sie die 3 sensorischen Tests kennen,
-            die jeder Kenner wissen muss, um Qualität von Industrieware zu
-            unterscheiden.
-          </p>
+          <span class="impact-section__badge"><%= sectionFour.badge ||'' %></span>
+          <h3 class="impact-section__title"><%= sectionFour.subtitle || '' %></h3>
+          <p class="impact-section__description"><%= sectionFour.text || '' %></p>
           <div class="impact-section__actions">
-            <a href="/olivenoel-guide" class="btn-primary"
-              >Kostenlosen Guide laden</a
-            >
+            <a href="/olivenoel-guide" class="btn-primary"><%= sectionFour.cta || 'Kostenlosen Guide laden' %></a>
           </div>
         </div>
       </section>
@@ -163,13 +117,8 @@
       <div class="container">
         <article class="feature-grid feature-grid--reverse scroll-fade-up">
           <div class="feature-grid__text">
-            <h3 class="feature-grid__title">Ehrliche Handarbeit</h3>
-            <p>
-              Wir glauben an Qualität statt Quantität. Unsere Oliven werden zum
-              perfekten Zeitpunkt von Hand geerntet und innerhalb von 6 Stunden
-              gepresst. Nur so bewahren wir die wertvollen Polyphenole und den
-              intensiven Geschmack.
-            </p>
+            <h3 class="feature-grid__title"><%= sectionOne.features && sectionOne.features[3] ? sectionOne.features[3].title : '' %></h3>
+            <p><%= sectionOne.features && sectionOne.features[3] ? sectionOne.features[3].text : '' %></p>
           </div>
           <div
             class="feature-grid__image feature-grid__image--harvest"
@@ -181,38 +130,19 @@
 
       <section class="impact-section impact--sustainability">
         <div class="container impact-section__content">
-          <span class="impact-section__badge scroll-fade-up"
-            >100% Bio-Zertifiziert</span
-          >
-          <h3 class="impact-section__title scroll-fade-up">
-            Verantwortung, die man schmecken kann
-          </h3>
-          <p class="impact-section__description scroll-fade-up">
-            Wir produzieren nicht einfach nur Olivenöl – wir bewahren ein Erbe.
-            Durch den Verzicht auf Pestizide und die Förderung der Artenvielfalt
-            in unseren Hainen schützen wir das apulische Land für kommende
-            Generationen.
-            <strong
-              >Jeder Tropfen Promontolio unterstützt lokale Familienbetriebe und
-              regeneriert unsere Erde.</strong
-            >
-          </p>
+          <span class="impact-section__badge scroll-fade-up"><%=sectionThree.badge || ''%> </span>
+          <h3 class="impact-section__title scroll-fade-up"><%= sectionThree.title || '' %></h3>
+          <p class="impact-section__description scroll-fade-up"><%= sectionThree.text || '' %></p>
           <div class="impact-stats scroll-fade-up">
+            <% (sectionThree.stats || []).forEach(function(stat) { %>
             <div class="impact-stats__item">
-              <span class="impact-stats__number">0%</span>
-              <span class="impact-stats__label">Chemische Pestizide</span>
+              <span class="impact-stats__number"><%= stat.value %></span>
+              <span class="impact-stats__label"><%= stat.label %></span>
             </div>
-            <div class="impact-stats__item">
-              <span class="impact-stats__number">100%</span>
-              <span class="impact-stats__label">Traditionelle Handernte</span>
-            </div>
-            <div class="impact-stats__item">
-              <span class="impact-stats__number">CO2</span>
-              <span class="impact-stats__label">Neutraler Versand</span>
-            </div>
+            <% }); %>
           </div>
           <div class="impact-section__actions scroll-fade-up">
-            <a href="/philosophie" class="btn-primary">Unsere Mission</a>
+            <a href="/about" class="btn-primary"><%= sectionThree.cta || 'Unsere Mission' %></a>
           </div>
         </div>
       </section>

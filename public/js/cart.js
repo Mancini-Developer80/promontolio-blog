@@ -9,6 +9,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartBadge = document.getElementById("cart-badge");
   const addCartBtn = document.querySelector(".btn-add-cart");
   const checkoutBtn = document.getElementById("checkout-btn");
+  const cartI18nElement = document.getElementById("cart-i18n");
+
+  const defaultCartI18n = {
+    title: "Ihr Warenkorb",
+    close: "Schließen",
+    empty: "Ihr Warenkorb ist noch leer.",
+    total: "Gesamtsumme:",
+    checkout: "Zur Kasse",
+    shippingPrefix: "Inkl. MwSt. zzgl.",
+    shippingLink: "Versandkosten",
+    remove: "Entfernen",
+    freeShippingTitle: "Gratis-Versand aktiviert!",
+    freeShippingText: "Ihr Vorratspack ist auf dem Weg nach Frankfurt.",
+    tipShipping: "Tipp: Mit dem 12er Paket sparen Sie die Versandkosten!",
+    loading: "Wird geladen...",
+    checkoutError: "Es gab einen Fehler. Bitte versuchen Sie es später erneut.",
+    bundle6Name: "Bio-Olivenöl (6er Paket)",
+    bundle12Name: "Bio-Olivenöl (12er Paket)",
+  };
+
+  let cartI18n = defaultCartI18n;
+  if (cartI18nElement && cartI18nElement.textContent) {
+    try {
+      cartI18n = {
+        ...defaultCartI18n,
+        ...JSON.parse(cartI18nElement.textContent),
+      };
+    } catch (error) {
+      console.warn("Invalid cart i18n payload, using defaults.", error);
+    }
+  }
 
   // Inizializziamo il carrello dal LocalStorage o come array vuoto
   let cart = JSON.parse(localStorage.getItem("promontolio_cart")) || [];
@@ -70,8 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 1. Caso Carrello Vuoto
     if (cart.length === 0) {
-      container.innerHTML =
-        '<p class="empty-msg">Ihr Warenkorb ist noch leer.</p>';
+      container.innerHTML = `<p class="empty-msg">${cartI18n.empty}</p>`;
       totalElement.innerText = "0,00 €";
       if (checkoutBtn) checkoutBtn.disabled = true;
       return;
@@ -92,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p class="item-name">${item.name}</p>
             <p class="item-price">${item.quantity} x ${item.price.toFixed(2).replace(".", ",")} €</p>
           </div>
-          <button class="remove-item" data-id="${item.id}" title="Entfernen">&times;</button>
+          <button class="remove-item" data-id="${item.id}" title="${cartI18n.remove}">&times;</button>
         </div>
       `;
       })
@@ -103,20 +133,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isTwelvePack) {
       shippingNoticeHtml = `
         <div class="shipping-notice free">
-          <strong>Gratis-Versand aktiviert!</strong> 🚀<br>
-          <small>Ihr Vorratspack ist auf dem Weg nach Frankfurt.</small>
+          <strong>${cartI18n.freeShippingTitle}</strong> 🚀<br>
+          <small>${cartI18n.freeShippingText}</small>
         </div>
       `;
     } else {
       shippingNoticeHtml = `
         <div class="shipping-notice">
-          Tipp: Mit dem <strong>12er Paket</strong> sparen Sie die Versandkosten!
+          ${cartI18n.tipShipping}
         </div>
       `;
     }
     if (checkoutBtn) {
       checkoutBtn.disabled = false;
-      checkoutBtn.innerText = "Zur Kasse"; // Resetta il testo se era rimasto su "Wird geladen..."
+      checkoutBtn.innerText = cartI18n.checkout; // Resetta il testo se era rimasto su loading
     }
 
     container.innerHTML += shippingNoticeHtml;
@@ -134,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", async () => {
       // Mostriamo un caricamento (opzionale)
-      checkoutBtn.innerText = "Wird geladen...";
+      checkoutBtn.innerText = cartI18n.loading;
       checkoutBtn.disabled = true;
 
       try {
@@ -150,8 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = session.url;
       } catch (error) {
         console.error("Errore nel checkout:", error);
-        alert("Es gab einen Fehler. Bitte versuchen Sie es später erneut.");
-        checkoutBtn.innerText = "Zur Kasse";
+        alert(cartI18n.checkoutError);
+        checkoutBtn.innerText = cartI18n.checkout;
         checkoutBtn.disabled = false;
       }
     });
@@ -179,9 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const product = {
           id: `oil-bundle-${bundleValue}`,
           name:
-            bundleValue === "6"
-              ? "Bio-Olivenöl (6er Paket)"
-              : "Bio-Olivenöl (12er Paket)",
+            bundleValue === "6" ? cartI18n.bundle6Name : cartI18n.bundle12Name,
           price: bundleValue === "6" ? 96.0 : 192.0,
           quantity: 1,
         };

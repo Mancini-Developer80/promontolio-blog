@@ -1,5 +1,6 @@
 const prisma = require("../db");
 const slugify = require("slugify");
+const { getPageByRoute } = require("../config/i18n");
 
 /* ── PUBLIC HANDLERS ────────────────────────────────────────────────── */
 
@@ -13,13 +14,20 @@ exports.list = async (req, res) => {
         author: { select: { firstName: true, lastName: true } },
       },
     });
-    res.render("blog", { title: "Blog - Promontolio", articles });
+    const page = getPageByRoute(res.locals.locale || "de", "/blog");
+    res.render("blog", {
+      title: page && page.title ? page.title : "Blog - Promontolio",
+      articles,
+      pageCopy: (page && page.content) || {},
+    });
   } catch (err) {
     console.error("Error loading blog list:", err);
+    const page = getPageByRoute(res.locals.locale || "de", "/blog");
     res.render("blog", {
-      title: "Blog",
+      title: page && page.title ? page.title : "Blog",
       articles: [],
       error: "Errore nel caricamento.",
+      pageCopy: (page && page.content) || {},
     });
   }
 };
@@ -42,7 +50,12 @@ exports.view = async (req, res) => {
       data: { viewCount: { increment: 1 } },
     });
 
-    res.render("blogSingleArticle", { title: article.title, article });
+    const page = getPageByRoute(res.locals.locale || "de", "/blog/:slug");
+    res.render("blogSingleArticle", {
+      title: article.title,
+      article,
+      pageCopy: (page && page.content) || {},
+    });
   } catch (err) {
     res.status(500).render("404");
   }

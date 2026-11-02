@@ -1,5 +1,9 @@
+<% const localizedFooter = typeof footerCopy !== 'undefined' ? footerCopy : {}; %>
+
 <footer class="site-footer">
   <div class="footer-container container">
+
+    <!-- Brand & Tagline -->
     <div class="footer-brand">
       <img
         src="/image/logo-promontolio.png"
@@ -7,20 +11,30 @@
         class="footer-logo"
         loading="lazy"
       />
-      <span class="footer-title">Promontolio</span>
+      <div class="footer-brand-info">
+        <span class="footer-title">Promontolio</span>
+        <p class="footer-tagline"><%= localizedFooter.tagline || '' %></p>
+      </div>
     </div>
 
+    <!-- Middle: Trust / Qualità + Social e Contatti -->
     <div class="footer-middle">
-      <div class="footer-social">
-        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <div class="footer-trust">
+        <span><%= localizedFooter.trust || '' %></span>
       </div>
-      <div class="footer-contact">
-        <a href="/contact" class="footer-link">Contact Us</a>
+
+      <div class="footer-actions">
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="footer-contact">
+          <a href="/contact" class="footer-link"><%= localizedFooter.contact || '' %></a>
+        </div>
       </div>
     </div>
 
+    <!-- Legal Bar -->
     <div class="footer-legal">
       <nav class="legal-nav">
         <a href="/impressum">Impressum</a>
@@ -28,9 +42,10 @@
         <a href="/auth/login" class="admin-link">Admin Access</a>
       </nav>
       <div class="footer-copyright">
-        &copy; <%= new Date().getFullYear() %> Promontolio. All rights reserved.
+        &copy; <%= new Date().getFullYear() %> Promontolio. <%= localizedFooter.copyright || '' %>
       </div>
     </div>
+
   </div>
 </footer>
 

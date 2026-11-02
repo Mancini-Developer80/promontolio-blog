@@ -14,6 +14,16 @@ const cors = require("cors");
 
 const ensureAuth = require("./middleware/ensureAuth");
 const { generalLimiter } = require("./middleware/rateLimiter");
+const {
+  DEFAULT_LOCALE,
+  LOCALE_COOKIE_NAME,
+  SUPPORTED_LOCALES,
+  buildLanguageUrl,
+  getLocaleFromRequest,
+  getPageByRoute,
+  parseCookies,
+  resolveRouteKey,
+} = require("./config/i18n");
 
 // Passport config (Abbiamo già aggiornato questo file per usare Prisma!)
 require("./config/passport");
@@ -83,8 +93,52 @@ app.use(passport.session());
 // --- GLOBAL LOCALS (Accessibili in tutti i file .ejs) ---
 app.use((req, res, next) => {
   const cleanPath = req.path;
+  const locale = getLocaleFromRequest(req);
+  const routeKey = resolveRouteKey(cleanPath);
+  const cookies = parseCookies(req.headers.cookie);
+  const hasLocaleCookie = Boolean(cookies[LOCALE_COOKIE_NAME]);
+
+  if (req.query && req.query.lang) {
+    res.cookie(LOCALE_COOKIE_NAME, locale, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+  } else if (!hasLocaleCookie) {
+    res.cookie(LOCALE_COOKIE_NAME, locale, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+  }
+
+  const appBaseUrl =
+    process.env.APP_URL || `${req.protocol}://${req.get("host")}`;
+  const page = getPageByRoute(locale, routeKey) || {};
+  const localizedHome = getPageByRoute(locale, "/") || {};
+
   res.locals.path = cleanPath;
   res.locals.currentRoute = cleanPath; // Per compatibilità legacy
+  res.locals.locale = locale;
+  res.locals.defaultLocale = DEFAULT_LOCALE;
+  res.locals.supportedLocales = SUPPORTED_LOCALES;
+  res.locals.languageUrls = SUPPORTED_LOCALES.reduce((acc, currentLocale) => {
+    acc[currentLocale] = buildLanguageUrl(req, currentLocale);
+    return acc;
+  }, {});
+  res.locals.alternateUrls = SUPPORTED_LOCALES.reduce((acc, currentLocale) => {
+    acc[currentLocale] = `${appBaseUrl}${buildLanguageUrl(req, currentLocale)}`;
+    return acc;
+  }, {});
+  res.locals.canonicalUrl = res.locals.alternateUrls[locale];
+  res.locals.pageMeta = page;
+  res.locals.footerCopy = localizedHome.footer || {};
+  res.locals.title = page.title;
+  res.locals.metaDescription = page.metaDescription;
+  res.locals.metaKeywords = page.metaKeywords;
+  res.locals.pageCopy = page.content || {};
   res.locals.user = req.user || null;
   res.locals.success_msg = req.flash("success");
   res.locals.error_msg = req.flash("error");
@@ -105,7 +159,11 @@ app.use("/admin/dashboard", ensureAuth, require("./routes/admin/dashboard"));
 
 // Error handling 404
 app.use((req, res) => {
-  res.status(404).render("404", { title: "Pagina Non Trovata" });
+  const page = getPageByRoute(res.locals.locale || DEFAULT_LOCALE, "/404");
+  res.status(404).render("404", {
+    title: (page && page.title) || "Pagina Non Trovata",
+    pageCopy: (page && page.content) || {},
+  });
 });
 
 const PORT = process.env.PORT || 3000;

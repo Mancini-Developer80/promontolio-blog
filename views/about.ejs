@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="<%= locale || 'de' %>">
   <head>
     <%- include('partials/general/head') %>
   </head>
   <body>
+    <% const copy = pageCopy || {}; %>
+    <% const hero = copy.hero || {}; %>
+    <% const curator = copy.curator || {}; %>
+    <% const sensoric = copy.sensoric || {}; %>
+    <% const quality = copy.quality || {}; %>
+    <% const manifesto = copy.manifesto || {}; %>
+    <% const guide = copy.guide || {}; %>
     <header class="about-header">
       <%- include('partials/general/navbar') %>
 
       <section class="about-hero container">
         <div class="about-hero__content scroll-fade-up">
-          <span class="about-hero__subtitle">Exklusive Einzellagen-Selektion</span>
-          <h1 class="about-hero__title">Ein Erlebnis jenseits des Standards</h1>
-          <p class="about-hero__text">
-            Jede Ernte ist eine neue Suche nach Perfektion. Wir analysieren und
-            verkosten hunderte proben, um die eine Partie zu finden, die den
-            Namen Promontolio tragen darf. Ein zertifiziertes Elixier für
-            Kenner, die Reinheit und Charakter zu schätzen wissen.
-          </p>
+          <span class="about-hero__subtitle"><%= hero.subtitle || '' %></span>
+          <h1 class="about-hero__title"><%= hero.title || '' %></h1>
+          <p class="about-hero__text"><%= hero.text || '' %></p>
         </div>
       </section>
     </header>
@@ -33,44 +35,26 @@
             />
           </div>
           <div class="about-text scroll-fade-up">
-            <h2>Der Gaumen eines Experten</h2>
-            <p>
-              Hinter jeder Flasche Promontolio steht die Nase und der Gaumen eines
-              <strong>zertifizierten Olivenölexperten</strong>. Wir produzieren
-              nicht einfach nur Öl – wir wählen es aus.
-            </p>
-            <p>
-              Jede Partie wird einer strengen sensorischen Prüfung unterzogen.
-              Nur Öle mit perfekter Harmonie, komplexen Aromen und einer
-              makellosen Struktur werden in unsere limitierte Kollektion
-              aufgenommen.
-            </p>
-            <div class="badge-expert">Zertifizierter Verkoster & Selekteur</div>
+            <h2><%= curator.title || '' %></h2>
+            <% (curator.paragraphs || []).forEach(function(paragraph) { %>
+            <p><%= paragraph %></p>
+            <% }); %>
+            <div class="badge-expert"><%= curator.badge || '' %></div>
           </div>
         </div>
       </section>
 
       <section class="about-sensoric">
         <div class="container">
-          <h2 class="about-sensoric__title scroll-fade-up">
-            Das sensorische Profil unserer Auswahl
-          </h2>
+          <h2 class="about-sensoric__title scroll-fade-up"><%= sensoric.title || '' %></h2>
           <div class="sensoric-grid scroll-fade-up">
-            <div class="sensoric-item">
-              <i class="fas fa-apple-alt" aria-hidden="true"></i>
-              <h4>Fruchtigkeit</h4>
-              <p>Noten von grünen Tomaten, Artischocken und frisch geschnittenem Gras.</p>
-            </div>
-            <div class="sensoric-item">
-              <i class="fas fa-pepper-hot" aria-hidden="true"></i>
-              <h4>Schärfe</h4>
-              <p>Ein lebendiger, pfeffriger Abgang – das Zeichen für einen hohen Polyphenolgehalt.</p>
-            </div>
+            <% (sensoric.items || []).forEach(function(item) { %>
             <div class="sensoric-item">
               <i class="fas fa-leaf" aria-hidden="true"></i>
-              <h4>Bitterkeit</h4>
-              <p>Ein eleganter Hauch von Wildkräutern, perfekt ausbalanciert.</p>
+              <h4><%= item.title %></h4>
+              <p><%= item.text %></p>
             </div>
+            <% }); %>
           </div>
         </div>
       </section>
@@ -86,16 +70,18 @@
             />
           </div>
           <div class="about-text">
-            <h2>Wissenschaft trifft Tradition</h2>
-            <p>
-              Unsere Leidenschaft wird durch Daten untermauert. Jede Selektion
-              wird in spezialisierten Laboren analysiert, um einen Säuregrad
-              nahe Null e una massima concentrazione di antiossidanti.
-            </p>
-            <p>
-              Wir liefern Ihnen ein zertifiziertes Elixier für Ihr Wohlbefinden, 
-              das den strengsten Elite-Standards entspricht.
-            </p>
+            <h2><%= quality.title || '' %></h2>
+            <% (quality.paragraphs || []).forEach(function(paragraph) { %>
+            <p><%= paragraph %></p>
+            <% }); %>
+
+            <% if (quality.buttonText) { %>
+            <div class="quality__actions" style="margin-top: 2rem;">
+              <a class="btn-primary" href="<%= quality.buttonUrl || '/prodotti' %>">
+                <%= quality.buttonText %>
+              </a>
+            </div>
+            <% } %>
           </div>
         </div>
       </section>
@@ -103,15 +89,10 @@
       <section class="about-manifesto">
         <div class="container scroll-fade-up">
           <div class="manifesto-content">
-            <span class="manifesto-label">Limitierte Selektion</span>
-            <h2 class="manifesto-title">Gegen den Strom der Massenproduktion</h2>
-            <p class="manifesto-text">
-              Während Supermärkte auf Volumen setzen, konzentriert sich Promontolio auf das 
-              <strong>Maximum des Möglichen</strong>. Unsere jährliche Menge ist streng limitiert durch die natürlichen Zyklen Apuliens.
-            </p>
-            <blockquote class="manifesto-quote">
-              "Wir füllen nicht ab, was der Markt verlangt, sondern nur das, was meine Prüfung als Experte besteht."
-            </blockquote>
+            <span class="manifesto-label"><%= manifesto.label || '' %></span>
+            <h2 class="manifesto-title"><%= manifesto.title || '' %></h2>
+            <p class="manifesto-text"><%= manifesto.text || '' %></p>
+            <blockquote class="manifesto-quote"><%= manifesto.quote || '' %></blockquote>
           </div>
         </div>
       </section>
@@ -120,12 +101,9 @@
         <div class="immersive-overlay"></div>
         
         <div class="container immersive-content scroll-fade-up">
-          <div class="download-badge">Exklusiver Guide</div>
-          <h2 class="immersive-title">Il Compendio Promontolio</h2>
-          <p class="immersive-lead">
-            Entdecken Sie die Geheimnisse del apulischen Goldes. <br>
-            20 Seiten über Sensorik, Rezepte und die wilde Seele del Gargano.
-          </p>
+          <div class="download-badge"><%= guide.badge || '' %></div>
+          <h2 class="immersive-title"><%= guide.title || '' %></h2>
+          <p class="immersive-lead"><%= guide.lead || '' %></p>
 
           <% if (typeof error !== 'undefined' && error) { %>
             <div class="alert-error-immersive">
@@ -140,21 +118,19 @@
               <input 
                 type="email" 
                 name="email" 
-                placeholder="Ihre E-Mail-Adresse" 
+                placeholder="<%= guide.emailPlaceholder || '' %>" 
                 required 
               />
-              <button type="submit" id="submit-btn-about" class="btn-immersive">
-                Jetzt Herunterladen
-              </button>
+              <button type="submit" id="submit-btn-about" class="btn-immersive"><%= guide.submit || '' %></button>
             </div>
 
             <div class="immersive-gdpr">
               <input type="checkbox" id="consent-about" name="consent" required />
               <label for="consent-about">
-                Ich akzeptiere die <a href="/datenschutz">Datenschutzbestimmungen</a>.
+                <%= guide.consent || '' %> <a href="/datenschutz">Datenschutzbestimmungen</a>.
               </label>
             </div>
-            <p class="form-disclaimer">Kostenloser Download. Kein Spam, nur Qualität.</p>
+            <p class="form-disclaimer"><%= guide.disclaimer || '' %></p>
           </form>
         </div>
       </section>

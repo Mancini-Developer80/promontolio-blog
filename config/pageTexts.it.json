@@ -1,0 +1,470 @@
+{
+  "language": "it",
+  "site": "Promontolio",
+  "pages": [
+    {
+      "route": "/",
+      "file": "views/index.ejs",
+      "metaTags": {
+        "title": "Promontolio | Olio Extravergine Biologico Certificato del Gargano",
+        "metaDescription": "L'eccellenza dell'olio extravergine bio del Gargano: olive di cultivar locali, frangitura artigianale e la purezza autentica della tradizione pugliese.",
+        "metaKeywords": "olio extravergine biologico, olio pugliese, eccellenza olio del gargano, olio evo bio altissima qualita, frangitura artigianale"
+      },
+      "content": {
+        "hero": {
+          "titleHighlight": "Olio Extravergine Biologico del Gargano",
+          "subtitleBrand": "Promontolio",
+          "slogan": "La purezza del Gargano, dall'olivo alla bottiglia.",
+          "description": "Dalla terra pugliese direttamente sulla tua tavola. Coltiviamo e frangiamo con metodi biologici certificati per preservare l'espressività aromatica, l'equilibrio e le proprietà antiossidanti naturali.",
+          "primaryCta": "Acquista l'Olio Bio"
+        },
+        "sections": [
+          {
+            "title": "L'Eccellenza dell'Olio Biologico Pugliese",
+            "features": [
+              {
+                "title": "L'Identità del Gargano",
+                "text": "Un olio extravergine che racchiude la ricchezza aromatica e la purezza della Puglia. Prodotto secondo rigidi disciplinari biologici, è il complemento ideale per valorizzare con equilibrio ogni piatto."
+              },
+              {
+                "title": "Un Territorio Unico tra Mare e Collina",
+                "text": "Incastonati tra suoli calcarei e brezze marine, i nostri uliveti beneficiano di un microclima irripetibile. Le cultivar storiche Ogliarola e Coratina esprimono qui un profilo organolettico distinto, complesso e di grande personalità."
+              },
+              {
+                "title": "I Nostri Standard di Qualità",
+                "bullets": [
+                  "100% Biologico Certificato ed Extravergine",
+                  "Estrazione a freddo a poche ore dalla raccolta",
+                  "Elevato contenuto naturale di polifenoli e antiossidanti",
+                  "Tracciabilità integrale della filiera pugliese",
+                  "Coltivazione sostenibile"
+                ]
+              },
+              {
+                "title": "Precisione e Cura Artigianale",
+                "text": "Scegliamo una produzione limitata e rigorosa. Dalla raccolta manuale al momento ideale di maturazione fino alla molitura a freddo entro 6 ore, ogni passaggio è pensato per custodire l'integrità dei profumi naturali e il profilo salutistico del nostro olio."
+              }
+            ]
+          },
+          {
+            "title": "L'Autenticità di una Selezione Limitata",
+            "text": "Promontolio nasce da una filiera controllata e rigorosa: olive raccolte a mano nel pieno rispetto della pianta, molitura immediata e un profilo aromatico che esalta ogni ricetta con armonia. Purezza trasparente, qualità misurabile",
+            "ctaPrimary": "Acquista Ora",
+            "ctaSecondary": "I nostri certificati"
+          },
+          {
+            "badge": "100% Biologico Certificato",
+            "title": "Rispetto della terra e sostenibilità autentica",
+            "text": "La nostra filosofia unisce la tutela del paesaggio garganico a pratiche agronomiche rigorose a impatto zero. Rifiutiamo i trattamenti chimici e promuoviamo la biodiversità per consegnare alle future generazioni una terra viva e rigogliosa, sostenendo concretamente l'economia agricola locale.",
+            "stats": [
+              { "value": "0%", "label": "Trattamenti chimici" },
+              { "value": "100%", "label": "Raccolta manuale e selettiva" },
+              { "value": "CO2", "label": "Logistica a impatto ridotto" }
+            ],
+            "cta": "La Nostra Filosofia"
+          },
+          {
+            "badge": "Trasparenza di Filiera",
+            "title": "Dietro le quinte dell'eccellenza",
+            "subtitle": "Come nasce un vero olio extravergine biologico?",
+            "text": "Dalla cura secolare degli uliveti nel Gargano fino alla molitura tempestiva entro 6 ore. Scarica la guida tecnica gratuita e scopri l'intero percorso di filiera che custodisce l'integrità, il profilo nutrizionale e i profumi autentici del nostro olio.",
+            "cta": "Scarica la Guida di Filiera"
+          }
+        ]
+      },
+      "footer": {
+        "tagline": "Olio extravergine d'oliva biologico del Gargano.",
+        "trust": "🌿 100% Bio • ⏱️ Frangitura entro 6h • 📍 Gargano, Puglia",
+        "contact": "Contatti",
+        "copyright": "Tutti i diritti riservati."
+      }
+    },
+    {
+      "route": "/olivenoel-guide",
+      "file": "views/landingPage.ejs",
+      "metaTags": {
+        "title": "Guida Gratuita alla Filiera dell'Olio Extravergine | Promontolio",
+        "metaDescription": "Scarica il Compendio Promontolio: una guida tecnica e sensoriale per riconoscere il vero olio extravergine biologico, analizzare i parametri chimici e valorizzare la qualità in cucina.",
+        "metaKeywords": "guida olio extravergine pdf, compendio promontolio, riconoscere olio biologico, analisi polifenoli olio, filiera gargano"
+      },
+      "content": {
+        "hero": {
+          "badge": "TRASPARENZA DI FILIERA",
+          "title": "Il Compendio Promontolio: Guida all'Eccellenza Olearia",
+          "text": "Dalla cura degli uliveti secolari nel Gargano alla molitura a freddo entro 6 ore. Un'analisi approfondita per comprendere la chimica della qualità, riconoscere i veri attributi organolettici e tutelare la propria salute."
+        },
+        "benefits": [
+          {
+            "title": "Parametri Chimici e Salute",
+            "text": "Come interpretare i dati di laboratorio: dal ruolo chiave dei polifenoli e dell'oleocantale al significato di un'acidità inferiore allo 0,2%."
+          },
+          {
+            "title": "Analisi Organolettica",
+            "text": "Guida alla degustazione tecnica: perché l'amaro naturale e la piccantezza sono indicatori certi di freschezza e carica antiossidante."
+          },
+          {
+            "title": "Tracciabilità e Gastronomia",
+            "text": "Dalla difesa contro le miscele industriali anonime alle regole d'oro per l'abbinamento a crudo nella cucina gourmet."
+          }
+        ],
+        "form": {
+          "title": "Scarica il Compendio in formato PDF",
+          "emailPlaceholder": "Inserisci la tua email",
+          "consentText": "Accetto l'informativa sulla privacy per ricevere la guida e i dossier di filiera.",
+          "privacyLinkText": "Informativa sulla Privacy",
+          "button": "Scarica la Guida Gratuita (PDF)",
+          "disclaimer": "Download immediato. Nessuno spam: puoi cancellarti in qualsiasi momento con un solo click."
+        },
+        "trust": [
+          "🌿 100% Biologico Certificato",
+          "⏱️ Molitura entro 6 Ore",
+          "📍 Filiera Tracciata nel Gargano"
+        ]
+      }
+    },
+    {
+      "route": "/about",
+      "file": "views/about.ejs",
+      "metaTags": {
+        "title": "Promontolio | Chi Siamo - La Nostra Filiera e il Metodo",
+        "metaDescription": "Scopri il metodo Promontolio: selezione rigorosa di olive nel Gargano, molitura tempestiva e filiera corta controllata da esperti assaggiatori.",
+        "metaKeywords": "chi siamo promontolio, filiera olio gargano, metodo molitura a freddo, olio pugliese biologico"
+      },
+      "content": {
+        "hero": {
+          "subtitle": "Selezione Rigorosa nel Gargano",
+          "title": "L'Eccellenza della Qualità Artigianale",
+          "text": "Ogni campagna olearia è un lavoro di precisione agronomica e sensoriale. Valutiamo e selezioniamo le migliori partite di olive direttamente dagli uliveti storici del Gargano per dar vita a Promontolio: un olio biologico di altissima purezza, pensato per chi ricerca carattere, tracciabilità e qualità senza compromessi."
+        },
+        "curator": {
+          "badge": "Dopo aver sperimentato questa eccellenza, l'esperienza dell'olio cambia per sempre: un punto di non ritorno per il palato.",
+          "title": "Valutazione e filiera",
+          "paragraphs": [
+            "Promontolio non nasce secondo i criteri e le esigenze della produzione standardizzata ed industriale ma da un processo di scouting rigoroso. Il  responsabile della qualità seleziona di volta in volta ogni singolo uliveto e valuta le singole partite di olive direttamente sugli alberi, prima ancora di essere raccolte. Dopo attenta analisi e successiva conferma del rispetto dei più elevati parametri di qualità, si procede alla raccolta e alla frangitura tempestiva delle olive a chilometro zero.",
+            "Ogni lotto d'olio viene successivamente sottoposto a severi esami organolettici e chimici. Solo l'estrazione che dimostra un perfetto equilibrio, una struttura ordinata ed armonica e parametri d'eccellenza assoluta viene imbottigliata per la nostra produzione annua limitata."
+          ]
+        },
+        "sensoric": {
+          "title": "I parametri organolettici dell'eccellenza",
+          "items": [
+            {
+              "title": "Fruttato",
+              "text": "Il profilo olfattivo nasce da una raccolta eseguita al momento ideale di maturazione delle olive. Gli aromi restituiscono note intense e complesse di erba fresca, foglia di carciofo e sentori vegetali vivi, specchio fedele di una molitura immediata a temperatura controllata che preserva intatta l'anima del frutto"
+            },
+            {
+              "title": "Piccantezza",
+              "text": "Una nota vivace e pulita che si avverte nettamente al primo assaggio. Non è un difetto o un'aggressività fastidiosa, ma il segno tangibile e naturale dell'oleocantale: una molecola preziosa che racchiude una straordinaria concentrazione di antiossidanti protettivi, custodi della vitalità e della salute dell'olio."
+            },
+            {
+              "title": "Amaro Naturale",
+              "text": "Una sfumatura elegante, pulita e persistente che si sprigiona con gradevole persistenza. Contrariamente a quanto si possa pensare, l'amaro non è mai un difetto: è la firma autentica e naturale dei polifenoli, i preziosi antiossidanti che custodiscono l'integrità, il carattere e le proprietà benefiche di un grande olio vivo."
+            }
+          ]
+        },
+        "quality": {
+          "title": "Rigore analitico e controllo di filiera",
+          "paragraphs": [
+            "Il nostro impegno per l'eccellenza poggia su dati oggettivi e verificabili. Ogni lotto selezionato viene sottoposto a rigorose analisi chimiche in laboratori certificati, monitorando parametri fondamentali come l'acidità a bassissimi livelli e un'elevata concentrazione di antiossidanti naturali.",
+
+            "Garantiamo così un olio extravergine d'oliva autentico, tracciato e conforme ai più alti standard qualitativi, pensato per chi ricerca la massima integrità nutrizionale e organolettica."
+          ],
+          "buttonText": "Acquista l'olio bio",
+          "buttonUrl": "/product"
+        },
+        "manifesto": {
+          "label": "Selezione Limitata",
+          "title": "Controcorrente rispetto alla produzione di massa",
+          "text": "Mentre le logiche della grande distribuzione impongono volumi standardizzati e miscele anonime, Promontolio sceglie una via opposta: focalizzarsi unicamente sul massimo potenziale qualitativo. La nostra disponibilità annuale è naturalmente vincolata ai cicli biologici e alle caratteristiche uniche del territorio garganico.",
+          "quote": "Non inseguiamo le richieste commerciali dei grandi numeri, ma imbottigliamo esclusivamente ciò che supera i nostri severi standard di selezione."
+        },
+        "guide": {
+          "badge": "TRASPARENZA DI FILIERA",
+          "title": "Il Compendio Promontolio",
+          "lead": "Dalla cura degli uliveti nel Gargano alla molitura entro 6 ore. Un percorso dettagliato tra terroir, metodi di estrazione a freddo e analisi organolettiche.",
+          "emailPlaceholder": "Il tuo indirizzo email",
+          "submit": "Scarica la guida",
+          "consent": "Accetto l'informativa sulla privacy.",
+          "disclaimer": "Download gratuito in formato PDF. Nessun invio invadente."
+        }
+      }
+    },
+    {
+      "route": "/product",
+      "file": "views/product.ejs",
+      "title": "Promontolio | Olio Bio pacco scorta 0,75l",
+      "content": {
+        "hero": {
+          "title": "La Nostra Selezione",
+          "text": "L'eccellenza dell'olio extravergine biologico del Gargano: una filiera corta e rigorosa che garantisce un'estrazione a freddo tempestiva, pensata per custodire la vitalità dei polifenoli e l'integrità del profilo organolettico."
+        },
+        "product": {
+          "badge": "Qualità Bio Premium",
+          "title": "Olio Extravergine di Oliva Bio",
+          "subtitle": "Elegante bottiglia in vetro da 0,75l",
+          "addToCart": "Aggiungi al carrello"
+        },
+        "bundles": [
+          {
+            "name": "Confezione da 6",
+            "price": "96,00 €",
+            "detail": "16,00 € a bottiglia"
+          },
+          {
+            "name": "Confezione da 12",
+            "price": "192,00 €",
+            "detail": "Spedizione gratuita 🚀",
+            "badge": "Il più venduto"
+          }
+        ],
+        "b2b": {
+          "title": "Quantità personalizzate?",
+          "text": "Per la ristorazione di qualità, regali aziendali o ordini a volume, offriamo condizioni dedicate e lotti selezionati su misura.",
+          "cta": "RICHIEDI UN PREVENTIVO"
+        },
+        "details": {
+          "title": "Dettagli del prodotto",
+          "items": [
+            { "label": "Origine", "value": "Gargano, Puglia" },
+            { "label": "Varietà di olive", "value": "Ogliarola & Coratina" },
+            {
+              "label": "Analisi",
+              "value": "Acidità < 0,2% | Polifenoli > 450mg"
+            }
+          ]
+        },
+        "craft": {
+          "title": "Filiera e Metodo",
+          "text": "Garantiamo una raccolta nel punto di maturazione ottimale delle olive e una frangitura meccanica a freddo entro 6 ore, proteggendo la vitalità nutrizionale del prodotto e l'espressione tipica del territorio garganico."
+        },
+        "guide": {
+          "badge": "TRASPARENZA DI FILIERA",
+          "title": "Il Compendio Promontolio",
+          "text": "Dalla cura degli uliveti nel Gargano alla molitura tempestiva. Scarica la guida gratuita e scopri l'intero percorso che custodisce l'integrità e i profumi del nostro olio.",
+          "button": "SCARICA LA GUIDA",
+          "privacy": "Inviando il modulo accetti la nostra informativa sulla privacy."
+        }
+      }
+    },
+    {
+      "route": "/contact",
+      "file": "views/contact.ejs",
+      "title": "Contatti e Richieste - Promontolio",
+      "content": {
+        "hero": {
+          "badge": "CONTATTO E COLLABORAZIONI",
+          "title": "Parliamo di olio d'oliva e del Gargano",
+          "text": "Hai domande sui nostri lotti biologici, bisogno di informazioni sulla filiera o desideri approfondire il nostro metodo di raccolta? Siamo a tua disposizione."
+        },
+        "b2b": {
+          "title": "Clienti Business e Gastronomia",
+          "text": "Cerchi forniture dedicate per il tuo ristorante, enoteca o negozio specializzato? Richiedi un'offerta su misura o informazioni sulle nostre condizioni di logistica."
+        },
+        "form": {
+          "nameLabel": "Nome / Azienda",
+          "namePlaceholder": "Il tuo nome o ragione sociale",
+          "emailLabel": "Indirizzo email",
+          "emailPlaceholder": "esempio@mail.it",
+          "messageLabel": "La tua richiesta",
+          "messagePlaceholder": "Come possiamo aiutarti? Specifica se la richiesta è per acquisto privato o fornitura business...",
+          "submit": "Invia messaggio"
+        },
+        "messages": {
+          "required": "Compila tutti i campi obbligatori.",
+          "success": "Grazie! Abbiamo ricevuto il tuo messaggio."
+        }
+      }
+    },
+    {
+      "route": "/datenschutz",
+      "title": "Informativa sulla Privacy | Promontolio",
+      "content": {
+        "title": "Informativa sulla Privacy",
+        "sections": [
+          {
+            "title": "1. Protezione dei dati in sintesi",
+            "subsections": [
+              {
+                "title": "Indicazioni generali",
+                "text": "Le seguenti note forniscono una panoramica semplice di ciò che accade ai vostri dati personali quando visitate questo sito web. Per dati personali si intende qualsiasi dato con cui possiate essere identificati personalmente."
+              }
+            ]
+          },
+          {
+            "title": "2. Raccolta dei dati su questo sito web",
+            "subsections": [
+              {
+                "title": "Chi è responsabile della raccolta dei dati su questo sito web?",
+                "text": "Il trattamento dei dati su questo sito web viene effettuato dal gestore del sito. I suoi contatti possono essere consultati nell'Impressum di questo sito."
+              },
+              {
+                "title": "Come raccogliamo i vostri dati?",
+                "text": "I vostri dati vengono raccolti, da un lato, nel momento in cui ci venite comunicati. Può trattarsi, ad esempio, di dati inseriti in un modulo di contatto o forniti per la richiesta della guida in formato PDF."
+              }
+            ]
+          },
+          {
+            "title": "3. Lead Generation, modulo di contatto e guida PDF",
+            "paragraphs": [
+              "Modulo di contatto: Se ci inviate richieste tramite il modulo di contatto, i vostri dati inseriti nel modulo, compresi i recapiti ivi indicati, saranno salvati da noi allo scopo di elaborare la richiesta e in caso di domande successive (base giuridica: art. 6, par. 1, lett. b del GDPR).",
+              "Guida PDF e Newsletter: Se desiderate ricevere la guida in formato PDF offerta sul sito web, abbiamo bisogno del vostro indirizzo e-mail. Utilizziamo la cosiddetta procedura di Double Opt-In per garantire che voi siate effettivamente i titolari dell'indirizzo e-mail specificato.",
+              "Conservazione nel database: I vostri dati vengono memorizzati in sicurezza tramite il nostro sistema di database (gestito con Prisma ORM) fino a quando non revocate il vostro consenso alla memorizzazione o viene meno lo scopo della conservazione dei dati.",
+              "Base giuridica: Il trattamento dell'indirizzo e-mail per la guida PDF avviene sulla base del vostro consenso (art. 6, par. 1, lett. a del GDPR)."
+            ]
+          },
+          {
+            "title": "4. I vostri diritti (informazione, cancellazione e revoca)",
+            "paragraphs": [
+              "Avete il diritto in qualsiasi momento, nell'ambito delle disposizioni di legge vigenti, di ottenere gratuitamente informazioni sui vostri dati personali memorizzati, sulla loro origine ed ei destinatari e sullo scopo del trattamento dei dati e, se del caso, il diritto alla rettifica o alla cancellazione di tali dati.",
+              "Potete revocare in qualsiasi momento un consenso già concesso con effetto per il futuro.",
+              "Per questo motivo, nonché per ulteriori domande in merito ai dati personali, potete contattarci in qualsiasi momento all'indirizzo indicato nell'Impressum."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "route": "/impressum",
+      "title": "Note Legali (Impressum) | Promontolio",
+      "content": {
+        "title": "Note Legali (Impressum)",
+        "sections": [
+          {
+            "title": "Informazioni ai sensi del § 5 TMG",
+            "paragraphs": [
+              "Giuseppe Mancini\nSödeler Weg 15\n61231 Bad Nauheim\nGermania"
+            ]
+          },
+          {
+            "title": "Contatti",
+            "paragraphs": ["E-mail: info@promontolio.de"]
+          },
+          {
+            "title": "Codice Fiscale / Numero di Identificazione Fiscale",
+            "paragraphs": [
+              "Steuernummer: 016 844 32415\nUfficio delle imposte (Finanzamt) Friedberg (Hessen)"
+            ]
+          },
+          {
+            "title": "Descrizione dell'attività",
+            "paragraphs": [
+              "Commercio online di generi alimentari e specialità gastronomiche (Online-Handel mit Lebensmitteln und Feinkost)"
+            ]
+          },
+          {
+            "title": "Responsabile editoriale",
+            "paragraphs": [
+              "Giuseppe Mancini\nSödeler Weg 15\n61231 Bad Nauheim"
+            ]
+          },
+          {
+            "title": "Risoluzione delle controversie UE",
+            "paragraphs": [
+              "La Commissione europea mette a disposizione una piattaforma per la risoluzione online delle controversie (ODR): https://ec.europa.eu/consumers/odr/.\nIl nostro indirizzo e-mail è indicato sopra nell'impressum."
+            ]
+          },
+          {
+            "title": "Risoluzione delle controversie dei consumatori",
+            "paragraphs": [
+              "Non siamo disposti né obbligati a partecipare a procedure di risoluzione delle controversie davanti a un organismo di conciliazione per i consumatori."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "route": "/thanks",
+      "file": "views/thanks.ejs",
+      "metaTags": {
+        "title": "Grazie | Il Compendio Promontolio è pronto"
+      },
+      "content": {
+        "messages": {
+          "consentRequired": "Il consenso al trattamento dei dati è obbligatorio.",
+          "invalidEmail": "Inserisci un indirizzo email valido."
+        },
+        "statusBadge": "ISCRIVITI CON SUCCESSO",
+        "mainMessage": "Il Compendio Promontolio è in arrivo nella tua posta in arrivo! Puoi anche scaricarlo subito qui sotto.",
+        "downloadLabel": "Il tuo documento in formato PDF è pronto:",
+        "downloadButton": "Scarica il Compendio (PDF)",
+        "confirmationHint": "Per completare la ricezione e rispettare le norme sulla privacy, controlla la tua casella di posta (inclusa la cartella spam).",
+        "backHome": "Torna alla home"
+      }
+    },
+    {
+      "route": "/blog",
+      "file": "views/blog.ejs",
+      "title": "Blog - Promontolio",
+      "content": {
+        "ui": {
+          "homeLink": "Home page",
+          "blogLink": "Blog",
+          "searchPlaceholder": "Cerca articoli...",
+          "heroTitle": "Il nostro Blog",
+          "heroSubtitle": "Ricette, consigli e storie sull'olio extravergine biologico del Gargano",
+          "recentPosts": "Articoli recenti",
+          "countSuffix": "articoli",
+          "readMore": "Leggi l'articolo",
+          "pagination": {
+            "previous": "Precedente",
+            "next": "Successiva"
+          },
+          "emptyTitle": "Nessun articolo ancora",
+          "emptyText": "Stiamo preparando contenuti di qualità per te. Torna presto!"
+        }
+      }
+    },
+    {
+      "route": "/blog/:slug",
+      "file": "views/blogSingleArticle.ejs",
+      "title": "Blog - Promontolio",
+      "content": {
+        "ui": {
+          "homeLink": "Home page",
+          "blogLink": "Blog Home",
+          "searchPlaceholder": "Cerca tra gli articoli...",
+          "breadcrumbHome": "Home",
+          "breadcrumbBlog": "Blog",
+          "authorLabel": "L'Autore",
+          "authorFallback": "Team Promontolio",
+          "authorRole": "Olivicoltore",
+          "tagsLabel": "Tag:",
+          "shareLabel": "Condividi:",
+          "shareFacebook": "Condividi su Facebook",
+          "shareTwitter": "Condividi su Twitter",
+          "shareLinkedIn": "Condividi su LinkedIn",
+          "shareWhatsApp": "Condividi su WhatsApp",
+          "backToBlog": "Torna al Blog",
+          "buyNow": "Acquista Ora",
+          "sidebarRelated": "Articoli Correlati",
+          "sidebarToc": "Indice"
+        }
+      }
+    },
+    {
+      "route": "/success",
+      "file": "views/success.ejs",
+      "title": "Grazie mille",
+      "content": {
+        "title": "Grazie per la tua fiducia",
+        "paymentText": "Abbiamo ricevuto il tuo pagamento di",
+        "orderPrefix": "La conferma del tuo ordine (n. #",
+        "orderSuffix": ") e la fattura sono state inviate a",
+        "sentText": ".",
+        "welcomeTitle": "Un saluto dal Gargano 🌿",
+        "welcomeText": "Mentre prepariamo il tuo ordine per la spedizione, ti invitiamo a scoprire più da vicino il mondo del nostro olio d'oliva.",
+        "downloadGuide": "Scarica la guida PDF",
+        "blogCta": "Magazine e ricette",
+        "homeCta": "Torna alla home"
+      }
+    },
+    {
+      "route": "/404",
+      "file": "views/404.ejs",
+      "title": "404 - Pagina non trovata",
+      "content": {
+        "title": "404 - Pagina non trovata",
+        "message": "La pagina che stai cercando non esiste."
+      }
+    }
+  ]
+}

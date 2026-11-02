@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="<%= locale || 'de' %>">
   <head>
     <%- include('partials/general/head') %>
-    <title>Blog - Promontolio</title>
   </head>
   <body>
+    <% const ui = (pageCopy && pageCopy.ui) || {}; %>
     <header class="blog-header">
       <nav class="blog-nav">
         <div class="logo">
@@ -28,15 +28,15 @@
         </div>
         <div class="nav-form">
           <ul class="blog-nav-list" id="navLinks">
-            <li class="blog-nav-item"><a href="/">Home page</a></li>
-            <li class="blog-nav-item"><a href="/blog">Blog</a></li>
+            <li class="blog-nav-item"><a href="/"><%= ui.homeLink || 'Home page' %></a></li>
+            <li class="blog-nav-item"><a href="/blog"><%= ui.blogLink || 'Blog' %></a></li>
           </ul>
           <form class="blog-search" action="/blog" method="get">
             <input
               type="text"
               name="q"
-              placeholder="Cerca articoli..."
-              aria-label="Cerca articoli"
+              placeholder="<%= ui.searchPlaceholder || '' %>"
+              aria-label="<%= ui.searchPlaceholder || '' %>"
             />
             <button type="submit">
               <i class="fas fa-search"></i>
@@ -49,8 +49,8 @@
 
     <!-- Hero Banner -->
     <div class="blog-hero-banner">
-      <h1 class="blog-hero-title">Il nostro Blog</h1>
-      <p class="blog-hero-subtitle">Ricette, consigli e storie sull&apos;olio extravergine biologico del Gargano</p>
+      <h1 class="blog-hero-title"><%= ui.heroTitle || '' %></h1>
+      <p class="blog-hero-subtitle"><%= ui.heroSubtitle || '' %></p>
     </div>
 
     <!-- prettier-ignore -->
@@ -83,9 +83,9 @@
     <div class="blog-section-header">
       <h2 class="blog-section-title">
         <i class="fas fa-newspaper"></i>
-        Articoli recenti
+        <%= ui.recentPosts || '' %>
       </h2>
-      <span class="blog-count"><%= articles.length %> articoli</span>
+      <span class="blog-count"><%= articles.length %> <%= ui.countSuffix || '' %></span>
     </div>
 
     <div class="articles-list">
@@ -141,8 +141,8 @@
           </div>
 
           <div class="blog-btn-container">
-            <a class="blog-btn-main" href="/blog/<%= article.slug %>">
-              Leggi l&apos;articolo
+              <a class="blog-btn-main" href="/blog/<%= article.slug %>">
+                <%= ui.readMore || '' %>
               <i class="fas fa-arrow-right"></i>
             </a>
           </div>
@@ -160,7 +160,7 @@
           href="<%= pagination.currentPage === 2 ? '/blog' : '/blog/page/' + (pagination.currentPage - 1) %>"
           class="pagination-btn pagination-prev"
         >
-          ← Precedente
+          ← <%= ui.pagination && ui.pagination.previous ? ui.pagination.previous : 'Precedente' %>
         </a>
         <% } %>
 
@@ -176,7 +176,7 @@
 
         <% if (pagination.currentPage < pagination.totalPages) { %>
         <a href="/blog/page/<%= pagination.currentPage + 1 %>" class="pagination-btn pagination-next">
-          Successiva →
+          <%= ui.pagination && ui.pagination.next ? ui.pagination.next : 'Successiva' %> →
         </a>
         <% } %>
       </div>
@@ -187,8 +187,8 @@
     <div class="no-articles">
       <div class="no-articles-content">
         <i class="fas fa-newspaper no-articles-icon"></i>
-        <h2>Nessun articolo ancora</h2>
-        <p>Stiamo preparando contenuti di qualità per te. Torna presto!</p>
+        <h2><%= ui.emptyTitle || '' %></h2>
+        <p><%= ui.emptyText || '' %></p>
       </div>
     </div>
     <% } %>

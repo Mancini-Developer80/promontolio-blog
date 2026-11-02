@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="<%= locale || 'de' %>">
   <head>
     <%- include('partials/general/head') %>
-    <title>Blog - Promontolio</title>
   </head>
   <body>
+    <% const ui = (pageCopy && pageCopy.ui) || {}; %>
     <header class="blog-header">
       <nav class="blog-nav">
         <div class="logo">
@@ -28,15 +28,15 @@
         </div>
         <div class="nav-form">
           <ul class="blog-nav-list" id="navLinks">
-            <li class="blog-nav-item"><a href="/">Home page</a></li>
-            <li class="blog-nav-item"><a href="/blog">Blog Home</a></li>
+            <li class="blog-nav-item"><a href="/"><%= ui.homeLink || 'Home page' %></a></li>
+            <li class="blog-nav-item"><a href="/blog"><%= ui.blogLink || 'Blog Home' %></a></li>
           </ul>
           <form class="blog-search" action="/blog" method="get">
             <input
               type="text"
               name="q"
-              placeholder="Search blog posts..."
-              aria-label="Search blog posts"
+              placeholder="<%= ui.searchPlaceholder || '' %>"
+              aria-label="<%= ui.searchPlaceholder || '' %>"
             />
             <button type="submit">Search</button>
           </form>
@@ -51,9 +51,9 @@
   <div class="article-hero">
     <div class="hero-content">
       <nav class="breadcrumb">
-        <a href="/">Home</a>
+          <a href="/"><%= ui.breadcrumbHome || 'Home' %></a>
         <span class="separator">/</span>
-        <a href="/blog">Blog</a>
+          <a href="/blog"><%= ui.breadcrumbBlog || 'Blog' %></a>
         <span class="separator">/</span>
         <span class="current"><%= article.title %></span>
       </nav>
@@ -65,7 +65,7 @@
           </div>
           <div class="author-details">
             <span class="author-name"><%= article.author ? article.author.username : 'Promontolio Team' %></span>
-            <span class="author-role">Olivicoltore</span>
+            <span class="author-role"><%= ui.authorRole || 'Olivicoltore' %></span>
           </div>
         </div>
         <div class="article-date-info">
@@ -76,7 +76,7 @@
         </div>
         <div class="read-time">
           <i class="fas fa-clock"></i>
-          <span><%= Math.ceil((article.content ? article.content.replace(/<[^>]*>/g, '').split(' ').length : 100) / 200) %> min di lettura</span>
+              <span><%= Math.ceil((article.content ? article.content.replace(/<[^>]*>/g, '').split(' ').length : 100) / 200) %> min di lettura</span>
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@
           <!-- Article Footer -->
           <footer class="article-footer">
             <div class="article-tags">
-              <span class="tag-label">Tags:</span>
+              <span class="tag-label"><%= ui.tagsLabel || 'Tags:' %></span>
               <% if (article.keywords) { %>
                 <% article.keywords.split(',').forEach(function(keyword) { %>
                   <span class="tag"><%= keyword.trim() %></span>
@@ -128,32 +128,32 @@
             </div>
 
             <div class="social-share">
-              <span class="share-label">Condividi:</span>
+              <span class="share-label"><%= ui.shareLabel || 'Condividi:' %></span>
               <a
                 href="#"
                 class="share-btn facebook"
-                title="Condividi su Facebook"
+                title="<%= ui.shareFacebook || 'Condividi su Facebook' %>"
               >
                 <i class="fab fa-facebook-f"></i>
               </a>
               <a
                 href="#"
                 class="share-btn twitter"
-                title="Condividi su Twitter"
+                title="<%= ui.shareTwitter || 'Condividi su Twitter' %>"
               >
                 <i class="fab fa-twitter"></i>
               </a>
               <a
                 href="#"
                 class="share-btn linkedin"
-                title="Condividi su LinkedIn"
+                title="<%= ui.shareLinkedIn || 'Condividi su LinkedIn' %>"
               >
                 <i class="fab fa-linkedin-in"></i>
               </a>
               <a
                 href="#"
                 class="share-btn whatsapp"
-                title="Condividi su WhatsApp"
+                title="<%= ui.shareWhatsApp || 'Condividi su WhatsApp' %>"
               >
                 <i class="fab fa-whatsapp"></i>
               </a>
@@ -162,11 +162,11 @@
             <div class="article-navigation">
               <a href="/blog" class="nav-btn back-btn">
                 <i class="fas fa-arrow-left"></i>
-                <span>Torna al Blog</span>
+                <span><%= ui.backToBlog || 'Torna al Blog' %></span>
               </a>
               <a href="/contact" class="nav-btn cta-btn">
                 <i class="fas fa-shopping-cart"></i>
-                <span>Acquista Ora</span>
+                <span><%= ui.buyNow || 'Acquista Ora' %></span>
               </a>
             </div>
           </footer>
@@ -175,12 +175,12 @@
         <!-- Sidebar -->
         <aside class="article-sidebar">
           <div class="sidebar-widget author-widget">
-            <h3>L'Autore</h3>
+            <h3><%= ui.authorLabel || "L'Autore" %></h3>
             <div class="author-card">
               <div class="author-avatar-large">
                 <i class="fas fa-user-circle"></i>
               </div>
-              <h4><%= article.author ? article.author.username : 'Promontolio Team' %></h4>
+              <h4><%= article.author ? article.author.username : (ui.authorFallback || 'Promontolio Team') %></h4>
               <p class="author-bio">
                 <% if (article.author && article.author.bio) { %>
                   <%= article.author.bio %>
@@ -198,14 +198,14 @@
           </div>
 
           <div class="sidebar-widget toc-widget">
-            <h3>Indice</h3>
+            <h3><%= ui.sidebarToc || 'Indice' %></h3>
             <ul class="table-of-contents" id="table-of-contents">
               <!-- Table of contents will be generated dynamically by JavaScript -->
             </ul>
           </div>
 
           <div class="sidebar-widget related-widget">
-            <h3>Articoli Correlati</h3>
+            <h3><%= ui.sidebarRelated || 'Articoli Correlati' %></h3>
             <div class="related-articles">
               <article class="related-article">
                 <img

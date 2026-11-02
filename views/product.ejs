@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="<%= locale || 'de' %>">
   <head>
     <%- include('partials/general/head') %>
-    <title>Promontolio | Bio-Olivenöl 0,75l Vorratspack</title>
   </head>
   <body class="product-page">
+    <% const copy = pageCopy || {}; %>
+    <% const hero = copy.hero || {}; %>
+    <% const product = copy.product || {}; %>
+    <% const bundles = copy.bundles || []; %>
+    <% const b2b = copy.b2b || {}; %>
+    <% const details = copy.details || {}; %>
+    <% const craft = copy.craft || {}; %>
+    <% const guide = copy.guide || {}; %>
     <%- include('./partials/general/navbar') %>
 
     <header class="header-product">
       <section class="product container">
         <div class="product-description content scroll-fade-up">
-          <h1>Unsere Produkte</h1>
-          <p>
-            Direkt vom Gargano zu Ihnen nach Frankfurt. Ein biologisches
-            Meisterwerk in jeder Flasche.
-          </p>
+          <h1><%= hero.title || '' %></h1>
+          <p><%= hero.text || '' %></p>
         </div>
 
         <div class="linea scroll-fade-up"></div>
@@ -31,48 +35,32 @@
 
           <div class="product-details scroll-fade-up">
             <div class="details-header">
-              <span class="product-badge">Premium Bio-Qualität</span>
-              <h2 class="product-title">Bio-Olivenöl Extra Vergine</h2>
-              <p class="product-subtitle">0,75l elegante Glasflasche</p>
+              <span class="product-badge"><%= product.badge || '' %></span>
+              <h2 class="product-title"><%= product.title || '' %></h2>
+              <p class="product-subtitle"><%= product.subtitle || '' %></p>
             </div>
 
             <div class="package-selector">
+              <% bundles.forEach(function(bundle, index) { %>
               <div class="package-card-wrapper">
-                <input
-                  type="radio"
-                  name="bundle"
-                  id="pack6"
-                  value="6"
-                  checked
-                />
-                <label for="pack6" class="package-card">
-                  <span class="pack-name">6er Paket</span>
-                  <span class="pack-price">96,00 €</span>
-                  <span class="pack-detail">16,00 € pro Flasche</span>
+                <input type="radio" name="bundle" id="pack<%= index === 0 ? '6' : '12' %>" value="<%= index === 0 ? '6' : '12' %>" <%= index === 0 ? 'checked' : '' %> />
+                <label for="pack<%= index === 0 ? '6' : '12' %>" class="package-card <%= bundle.badge ? 'highlight' : '' %>">
+                  <% if (bundle.badge) { %><span class="pack-badge"><%= bundle.badge %></span><% } %>
+                  <span class="pack-name"><%= bundle.name %></span>
+                  <span class="pack-price"><%= bundle.price %></span>
+                  <span class="pack-detail"><%= bundle.detail %></span>
                 </label>
               </div>
-
-              <div class="package-card-wrapper">
-                <input type="radio" name="bundle" id="pack12" value="12" />
-                <label for="pack12" class="package-card highlight">
-                  <span class="pack-badge">Bestseller</span>
-                  <span class="pack-name">12er Paket</span>
-                  <span class="pack-price">192,00 €</span>
-                  <span class="pack-detail">Gratis Versand 🚀</span>
-                </label>
-              </div>
+              <% }); %>
             </div>
 
-            <button class="btn-main btn-add-cart">IN DEN WARENKORB</button>
+            <button class="btn-main btn-add-cart"><%=product.addToCart || 'IN DEN WARENKORB' %></button>
 
             <div class="b2b-section scroll-fade-up">
               <div class="b2b-content">
-                <h3>Individuelle Mengen?</h3>
-                <p>
-                  Für Gastronomie, Firmengeschenke oder größere Bestellmengen
-                  erstellen wir Ihnen gerne ein persönliches Angebot.
-                </p>
-                <a href="/contact" class="btn-outline-b2b">ANGEBOT ANFORDERN</a>
+                <h3><%= b2b.title || '' %></h3>
+                <p><%= b2b.text || '' %></p>
+                <a href="/contact" class="btn-outline-b2b"><%= b2b.cta || '' %></a>
               </div>
             </div>
           </div>
@@ -84,31 +72,21 @@
       <div class="content container">
         <div class="flex-about">
           <div class="about-text scroll-fade-up">
-            <h2>Produktdetails</h2>
+            <h2><%= details.title || '' %></h2>
             <table class="value-table">
               <tbody>
+                <% (details.items || []).forEach(function(item) { %>
                 <tr>
-                  <td><strong>Herkunft</strong></td>
-                  <td>Gargano, Apulien</td>
+                  <td><strong><%= item.label %></strong></td>
+                  <td><%= item.value %></td>
                 </tr>
-                <tr>
-                  <td><strong>Olivensorte</strong></td>
-                  <td>Ogliarola & Coratina</td>
-                </tr>
-                <tr>
-                  <td><strong>Analyse</strong></td>
-                  <td>Säure < 0,2% | Polyphenole > 450mg</td>
-                </tr>
+                <% }); %>
               </tbody>
             </table>
           </div>
           <div class="about-text scroll-fade-up">
-            <h2>Handwerk</h2>
-            <p>
-              Handverlesen und innerhalb von 4 Stunden kaltgepresst. Das
-              Ergebnis ist ein Öl von höchster biologischer Qualität, das den
-              Charakter unseres Landes widerspiegelt.
-            </p>
+            <h2><%= craft.title || '' %></h2>
+            <p><%= craft.text || '' %></p>
           </div>
         </div>
       </div>
@@ -117,25 +95,18 @@
       <div class="container guide-flex">
         <div class="guide-image">
           <img
-            src="../image/mockup-guida-gargano.png"
+            src="/image/BottigliaBio.png"
             alt="Promontolio Guide Preview"
           />
         </div>
         <div class="guide-content">
-          <span class="guide-badge">Gratis für Sie</span>
-          <h2>Entdecken Sie den Gargano</h2>
-          <p>
-            Sind Sie noch unsicher? Laden Sie unseren exklusiven Guide herunter:
-            <strong>"Das flüssige Gold Apuliens"</strong>. Inklusive
-            traditioneller Rezepte, Tipps zur Aufbewahrung und Geheimtipps für
-            Ihren nächsten Besuch im Gargano.
-          </p>
+          <span class="guide-badge"><%= guide.badge || '' %></span>
+          <h2><%= guide.title || '' %></h2>
+          <p><%= guide.text || '' %></p>
           <form class="guide-form">
-            <input type="email" placeholder="Ihre E-Mail-Adresse" required />
-            <button type="submit" class="btn-main">GUIDE HERUNTERLADEN</button>
-            <p class="privacy-note">
-              Mit dem Absenden akzeptieren Sie unsere Datenschutzbestimmungen.
-            </p>
+            <input type="email" placeholder="<%= guide.emailPlaceholder || '' %>" required />
+            <button type="submit" class="btn-main"><%= guide.button || 'GUIDE HERUNTERLADEN' %></button>
+            <p class="privacy-note"><%= guide.privacy || '' %></p>
           </form>
         </div>
       </div>

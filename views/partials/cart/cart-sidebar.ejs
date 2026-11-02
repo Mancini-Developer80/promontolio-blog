@@ -1,27 +1,70 @@
+<% const cartCopy =
+{de: {
+    title: "Ihr Warenkorb", close: "Schließen",
+  empty: "Ihr Warenkorb ist noch leer.",
+    total: "Gesamtsumme:",
+    checkout: "Zur Kasse",
+    shippingPrefix: "Inkl. MwSt. zzgl.",
+    shippingLink: "Versandkosten",
+    remove: "Entfernen",
+    freeShippingTitle: "Gratis-Versand aktiviert!",
+    freeShippingText: "Ihr Vorratspack ist auf dem Weg nach Frankfurt.",
+    tipShipping: "Tipp: Mit dem 12er Paket sparen Sie die Versandkosten!",
+    loading: "Wird geladen...",
+    checkoutError: "Es gab einen Fehler. Bitte versuchen Sie es später erneut.",
+    bundle6Name: "Bio-Olivenöl (6er Paket)",
+    bundle12Name: "Bio-Olivenöl (12er Paket)"
+  },
+  it: {
+    title: "Il tuo carrello", close: "Chiudi", empty: "Il tuo carrello è ancora vuoto.",
+    total: "Totale:", checkout: "Vai al checkout", shippingPrefix: "IVA inclusa, escluse",
+    shippingLink: "spese di spedizione", remove: "Rimuovi",
+    freeShippingTitle: "Spedizione gratuita attiva!", freeShippingText: "Il tuo pacco scorta è in arrivo.",
+    tipShipping: "Consiglio: con il pacco da 12 risparmi le spese di spedizione!",
+    loading: "Caricamento...", checkoutError: "Si è verificato un errore. Riprova più tardi.",
+    bundle6Name: "Olio biologico (confezione da 6)",
+    bundle12Name: "Olio biologico (confezione da 12)"
+  }
+
+}[locale || "de"]; %>
+
 <div id="cart-overlay" class="cart-overlay"></div>
 
 <aside id="cart-sidebar" class="cart-sidebar">
   <div class="cart-header">
-    <h2>Ihr Warenkorb</h2>
-    <button id="close-cart" class="close-btn" aria-label="Schließen">
+    <h2><%= cartCopy.title %></h2>
+    <button
+      id="close-cart"
+      class="close-btn"
+      aria-label="<%= cartCopy.close %>"
+    >
       &times;
     </button>
   </div>
 
   <div id="cart-items-container" class="cart-items">
-    <p class="empty-msg">Ihr Warenkorb ist noch leer.</p>
+    <p class="empty-msg"><%= cartCopy.empty %></p>
   </div>
 
   <div class="cart-footer">
     <div class="cart-total">
-      <span>Gesamtsumme:</span>
+      <span><%= cartCopy.total %></span>
       <span id="cart-total-amount">0,00 €</span>
     </div>
 
-    <button id="checkout-btn" class="btn-checkout" disabled>Zur Kasse</button>
+    <button id="checkout-btn" class="btn-checkout" disabled>
+      <%= cartCopy.checkout %>
+    </button>
 
     <p class="shipping-info">
-      <small>Inkl. MwSt. zzgl. <a href="/shipping">Versandkosten</a></small>
+      <small
+        ><%= cartCopy.shippingPrefix %>
+        <a href="/contact"><%= cartCopy.shippingLink %></a></small
+      >
     </p>
   </div>
 </aside>
+
+<script id="cart-i18n" type="application/json">
+  <%- JSON.stringify(cartCopy) %>
+</script>

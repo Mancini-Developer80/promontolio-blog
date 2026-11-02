@@ -1,0 +1,460 @@
+{
+  "language": "de",
+  "site": "Promontolio",
+  "pages": [
+    {
+      "route": "/",
+      "file": "views/index.ejs",
+      "metaTags": {
+        "title": "Promontolio | Bio Olivenöl Extra Vergine zertifiziert aus dem Gargano",
+        "metaDescription": "Die Exzellenz des biologischen Olivenöls extra aus dem Gargano: lokale Olivensorten, handwerkliche Pressung und authentische apulische Tradition direkt zu Ihnen nach Hause.",
+        "metaKeywords": "bio olivenöl extra vergine, apulisches olivenöl, gargano olivenöl, hochwertiges olivenöl, handwerkliche pressung"
+      },
+      "content": {
+        "hero": {
+          "titleHighlight": "Zertifiziertes Bio-Olivenöl Extra Vergine aus dem Gargano",
+          "subtitleBrand": "Promontolio",
+          "slogan": "Die Reinheit des Gargano, vom Olivenhain bis auf Ihren Tisch.",
+          "description": "Aus apulischem Boden direkt auf Ihren Tisch. Wir kultivieren und pressen nach zertifizierten biologischen Methoden, um die aromatische Ausdruckskraft, die Harmonie und die natürlichen Antioxidantien zu bewahren.",
+          "primaryCta": "Jetzt Bio-Öl kaufen"
+        },
+        "sections": [
+          {
+            "title": "Die Exzellenz apulischen Bio-Olivenöls",
+            "features": [
+              {
+                "title": "Die Identität des Gargano",
+                "text": "Ein natives Olivenöl extra, das die aromatische Fülle und die Reinheit Apuliens in sich vereint. Nach strengen biologischen Richtlinien hergestellt, ist es die ideale Ergänzung, um jedes Gericht harmonisch zu veredeln."
+              },
+              {
+                "title": "Ein einzigartiges Terroir zwischen Meer und Hügeln",
+                "text": "Eingebettet zwischen kalkhaltigen Böden und Meeresbrisen profitieren unsere Olivenhaine von einem unvergleichlichen Mikroklima. Die traditionellen Olivensorten Ogliarola und Coratina entfalten hier ein unverwechselbares, komplexes und charakterstarkes Aromaprofil."
+              },
+              {
+                "title": "Unsere Qualitätsstandards",
+                "bullets": [
+                  "100% zertifiziertes Bio-Olivenöl Extra Vergine",
+                  "Kaltextraktion nur wenige Stunden nach der Ernte",
+                  "Hoher natürlicher Gehalt an Polyphenolen und Antioxidantien",
+                  "Lückenlose Rückverfolgbarkeit der apulischen Lieferkette",
+                  "Nachhaltiger Anbau"
+                ]
+              },
+              {
+                "title": "Präzision und handwerkliche Sorgfalt",
+                "text": "Wir setzen auf eine begrenzte und strenge Produktion. Von der Handernte zum optimalen Reifezeitpunkt bis hin zur Kaltextraktion innerhalb von 6 Stunden ist jeder Schritt darauf ausgerichtet, die Integrität der natürlichen Aromen und das gesundheitliche Profil unseres Öls zu bewahren."
+              }
+            ]
+          },
+          {
+            "title": "Die Authentizität einer limitierten Selektion",
+            "text": "Promontolio entspringt einer kontrollierten und strengen Lieferkette: von Hand geerntete Oliven im vollen Respekt vor der Pflanze, unmittelbare Pressung und ein Aromaprofil, das jedes Gericht harmonisch unterstreicht. Transparente Reinheit, messbare Qualität.",
+            "ctaPrimary": "Jetzt bestellen",
+            "ctaSecondary": "Unsere Zertifikate"
+          },
+          {
+            "badge": "100% zertifiziertes Bio",
+            "title": "Respekt vor der Erde und echte Nachhaltigkeit",
+            "text": "Unsere Philosophie verbindet den Schutz der Kulturlandschaft des Gargano mit strengen, umweltschonenden agronomischen Verfahren. Wir verzichten konsequent auf chemische Behandlungen und fördern die Biodiversität, um den kommenden Generationen ein lebendiges, fruchtbares Land zu hinterlassen und gleichzeitig die lokale Landwirtschaft nachhaltig zu stärken.",
+            "stats": [
+              { "value": "0%", "label": "Chemische Synthesemittel" },
+              { "value": "100%", "label": "Manuelle, selektive Ernte" },
+              { "value": "CO₂", "label": "Emissionsarme Logistik" }
+            ],
+            "cta": "Unsere Philosophie"
+          },
+          {
+            "badge": "Transparenz der Lieferkette",
+            "title": "Blick hinter die Kulissen der Exzellenz",
+            "subtitle": "Wie entsteht ein echtes Bio-Olivenöl Extra Vergine?",
+            "text": "Von der jahrhundertealten Pflege der Olivenhaine im Gargano bis hin zur schnellen Pressung innerhalb von 6 Stunden. Laden Sie den kostenlosen technischen Ratgeber herunter und entdecken Sie den gesamten Weg der Lieferkette, der die Integrität, das Nährstoffprofil und die authentischen Aromen unseres Öls bewahrt.",
+            "cta": "Leitfaden herunterladen"
+          }
+        ]
+      },
+      "footer": {
+        "tagline": "Biologisches natives Olivenöl extra aus dem Gargano.",
+        "trust": "🌿 100% Bio • ⏱️ Pressung innerhalb von 6h • 📍 Gargano, Apulien",
+        "contact": "Kontakt",
+        "copyright": "Alle Rechte vorbehalten."
+      }
+    },
+    {
+      "route": "/olivenoel-guide",
+      "file": "views/landingPage.ejs",
+      "title": "Kostenloser Ratgeber: Olivenöl-Qualität erkennen | Promontolio",
+      "metaDescription": "Entdecken Sie die Geheimnisse del Gargano con la nostra guida gratuita.",
+      "content": {
+        "hero": {
+          "badge": "Exklusiver Zugang",
+          "title": "Die Kunst, erstklassiges Olivenöl zu erkennen",
+          "text": "Entdecken Sie lehrreiche Geheimnisse der apulischen Ölmeister in diesem exklusiven 20-seitigen Ratgeber. Erfahren Sie, was wahre Qualität wirklich ausmacht."
+        },
+        "benefits": [
+          {
+            "title": "Etiketten verstehen",
+            "text": "So vermeiden Sie Täuschungen beim Kauf."
+          },
+          {
+            "title": "Die 3 Sensorik-Tests",
+            "text": "Wie Sie Qualität zu Hause prüfen können."
+          },
+          {
+            "title": "Gourmet-Pairing",
+            "text": "Welches Öl zu welchem Gericht passt."
+          }
+        ],
+        "form": {
+          "emailPlaceholder": "Ihre beste E-Mail-Adresse",
+          "consentText": "Ich stimme zu, den Guide und exklusive Informationen per E-Mail zu erhalten.",
+          "privacyLinkText": "Datenschutz",
+          "button": "Jetzt Guide kostenlos anfordern (PDF)",
+          "disclaimer": "Wir schätzen Ihre Privatsphäre. Kein Spam."
+        },
+        "trust": ["DSGVO Konform", "100% Bio-Qualität", "Direkt aus Gargano"]
+      }
+    },
+    {
+      "route": "/about",
+      "file": "views/about.ejs",
+      "metaTags": {
+        "title": "Über uns | Unsere Lieferkette & die Promontolio-Methode",
+        "metaDescription": "Entdecken Sie die Promontolio-Methode: Streng selektierte Oliven aus dem Gargano, zeitnahe Kaltextraktion und eine transparente, von Experten kontrollierte Lieferkette.",
+        "metaKeywords": "über uns promontolio, lieferkette bio olivenöl, kaltextraktion gargano, apulisches olivenöl experten"
+      },
+      "content": {
+        "hero": {
+          "subtitle": "Strenge Selektion im Gargano",
+          "title": "Exzellenz handwerklicher Qualität",
+          "text": "Jede Olivenemte ist ein Werk agronomischer und sensorischer Präzision. Wir bewerten und selektieren die besten Olivenpartien direkt aus den historischen Olivenhainen des Gargano, um Promontolio zum Leben zu erwecken: ein zertifiziertes Bio-Olivenöl von höchster Reinheit – kreiert für Kenner, die Charakter, lückenlose Rückverfolgbarkeit und kompromisslose Qualität suchen."
+        },
+        "curator": {
+          "badge": "Wer diese Exzellenz einmal erlebt hat, sieht Olivenöl mit völlig anderen Augen: ein geschmacklicher Point of No Return für den Gaumen.",
+          "title": "Bewertung und Lieferkette",
+          "paragraphs": [
+            "Promontolio entsteht nicht nach den Maßstäben einer standardisierten Industrieproduktion, sondern durch einen kompromisslosen Scouting-Prozess. Unser Qualitätsverantwortlicher wählt jeden einzelnen Olivenhain persönlich aus und bewertet die Partien direkt am Baum – noch vor der Ernte. Erst nach strenger Prüfung und der Bestätigung höchster Qualitätsstandards erfolgt die umgehende Ernte und Kaltextraktion vor Ort mit kurzen Wegen.",
+            "Jede Charge wird anschließend strengen sensorischen und chemischen Analysen unterzogen. Nur die Extraktion, die eine perfekte Balance, eine klare Struktur und absolute Spitzenwerte aufweist, wird für unsere limitierte Jahresabfüllung freigegeben."
+          ]
+        },
+        "sensoric": {
+          "title": "Die sensorischen Parameter der Exzellenz",
+          "items": [
+            {
+              "title": "Fruchtigkeit",
+              "text": "Das Duftprofil entspringt einer Ernte zum optimalen Reifezeitpunkt der Oliven. Die Aromen offenbaren intensive, komplexe Noten von frisch gemähtem Gras, Artischockenblättern und lebendigen pflanzlichen Nuancen – das getreue Spiegelbild einer sofortigen Kaltextraktion bei kontrollierter Temperatur, die die Seele der Frucht unversehrt bewahrt."
+            },
+            {
+              "title": "Angenehme Schärfe",
+              "text": "Eine lebendige, reine Note, die bereits beim ersten Schluck deutlich wahrnehmbar ist. Dies ist kein Makel und keine unangenehme Schärfe, sondern der spürbare und natürliche Nachweis von Oleocanthal: einem wertvollen Molekül mit einer außergewöhnlichen Konzentration an schützenden Antioxidantien, den Wächtern über Vitalität und Qualität des Öls."
+            },
+            {
+              "title": "Natürliche Bitterkeit",
+              "text": "Eine elegante, reine und anhaltende Nuance, die sich mit angenehmer Tiefe entfaltet. Entgegen weitverbreiteter Annahmen ist Bitterkeit niemals ein Qualitätsmangel: Sie ist die authentische und natürliche Handschrift der Polyphenole – jener kostbaren Antioxidantien, die die Integrität, den Charakter und die gesundheitlichen Eigenschaften eines echten, lebendigen Öls bewahren."
+            }
+          ]
+        },
+        "quality": {
+          "title": "Analytische Präzision und kontrollierte Lieferkette",
+          "paragraphs": [
+            "Unser Versprechen für höchste Qualität basiert auf objektiven und überprüfbaren Fakten. Jede ausgewählte Charge wird in zertifizierten Fachlaboratorien strengen chemischen Analysen unterzogen. Dabei überwachen wir entscheidende Parameter wie eine extrem niedrige Säurezahl und eine hohe Konzentration an natürlichen Antioxidantien.",
+            "So garantieren wir ein authentisches, lückenlos rückverfolgbares Bio-Olivenöl Extra Vergine, das den höchsten Qualitätsstandards entspricht – kreiert für Kenner, die maximale Nährstoffintegrität und ein makelloses sensorisches Profil suchen."
+          ],
+          "buttonText": "Bio-Olivenöl jetzt bestellen",
+          "buttonUrl": "/product"
+        },
+        "manifesto": {
+          "label": "Limitierte Selektion",
+          "title": "Gegen den Strom der Massenproduktion",
+          "text": "Während die Logik des Großhandels standardisierte Volumen und anonyme Mischungen vorschreibt, wählt Promontolio den entgegengesetzten Weg: die kompromisslose Konzentration auf das maximale Qualitätspotenzial. Unsere jährliche Verfügbarkeit ist naturgemäß an die biologischen Zyklen und die einzigartigen Merkmale des Gargano-Gebiets gebunden.",
+          "quote": "Wir jagen keinen kommerziellen Massenwünschen hinterher, sondern füllen ausschließlich das ab, was unsere strengen Auslesestandards besteht."
+        },
+        "guide": {
+          "badge": "TRANSPARENZ DER LIEFERKETTE",
+          "title": "Das Promontolio-Kompendium",
+          "lead": "Von der Pflege der Olivenhaine im Gargano bis zur Pressung innerhalb von 6 Stunden. Ein detaillierter Leitfaden zu Terroir, Kaltextraktion und sensorischen Analysen.",
+          "emailPlaceholder": "Ihre E-Mail-Adresse",
+          "submit": "Leitfaden herunterladen",
+          "consent": "Ich stimme der Datenschutzerklärung zu.",
+          "disclaimer": "Kostenloser PDF-Download. Keine Werbung, jederzeit abbestellbar."
+        }
+      }
+    },
+    {
+      "route": "/product",
+      "file": "views/product.ejs",
+      "title": "Promontolio | Bio-Olivenöl 0,75l Vorratspack",
+      "content": {
+        "hero": {
+          "title": "Unsere Selektion",
+          "text": "Exzellentes biologisches natives Olivenöl extra aus dem Gargano: eine transparente, strenge Lieferkette mit schneller Kaltextraktion, um die biologische Vitalität der Polyphenole und das unversehrte sensorische Profil zu bewahren."
+        },
+        "product": {
+          "badge": "Premium Bio-Qualität",
+          "title": "Bio-Olivenöl Extra Vergine",
+          "subtitle": "Elegante 0,75l Glasflasche",
+          "addToCart": "In den Warenkorb"
+        },
+        "bundles": [
+          {
+            "name": "6er-Karton",
+            "price": "96,00 €",
+            "detail": "16,00 € pro Flasche"
+          },
+          {
+            "name": "12er-Karton",
+            "price": "192,00 €",
+            "detail": "Kostenloser Versand 🚀",
+            "badge": "Bestseller"
+          }
+        ],
+        "b2b": {
+          "title": "Individuelle Bestellmengen?",
+          "text": "Für die gehobene Gastronomie, Präsentkörbe oder Großbestellungen bieten wir maßgeschneiderte Konditionen und exklusiv ausgewählte Chargen.",
+          "cta": "ANGEBOT ANFORDERN"
+        },
+        "details": {
+          "title": "Produktdetails",
+          "items": [
+            { "label": "Herkunft", "value": "Gargano, Apulien" },
+            { "label": "Oliven-Sorten", "value": "Ogliarola & Coratina" },
+            {
+              "label": "Analysen",
+              "value": "Säuregehalt < 0,2% | Polyphenole > 450mg/kg"
+            }
+          ]
+        },
+        "craft": {
+          "title": "Lieferkette & Methode",
+          "text": "Wir garantieren die Ernte zum optimalen Reifezeitpunkt der Oliven und eine rein mechanische Kaltextraktion innerhalb von 6 Stunden. So bewahren wir den vollen Nährstoffreichtum und den typischen Charakter des Terroirs im Gargano."
+        },
+        "guide": {
+          "badge": "TRANSPARENZ DER LIEFERKETTE",
+          "title": "Das Promontolio-Kompendium",
+          "text": "Von der Pflege der Olivenhaine im Gargano bis zur zeitnahen Pressung. Laden Sie den kostenlosen Ratgeber herunter und entdecken Sie den gesamten Prozess, der die Qualität und die Aromen unseres Öls bewahrt.",
+          "button": "RATGEBER HERUNTERLADEN",
+          "privacy": "Mit dem Absenden stimmen Sie unserer Datenschutzerklärung zu."
+        }
+      }
+    },
+    {
+      "route": "/contact",
+      "file": "views/contact.ejs",
+      "title": "Kontakt & Anfragen - Promontolio",
+      "content": {
+        "hero": {
+          "badge": "KONTAKT & KOOPERATIONEN",
+          "title": "Lassen Sie uns über Olivenöl und den Gargano sprechen",
+          "text": "Haben Sie Fragen zu unseren Bio-Chargen, benötigen Sie Informationen zur Lieferkette oder möchten Sie mehr über unsere Erntemethode erfahren? Wir stehen Ihnen gerne zur Verfügung."
+        },
+        "b2b": {
+          "title": "Geschäftskunden & Gastronomie",
+          "text": "Suchen Sie exklusive Lieferungen für Ihr Restaurant, Ihre Feinkosthandlung oder Ihr Fachgeschäft? Fordern Sie ein maßgeschneidertes Angebot oder Informationen zu unseren Logistikkonditionen an."
+        },
+        "form": {
+          "nameLabel": "Name / Unternehmen",
+          "namePlaceholder": "Ihr Name oder Firmenname",
+          "emailLabel": "E-Mail-Adresse",
+          "emailPlaceholder": "beispiel@email.de",
+          "messageLabel": "Ihre Anfrage",
+          "messagePlaceholder": "Wie können wir Ihnen helfen? Bitte geben Sie an, ob es sich um einen privaten Kauf oder eine gewerbliche Lieferung handelt...",
+          "submit": "Nachricht senden"
+        },
+        "messages": {
+          "required": "Bitte füllen Sie alle Pflichtfelder aus.",
+          "success": "Vielen Dank! Wir haben Ihre Nachricht erhalten."
+        }
+      }
+    },
+    {
+      "route": "/datenschutz",
+      "file": "views/datenschutz.ejs",
+      "title": "Datenschutzerklärung | Promontolio",
+      "content": {
+        "title": "Datenschutzerklärung",
+        "sections": [
+          {
+            "title": "1. Datenschutz auf einen Blick",
+            "subsections": [
+              {
+                "title": "Allgemeine Hinweise",
+                "text": "Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können."
+              }
+            ]
+          },
+          {
+            "title": "2. Datenerfassung auf dieser Website",
+            "subsections": [
+              {
+                "title": "Wer ist verantwortlich für die Datenerfassung auf dieser Website?",
+                "text": "Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten können Sie dem Impressum dieser Website entnehmen."
+              },
+              {
+                "title": "Wie erfassen wir Ihre Daten?",
+                "text": "Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z. B. um Daten handeln, die Sie in ein Kontaktformular eingeben oder beim Anfordern des PDF-Guides angeben."
+              }
+            ]
+          },
+          {
+            "title": "3. Lead-Generierung, Kontaktformular und PDF-Guide",
+            "paragraphs": [
+              "Kontaktformular: Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert (Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO).",
+              "PDF-Guide & Newsletter: Wenn Sie den auf der Website angebotenen PDF-Guide beziehen möchten, benötigen wir von Ihnen eine E-Mail-Adresse. Wir verwenden das sogenannte Double-Opt-In-Verfahren, um sicherzustellen, dass Sie der Inhaber der angegebenen E-Mail-Adresse sind.",
+              "Speicherung in der Datenbank: Ihre Daten werden über unser Datenbanksystem (verwaltet mit Prisma ORM) sicher gespeichert, bis Sie Ihre Einwilligung zur Speicherung widerrufen oder der Zweck für die Datenspeicherung entfällt.",
+              "Rechtsgrundlage: Die Verarbeitung der E-Mail-Adresse für den PDF-Guide erfolgt auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO)."
+            ]
+          },
+          {
+            "title": "4. Ihre Rechte (Auskunft, Löschung und Widerruf)",
+            "paragraphs": [
+              "Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung und ggf. ein Recht auf Berichtigung oder Löschung dieser Daten.",
+              "Sie können eine bereits erteilte Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen.",
+              "Hierzu sowie zu weiteren Fragen zum Thema personenbezogene Daten können Sie sich jederzeit unter der im Impressum angegebenen Adresse an uns wenden."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "route": "/impressum",
+      "title": "Impressum | Promontolio",
+      "content": {
+        "title": "Impressum",
+        "sections": [
+          {
+            "title": "Angaben gemäß § 5 TMG",
+            "paragraphs": [
+              "Giuseppe Mancini\nSödeler Weg 15\n61231 Bad Nauheim\nDeutschland"
+            ]
+          },
+          {
+            "title": "Kontakt",
+            "paragraphs": ["E-Mail: info@promontolio.de"]
+          },
+          {
+            "title": "Steuernummer",
+            "paragraphs": [
+              "Steuernummer: 016 844 32415\nFinanzamt Friedberg (Hessen)"
+            ]
+          },
+          {
+            "title": "Tätigkeitsbeschreibung",
+            "paragraphs": ["Online-Handel mit Lebensmitteln und Feinkost"]
+          },
+          {
+            "title": "Redaktionell Verantwortlicher",
+            "paragraphs": [
+              "Giuseppe Mancini\nSödeler Weg 15\n61231 Bad Nauheim"
+            ]
+          },
+          {
+            "title": "EU-Streitbeilegung",
+            "paragraphs": [
+              "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr/.\nUnsere E-Mail-Adresse finden Sie oben im Impressum."
+            ]
+          },
+          {
+            "title": "Verbraucherstreitbeilegung / Universalschlichtungsstelle",
+            "paragraphs": [
+              "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "route": "/thanks",
+      "file": "views/thanks.ejs",
+      "metaTags": {
+        "title": "Vielen Dank | Das Promontolio-Kompendium ist bereit"
+      },
+      "content": {
+        "messages": {
+          "consentRequired": "Die Einwilligung ist obligatorisch.",
+          "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+        },
+        "statusBadge": "ERFOLGREICH REGISTRIERT",
+        "mainMessage": "Das Promontolio-Kompendium ist auf dem Weg zu Ihrem Postfach! Sie können es auch direkt hier herunterladen.",
+        "downloadLabel": "Ihr PDF-Dokument ist bereit:",
+        "downloadButton": "Kompendium herunterladen (PDF)",
+        "confirmationHint": "Bitte überprüfen Sie Ihren Posteingang (sowie den Spam-Ordner), um den Erhalt zu bestätigen.",
+        "backHome": "Zur Startseite"
+      }
+    },
+    {
+      "route": "/blog",
+      "file": "views/blog.ejs",
+      "title": "Blog - Promontolio",
+      "content": {
+        "ui": {
+          "homeLink": "Home page",
+          "blogLink": "Blog",
+          "searchPlaceholder": "Cerca articoli...",
+          "heroTitle": "Il nostro Blog",
+          "heroSubtitle": "Ricette, consigli e storie sull'olio extravergine biologico del Gargano",
+          "recentPosts": "Articoli recenti",
+          "countSuffix": "articoli",
+          "readMore": "Leggi l'articolo",
+          "pagination": {
+            "previous": "Precedente",
+            "next": "Successiva"
+          },
+          "emptyTitle": "Nessun articolo ancora",
+          "emptyText": "Stiamo preparando contenuti di qualità per te. Torna presto!"
+        }
+      }
+    },
+    {
+      "route": "/blog/:slug",
+      "file": "views/blogSingleArticle.ejs",
+      "title": "Blog - Promontolio",
+      "content": {
+        "ui": {
+          "homeLink": "Home page",
+          "blogLink": "Blog Home",
+          "searchPlaceholder": "Search blog posts...",
+          "breadcrumbHome": "Home",
+          "breadcrumbBlog": "Blog",
+          "authorLabel": "L'Autore",
+          "authorFallback": "Promontolio Team",
+          "authorRole": "Olivicoltore",
+          "tagsLabel": "Tags:",
+          "shareLabel": "Condividi:",
+          "shareFacebook": "Condividi su Facebook",
+          "shareTwitter": "Condividi su Twitter",
+          "shareLinkedIn": "Condividi su LinkedIn",
+          "shareWhatsApp": "Condividi su WhatsApp",
+          "backToBlog": "Torna al Blog",
+          "buyNow": "Acquista Ora",
+          "sidebarRelated": "Articoli Correlati",
+          "sidebarToc": "Indice"
+        }
+      }
+    },
+    {
+      "route": "/success",
+      "file": "views/success.ejs",
+      "title": "Vielen Dank",
+      "content": {
+        "title": "Vielen Dank für Ihr Vertrauen",
+        "paymentText": "Wir haben Ihre Zahlung über",
+        "orderPrefix": "Eine Bestätigung Ihrer Bestellung (Nr. #",
+        "orderSuffix": ") sowie die Rechnung wurden soeben an",
+        "sentText": "versandt.",
+        "welcomeTitle": "Ein Willkommensgruß aus dem Gargano 🌿",
+        "welcomeText": "Während wir Ihre Bestellung für den Versand vorbereiten, laden wir Sie ein, tiefer in die Welt unseres Olivenöls einzutauchen.",
+        "downloadGuide": "PDF-Guide herunterladen",
+        "blogCta": "Magazin & Rezepte",
+        "homeCta": "Zur Startseite"
+      }
+    },
+    {
+      "route": "/404",
+      "file": "views/404.ejs",
+      "title": "404",
+      "content": {
+        "title": "404 - Seite nicht gefunden",
+        "message": "Die gesuchte Seite existiert nicht."
+      }
+    }
+  ]
+}

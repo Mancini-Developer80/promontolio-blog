@@ -143,6 +143,56 @@ body.menu-open {
     }
   }
 
+  &__language-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.22rem;
+    border-radius: 999px;
+    border: 1px solid rgba($white, 0.5);
+    background: rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+
+    @include tablet {
+      margin-right: 0.25rem;
+    }
+  }
+
+  &__language-link {
+    min-width: 42px;
+    height: 30px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba($white, 0.88) !important;
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+
+    &:hover {
+      color: $white !important;
+      background: rgba($white, 0.14);
+      border-color: rgba($white, 0.34);
+      transform: translateY(-1px);
+    }
+
+    &.is-active,
+    &[aria-current="true"] {
+      color: #152019 !important;
+      background: linear-gradient(135deg, #f2d98a 0%, #bfa55d 100%);
+      border-color: rgba($secondary-color, 0.95);
+      box-shadow:
+        inset 0 1px 0 rgba($white, 0.7),
+        0 4px 12px rgba(0, 0, 0, 0.24);
+    }
+  }
+
   &__cart-btn {
     background: none;
     border: none;
@@ -184,6 +234,26 @@ body.menu-open {
   // Supporto per lo stato Scrolled (opzionale se vuoi cambiare colori)
   &-scrolled {
     // ...
+    .navbar__language-switch {
+      border-color: rgba($white, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.32);
+    }
+
+    .navbar__language-link {
+      color: rgba($white, 0.9) !important;
+
+      &:hover {
+        color: $white !important;
+        background: rgba($white, 0.16);
+      }
+
+      &.is-active,
+      &[aria-current="true"] {
+        color: #111 !important;
+      }
+    }
+
     .navbar__cart-btn {
       color: $white;
       &:hover {
@@ -200,4 +270,49 @@ body.menu-open {
   to {
     transform: translateY(0);
   }
+}
+
+// Forced visibility against page-level navbar overrides (product/contact/landing)
+body .navbar .navbar__language-link {
+  color: rgba($white, 0.88) !important;
+}
+
+body .navbar .navbar__language-link.is-active,
+body .navbar .navbar__language-link[aria-current="true"] {
+  color: #152019 !important;
+}
+
+body.product-page .navbar .navbar__language-switch,
+body.contact-page .navbar .navbar__language-switch,
+body:has(.lp-guide) .navbar .navbar__language-switch {
+  border-color: rgba($primary-color, 0.25);
+  background: rgba($white, 0.86);
+}
+
+body.product-page .navbar .navbar__language-link,
+body.contact-page .navbar .navbar__language-link,
+body:has(.lp-guide) .navbar .navbar__language-link {
+  color: rgba($primary-color, 0.8) !important;
+}
+
+body.product-page .navbar .navbar__language-link:hover,
+body.contact-page .navbar .navbar__language-link:hover,
+body:has(.lp-guide) .navbar .navbar__language-link:hover {
+  color: $primary-color !important;
+  background: rgba($primary-color, 0.08);
+  border-color: rgba($primary-color, 0.2);
+}
+
+body.product-page .navbar .navbar__language-link.is-active,
+body.contact-page .navbar .navbar__language-link.is-active,
+body:has(.lp-guide) .navbar .navbar__language-link.is-active,
+body.product-page .navbar .navbar__language-link[aria-current="true"],
+body.contact-page .navbar .navbar__language-link[aria-current="true"],
+body:has(.lp-guide) .navbar .navbar__language-link[aria-current="true"] {
+  color: $white !important;
+  background: linear-gradient(135deg, #364b16 0%, $primary-color 100%);
+  border-color: rgba($primary-color, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba($white, 0.15),
+    0 5px 14px rgba($primary-color, 0.3);
 }

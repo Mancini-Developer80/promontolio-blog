@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="<%= locale || 'de' %>">
   <head>
     <%- include('partials/general/head') %>
   </head>
   <body class="thanks-page">
+    <% const copy = pageCopy || {}; %>
     <%- include('partials/general/navbar') %>
 
     <main class="thanks-main">
     <div class="thanks-card scroll-fade-up visible">
-    <div class="status-badge">Posteingang prüfen</div>
+    <div class="status-badge"><%= copy.statusBadge || 'Posteingang prüfen' %></div>
       <a href="/" class="btn-back-home">
-        <i class="fas fa-arrow-left"></i> Zurück zur Startseite
+        <i class="fas fa-arrow-left"></i> <%= copy.backHome || 'Zurück zur Startseite' %>
       </a>
 
     <h1 class="thanks-title"><%= title %></h1>
@@ -21,21 +22,20 @@
 
     <% if (locals.downloadUrl) { %>
       <div class="download-container">
-        <p class="download-label">Ihre Datei ist bereit:</p>
+        <p class="download-label"><%= copy.downloadLabel || 'Ihre Datei ist bereit:' %></p>
         <a href="<%= downloadUrl %>" class="btn-download" download>
-          <i class="fas fa-file-pdf"></i> Guide Herunterladen (PDF)
+          <i class="fas fa-file-pdf"></i> <%= copy.downloadButton || 'Guide Herunterladen (PDF)' %>
         </a>
       </div>
     <% } %>
     <p class="thanks-text">
       <small style="color: #888">
-        Wir senden Ihnen den Guide per E-Mail zu, sobald Sie Ihre Anmeldung
-        bestätigt haben. Schauen Sie anche im Spam-Ordner nach.
+        <%= copy.confirmationHint || 'Wir senden Ihnen den Guide per E-Mail zu, sobald Sie Ihre Anmeldung bestätigt haben. Schauen Sie auch im Spam-Ordner nach.' %>
       </small>
     </p>
 
     <a href="/" class="btn-back-home">
-      <i class="fas fa-arrow-left"></i> Zurück zur Startseite
+      <i class="fas fa-arrow-left"></i> <%= copy.backHome || 'Zurück zur Startseite' %>
     </a>
   </div>
 </main>

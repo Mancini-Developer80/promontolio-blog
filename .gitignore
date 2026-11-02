@@ -6,3 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 dist/
 coverage/
+# File di backup e utility locali
+backup-debug-files/
+*.py
+*.txt
+*.md
+!README.md
