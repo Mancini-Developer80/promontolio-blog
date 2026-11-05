@@ -148,29 +148,86 @@
 // --------------------------------------------------------------------------
 
 .blog-hero-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(243, 227, 124, 0.35);
   background: linear-gradient(
     135deg,
-    $primary-color 0%,
-    color.adjust($primary-color, $lightness: 10%) 100%
+    #263817 0%,
+    $primary-color 100%
   );
   color: $brand-main;
   text-align: center;
-  padding: 3.5rem 2rem 3rem;
+  padding: clamp(2.75rem, 5vw, 4rem) 2rem clamp(2.5rem, 4vw, 3.5rem);
+  box-shadow: inset 0 -12px 28px rgba(20, 31, 10, 0.16);
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  &::before {
+    width: min(30rem, 65vw);
+    height: min(30rem, 65vw);
+    top: -19rem;
+    right: -8rem;
+    border: 1px solid rgba(243, 227, 124, 0.12);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 1.5rem rgba(243, 227, 124, 0.035),
+      0 0 0 4rem rgba(243, 227, 124, 0.02);
+  }
+
+  &::after {
+    width: 12rem;
+    height: 12rem;
+    bottom: -8rem;
+    left: -3rem;
+    border-radius: 50%;
+    background: rgba(15, 29, 8, 0.14);
+  }
 
   .blog-hero-title {
+    position: relative;
+    z-index: 1;
     font-family: $font-secondary;
-    font-size: 2.6rem;
+    color: #ffffff;
+    font-size: clamp(2.1rem, 4vw, 3.25rem);
     font-weight: 700;
-    margin-bottom: 0.6rem;
-    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin: 0 auto 0.8rem;
+    line-height: 1.08;
+    max-width: 900px;
+    text-wrap: balance;
+    text-shadow: 0 2px 12px rgba(15, 25, 7, 0.45);
+
+    &::after {
+      content: "";
+      display: block;
+      width: 4.5rem;
+      height: 2px;
+      margin: 1rem auto 0;
+      background: $secondary-color;
+      box-shadow: 0 0 16px rgba(243, 227, 124, 0.55);
+    }
   }
 
   .blog-hero-subtitle {
-    font-size: 1.05rem;
-    opacity: 0.85;
-    max-width: 500px;
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    max-width: 680px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.55;
+    text-shadow: 0 1px 8px rgba(15, 25, 7, 0.5);
+    text-wrap: balance;
   }
 }
 
@@ -534,10 +591,10 @@
   }
 
   .blog-hero-banner {
-    padding: 2.5rem 1.25rem 2rem;
+    padding: 2.25rem 1.25rem 2rem;
 
     .blog-hero-title {
-      font-size: 1.9rem;
+      font-size: 2rem;
     }
   }
 
@@ -565,13 +622,20 @@
 
 @media (max-width: 600px) {
   .blog-hero-banner {
-    padding: 1.75rem 1rem 1.5rem;
+    padding: 1.5rem 1rem 1.35rem;
 
     .blog-hero-title {
       font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+
+      &::after {
+        margin-top: 0.85rem;
+      }
     }
+
     .blog-hero-subtitle {
       font-size: 0.9rem;
+      line-height: 1.5;
     }
   }
 
@@ -605,39 +669,74 @@
 // --------------------------------------------------------------------------
 
 @media (max-width: 900px) {
+  .blog-nav {
+    padding: 0.75rem 1rem;
+  }
+
   .hamburger {
     display: flex;
+    margin-left: auto;
   }
 
   .nav-form {
-    width: 100%;
-    gap: 1rem;
-  }
-
-  .blog-nav-list {
     position: fixed;
     top: 0;
-    right: -100vw;
-    width: 72vw;
-    max-width: 300px;
+    right: -100%;
+    width: min(82vw, 320px);
     height: 100vh;
-    background: $primary-color;
+    display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    align-items: stretch;
     justify-content: center;
-    align-items: flex-start;
-    padding: 2rem 1.5rem;
-    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.2);
+    gap: 2rem;
+    padding: 5rem 1.5rem 2rem;
+    background: $primary-color;
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.2);
     transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 101;
   }
 
-  .blog-nav-list.active {
+  .nav-form.active {
     right: 0;
+  }
+
+  .blog-nav-list {
+    position: static;
+    width: auto;
+    height: auto;
+    flex-direction: column;
+    gap: 0.75rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  .blog-nav-list a {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 0;
+    font-size: 1.05rem;
   }
 
   .blog-nav-overlay.active {
     display: block;
+  }
+
+  .blog-search {
+    width: 100%;
+
+    input {
+      width: 100%;
+      min-width: 0;
+
+      &:focus {
+        width: 100%;
+      }
+    }
+
+    button {
+      flex-shrink: 0;
+    }
   }
 }
 

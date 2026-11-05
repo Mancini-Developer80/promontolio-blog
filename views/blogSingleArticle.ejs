@@ -58,16 +58,10 @@
         <span class="current"><%= article.title %></span>
       </nav>
       <h1 class="article-hero-title"><%= article.title %></h1>
+      <% if (article.excerpt) { %>
+      <p class="article-lead"><%= article.excerpt %></p>
+      <% } %>
       <div class="article-hero-meta">
-        <div class="author-info">
-          <div class="author-avatar">
-            <i class="fas fa-user-circle"></i>
-          </div>
-          <div class="author-details">
-            <span class="author-name"><%= article.author ? article.author.username : 'Promontolio Team' %></span>
-            <span class="author-role"><%= ui.authorRole || 'Olivicoltore' %></span>
-          </div>
-        </div>
         <div class="article-date-info">
           <i class="fas fa-calendar-alt"></i>
           <span class="publish-date">
@@ -84,39 +78,30 @@
 
   <!-- Article Container -->
   <div class="article-container">
-    <div class="container">
-      <div class="article-layout">
-        <!-- Main Content -->
-        <article class="article-main">
-          <div class="article-content">
-            <div class="article-body">
-              <% if (article.excerpt) { %>
-              <p class="article-lead"><%= article.excerpt %></p>
-              <% } %>
+    <!-- Main Content -->
+    <article class="article-main">
 
-              <!-- Featured Image -->
-              <div class="article-featured-image">
-                <img
-                  src="<%= article.featuredImage ? article.featuredImage : '/image/organic-olive-harvest-extra-virgin-oil.webp' %>"
-                  alt="<%= article.title %> - Promontolio organic olive oil"
-                  loading="lazy"
-                />
-                <figcaption class="image-caption">
-                  Olio extravergine di oliva biologico del Gargano - Tradizione
-                  e qualità nella produzione artigianale
-                </figcaption>
-              </div>
+      <!-- Featured Image -->
+      <div class="article-featured-image">
+        <img
+          src="<%= article.featuredImage ? article.featuredImage : '/image/organic-olive-harvest-extra-virgin-oil.webp' %>"
+          alt="<%= article.title %> - Promontolio organic olive oil"
+          loading="lazy"
+        />
+        <figcaption class="image-caption">
+          Olio extravergine di oliva biologico del Gargano - Tradizione
+          e qualità nella produzione artigianale
+        </figcaption>
+      </div>
 
-              <div class="article-content-main"><%- article.content %></div>
-            </div>
-          </div>
+      <div class="article-content-main"><%- article.content %></div>
 
-          <!-- Article Footer -->
-          <footer class="article-footer">
+      <!-- Article Footer -->
+      <footer class="article-footer">
             <div class="article-tags">
               <span class="tag-label"><%= ui.tagsLabel || 'Tags:' %></span>
-              <% if (article.keywords) { %>
-                <% article.keywords.split(',').forEach(function(keyword) { %>
+              <% if (article.tags && article.tags.length > 0) { %>
+                <% article.tags.forEach(function(keyword) { %>
                   <span class="tag"><%= keyword.trim() %></span>
                 <% }); %>
               <% } else { %>
@@ -164,80 +149,13 @@
                 <i class="fas fa-arrow-left"></i>
                 <span><%= ui.backToBlog || 'Torna al Blog' %></span>
               </a>
-              <a href="/contact" class="nav-btn cta-btn">
+              <a href="/product" class="nav-btn cta-btn">
                 <i class="fas fa-shopping-cart"></i>
                 <span><%= ui.buyNow || 'Acquista Ora' %></span>
               </a>
             </div>
-          </footer>
-        </article>
-
-        <!-- Sidebar -->
-        <aside class="article-sidebar">
-          <div class="sidebar-widget author-widget">
-            <h3><%= ui.authorLabel || "L'Autore" %></h3>
-            <div class="author-card">
-              <div class="author-avatar-large">
-                <i class="fas fa-user-circle"></i>
-              </div>
-              <h4><%= article.author ? article.author.username : (ui.authorFallback || 'Promontolio Team') %></h4>
-              <p class="author-bio">
-                <% if (article.author && article.author.bio) { %>
-                  <%= article.author.bio %>
-                <% } else { %>
-                  Olivicoltore con oltre 30 anni di esperienza nella produzione di olio extravergine di oliva biologico nel Gargano.
-                <% } %>
-              </p>
-              <div class="author-social">
-                <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="sidebar-widget toc-widget">
-            <h3><%= ui.sidebarToc || 'Indice' %></h3>
-            <ul class="table-of-contents" id="table-of-contents">
-              <!-- Table of contents will be generated dynamically by JavaScript -->
-            </ul>
-          </div>
-
-          <div class="sidebar-widget related-widget">
-            <h3><%= ui.sidebarRelated || 'Articoli Correlati' %></h3>
-            <div class="related-articles">
-              <article class="related-article">
-                <img
-                  class="related-image"
-                  src="/image/ancient-olive-grove-path.webp"
-                  alt="Sentiero uliveto"
-                />
-                <div class="related-content">
-                  <h4>
-                    <a href="#" class="related-title">I Segreti dell'Olio Biologico</a>
-                  </h4>
-                  <span class="related-date">28 Agosto 2025</span>
-                </div>
-              </article>
-              <article class="related-article">
-                <img
-                  class="related-image"
-                  src="/image/rustic-stone-mills-in-olive-grove.webp"
-                  alt="Frantoio"
-                />
-                <div class="related-content">
-                  <h4>
-                    <a href="#" class="related-title">Dal Frantoio alla Tavola</a>
-                  </h4>
-                  <span class="related-date">15 Agosto 2025</span>
-                </div>
-              </article>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </div>
+      </footer>
+    </article>
   </div>
 </main>
 

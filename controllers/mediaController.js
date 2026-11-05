@@ -2,6 +2,13 @@ const prisma = require("../db");
 const fs = require("fs");
 const path = require("path");
 
+const formatSize = (bytes) => {
+  if (!bytes) return "0 B";
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
 // 1. Funzione principale Media Library
 const mediaLibrary = async (req, res) => {
   try {
@@ -56,12 +63,6 @@ const mediaLibrary = async (req, res) => {
     );
 
     // Normalizzazione per il template (enum uppercase → lowercase, computed fields)
-    const formatSize = (bytes) => {
-      if (!bytes) return "0 B";
-      if (bytes < 1024) return `${bytes} B`;
-      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-    };
     const processedMedia = mediaFiles.map((item) => ({
       ...item,
       category: item.category.toLowerCase(),
@@ -73,7 +74,7 @@ const mediaLibrary = async (req, res) => {
       title: "Media Library",
       media: processedMedia,
       stats: stats.map((s) => ({
-        _id: s.category.toLowerCase(),
+        category: s.category.toLowerCase(),
         count: s._count._all,
       })),
       totalSize,
@@ -199,9 +200,15 @@ const mediaDetailsView = async (req, res) => {
       return res.redirect("/admin/media");
     }
 
+    const processedMedia = {
+      ...mediaItem,
+      fileType: mediaItem.mimetype.split("/")[1] || mediaItem.category.toLowerCase(),
+      formattedSize: formatSize(mediaItem.size),
+    };
+
     res.render("admin/mediaDetails", {
       title: `Dettagli: ${mediaItem.originalName}`,
-      media: mediaItem,
+      media: processedMedia,
       user: req.user,
       currentRoute: "/admin/media",
       success_msg: req.flash("success"),

@@ -79,25 +79,35 @@ model User {
 
 model Article {
   id              Int           @id @default(autoincrement())
-  title           String        @db.VarChar(100)
+  title           String        @db.VarChar(150) // Aumentato a 150 per titoli lunghi in tedesco
   slug            String        @unique
   content         String        @db.Text
-  excerpt         String?       @db.VarChar(300)
+  excerpt         String?       @db.VarChar(500)
   status          ArticleStatus @default(DRAFT)
   category        Category?
-  featuredImage   String?       
+  featuredImage   String?       // URL o path dell'immagine di copertina
   metaDescription String?       @db.VarChar(160)
-  keywords        String?
-  viewCount       Int           @default(0)
   
-  authorId        Int
-  author          User          @relation(fields: [authorId], references: [id])
+ 
+  language        String        @default("de") @db.VarChar(5) // "de" o "it"
+  
+  
+  tags            String[]      @default([])
+
+  viewCount       Int           @default(0)
+  readingTime     Int           @default(3) // Minuti di lettura stimati
+
+  // 👤 AUTORE FACOLTATIVO (Per evitare errori se creato automaticamente)
+  authorId        Int?
+  author          User?         @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
   publishedAt     DateTime?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
   @@index([slug])
+  @@index([language]) // Indice fondamentale per filtrare rapidamente gli articoli per lingua!
+  @@index([status, language])
 }
 
 model Media {

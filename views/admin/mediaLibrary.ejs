@@ -467,7 +467,7 @@
         <% stats.forEach(stat => { %>
         <div class="admin-card"><div class="card-content" style="text-align:center">
           <div class="stat-number"><%= stat.count %></div>
-          <p class="stat-label"><%= stat._id %> Files</p>
+          <p class="stat-label"><%= stat.category %> Files</p>
         </div></div>
         <% }) %>
         <div class="admin-card"><div class="card-content" style="text-align:center">
@@ -531,7 +531,7 @@
           <% media.forEach(item => { %>
           <div 
             class="media-item" 
-            data-id="<%= item._id %>" 
+            data-id="<%= item.id %>"
             data-media-title="<%= item.title || item.originalName %>"
             tabindex="0"
             role="button"

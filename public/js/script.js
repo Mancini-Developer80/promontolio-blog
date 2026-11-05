@@ -15,6 +15,37 @@ window.addEventListener("scroll", function () {
  * Inizializza tutte le funzionalità interattive
  */
 document.addEventListener("DOMContentLoaded", function () {
+  // Blog navigation uses a separate, compact markup from the main navbar.
+  const blogHamburger = document.getElementById("hamburger");
+  const blogMenu = document.getElementById("navLinks");
+  const blogNavForm = document.querySelector(".blog-nav .nav-form");
+  const blogOverlay = document.getElementById("navOverlay");
+
+  if (blogHamburger && blogMenu && blogNavForm && blogOverlay) {
+    function toggleBlogMenu() {
+      const isActive = blogHamburger.classList.toggle("active");
+      blogMenu.classList.toggle("active", isActive);
+      blogNavForm.classList.toggle("active", isActive);
+      blogOverlay.classList.toggle("active", isActive);
+      blogHamburger.setAttribute("aria-expanded", isActive);
+      document.body.style.overflow = isActive ? "hidden" : "";
+    }
+
+    blogHamburger.addEventListener("click", toggleBlogMenu);
+    blogHamburger.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleBlogMenu();
+      }
+    });
+    blogOverlay.addEventListener("click", toggleBlogMenu);
+    blogMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (blogNavForm.classList.contains("active")) toggleBlogMenu();
+      });
+    });
+  }
+
   // 1. SELEZIONE ELEMENTI NAVBAR
   const navbar = document.querySelector(".navbar");
   const hamburger = document.getElementById("navbar-hamburger");

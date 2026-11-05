@@ -386,20 +386,20 @@
       "title": "Blog - Promontolio",
       "content": {
         "ui": {
-          "homeLink": "Home page",
+          "homeLink": "Startseite",
           "blogLink": "Blog",
-          "searchPlaceholder": "Cerca articoli...",
-          "heroTitle": "Il nostro Blog",
-          "heroSubtitle": "Ricette, consigli e storie sull'olio extravergine biologico del Gargano",
-          "recentPosts": "Articoli recenti",
-          "countSuffix": "articoli",
-          "readMore": "Leggi l'articolo",
+          "searchPlaceholder": "Artikel durchsuchen...",
+          "heroTitle": "Unser Blog",
+          "heroSubtitle": "Rezepte, Tipps und Geschichten über bio-zertifiziertes Natives Olivenöl Extra aus dem Gargano",
+          "recentPosts": "Aktuelle Artikel",
+          "countSuffix": "Artikel",
+          "readMore": "Artikel lesen",
           "pagination": {
-            "previous": "Precedente",
-            "next": "Successiva"
+            "previous": "Zurück",
+            "next": "Weiter"
           },
-          "emptyTitle": "Nessun articolo ancora",
-          "emptyText": "Stiamo preparando contenuti di qualità per te. Torna presto!"
+          "emptyTitle": "Noch keine Artikel vorhanden",
+          "emptyText": "Wir bereiten hochwertige Inhalte für Sie vor. Schauen Sie bald wieder vorbei!"
         }
       }
     },
@@ -409,24 +409,24 @@
       "title": "Blog - Promontolio",
       "content": {
         "ui": {
-          "homeLink": "Home page",
-          "blogLink": "Blog Home",
-          "searchPlaceholder": "Search blog posts...",
-          "breadcrumbHome": "Home",
+          "homeLink": "Startseite",
+          "blogLink": "Blog-Übersicht",
+          "searchPlaceholder": "Artikel durchsuchen...",
+          "breadcrumbHome": "Startseite",
           "breadcrumbBlog": "Blog",
-          "authorLabel": "L'Autore",
+          "authorLabel": "Der Autor",
           "authorFallback": "Promontolio Team",
-          "authorRole": "Olivicoltore",
-          "tagsLabel": "Tags:",
-          "shareLabel": "Condividi:",
-          "shareFacebook": "Condividi su Facebook",
-          "shareTwitter": "Condividi su Twitter",
-          "shareLinkedIn": "Condividi su LinkedIn",
-          "shareWhatsApp": "Condividi su WhatsApp",
-          "backToBlog": "Torna al Blog",
-          "buyNow": "Acquista Ora",
-          "sidebarRelated": "Articoli Correlati",
-          "sidebarToc": "Indice"
+          "authorRole": "Olivenbauer",
+          "tagsLabel": "Schlagwörter:",
+          "shareLabel": "Teilen:",
+          "shareFacebook": "Auf Facebook teilen",
+          "shareTwitter": "Auf Twitter teilen",
+          "shareLinkedIn": "Auf LinkedIn teilen",
+          "shareWhatsApp": "Über WhatsApp teilen",
+          "backToBlog": "Zurück zum Blog",
+          "buyNow": "Jetzt Kaufen",
+          "sidebarRelated": "Ähnliche Artikel",
+          "sidebarToc": "Inhaltsverzeichnis"
         }
       }
     },

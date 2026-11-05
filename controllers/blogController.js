@@ -11,7 +11,7 @@ exports.list = async (req, res) => {
       where: { status: "PUBLISHED" },
       orderBy: { createdAt: "desc" },
       include: {
-        author: { select: { firstName: true, lastName: true } },
+        author: { select: { username: true, firstName: true, lastName: true } },
       },
     });
     const page = getPageByRoute(res.locals.locale || "de", "/blog");

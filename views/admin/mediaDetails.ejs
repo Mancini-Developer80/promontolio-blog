@@ -444,7 +444,7 @@
             <i class="fas fa-external-link-alt"></i>
             View
           </a>
-          <button class="btn btn-danger" id="deleteMediaBtn" data-media-id="<%= media._id %>">
+          <button class="btn btn-danger" id="deleteMediaBtn" data-media-id="<%= media.id %>">
             <i class="fas fa-trash"></i>
             Delete
           </button>
@@ -460,7 +460,7 @@
             Preview
           </div>
           <div class="preview-content">
-            <% if (media.category === 'image') { %>
+            <% if (media.category === 'IMAGE') { %>
               <img 
                 src="<%= media.url %>" 
                 alt="<%= media.alt || media.title %>" 
@@ -495,16 +495,16 @@
               </div>
               <div class="metadata-item">
                 <div class="metadata-label">File Type</div>
-                <div class="metadata-value"><%= media.mimeType %></div>
+                <div class="metadata-value"><%= media.mimetype %></div>
               </div>
               <div class="metadata-item">
                 <div class="metadata-label">Category</div>
                 <div class="metadata-value" style="text-transform: capitalize;"><%= media.category %></div>
               </div>
-              <% if (media.dimensions) { %>
+              <% if (media.width !== null && media.height !== null) { %>
               <div class="metadata-item">
                 <div class="metadata-label">Dimensions</div>
-                <div class="metadata-value"><%= media.dimensions.width %> × <%= media.dimensions.height %></div>
+                <div class="metadata-value"><%= media.width %> × <%= media.height %></div>
               </div>
               <% } %>
               <div class="metadata-item">
@@ -535,7 +535,7 @@
                 ><%= media.description || '' %></textarea>
               </div>
 
-              <% if (media.category === 'image') { %>
+              <% if (media.category === 'IMAGE') { %>
               <div class="form-group">
                 <label class="form-label">Alt Text</label>
                 <input 
@@ -547,17 +547,6 @@
                 />
               </div>
               <% } %>
-
-              <div class="form-group">
-                <label class="form-label">Usage</label>
-                <select class="form-select" name="usage">
-                  <option value="general" <%= media.usage === 'general' ? 'selected' : '' %>>General</option>
-                  <option value="blog" <%= media.usage === 'blog' ? 'selected' : '' %>>Blog Content</option>
-                  <option value="product" <%= media.usage === 'product' ? 'selected' : '' %>>Product Images</option>
-                  <option value="hero" <%= media.usage === 'hero' ? 'selected' : '' %>>Hero Images</option>
-                  <option value="gallery" <%= media.usage === 'gallery' ? 'selected' : '' %>>Gallery</option>
-                </select>
-              </div>
 
               <div class="form-group">
                 <label class="form-label">Tags</label>
@@ -605,34 +594,10 @@
         <div class="stats-content">
           <div class="stats-grid">
             <div class="stat-item">
-              <div class="stat-number"><%= media.usage_count || 0 %></div>
+              <div class="stat-number"><%= media.usageCount || 0 %></div>
               <div class="stat-label">Times Used</div>
             </div>
-            <div class="stat-item">
-              <div class="stat-number"><%= media.views || 0 %></div>
-              <div class="stat-label">Views</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number"><%= media.downloads || 0 %></div>
-              <div class="stat-label">Downloads</div>
-            </div>
           </div>
-
-          <% if (media.usedIn && media.usedIn.length > 0) { %>
-          <h4>Used In:</h4>
-          <ul class="usage-list">
-            <% media.usedIn.forEach(usage => { %>
-            <li class="usage-item">
-              <span class="usage-location"><%= usage.location %></span>
-              <span class="usage-date"><%= usage.date.toLocaleDateString() %></span>
-            </li>
-            <% }) %>
-          </ul>
-          <% } else { %>
-          <p style="text-align: center; color: #666; margin: 2rem 0;">
-            This media file hasn't been used yet.
-          </p>
-          <% } %>
         </div>
       </div>
     </div>
