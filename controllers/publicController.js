@@ -114,7 +114,9 @@ module.exports = {
       }
       const page = getPage(req, route);
       const pageCopy = page.content || {};
-      const messages = pageCopy.messages || {};
+      const thanksPage = getPage(req, "/thanks");
+      const messages =
+        pageCopy.messages || thanksPage.content?.messages || {};
 
       const fileName = "Giuseppe_Mancini_AI_Solution_Architect_2026.pdf";
       const pdfPath = path.join(__dirname, "../public/download/", fileName);
@@ -151,7 +153,6 @@ module.exports = {
 
       await sendWelcomePDF(normalizedEmail, pdfPath);
 
-      const thanksPage = getPage(req, "/thanks");
       const thanksCopy = thanksPage.content || {};
 
       res.render("thanks", {

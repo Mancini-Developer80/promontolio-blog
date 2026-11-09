@@ -79,10 +79,13 @@ app.use(
     secret: process.env.SESSION_SECRET || "cambiami_segreto_gargano",
     resave: false,
     saveUninitialized: false,
-    store: new PrismaSessionStore(prisma, {
-      checkPeriod: 2 * 60 * 1000,
-      dbRecordIdIsSessionId: true,
-    }),
+    store:
+      process.env.NODE_ENV === "test"
+        ? new session.MemoryStore()
+        : new PrismaSessionStore(prisma, {
+            checkPeriod: 2 * 60 * 1000,
+            dbRecordIdIsSessionId: true,
+          }),
   }),
 );
 
@@ -166,7 +169,4 @@ app.use((req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, "0.0.0.0", () =>
-  console.log(`🚀 Promontolio Server running on port ${PORT} with PostgreSQL`),
-);
+module.exports = app;

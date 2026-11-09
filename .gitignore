@@ -1,26 +1,34 @@
+# Dependencies
 node_modules/
+
+# Environment and secrets
 .env
-.DS_Store
+.env.*
+!.env.example
+
+# Generated output and test artifacts
+dist/
+coverage/
+
+# Logs and local debug files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-dist/
-coverage/
-# File di backup e utility locali
+*.log
 backup-debug-files/
-*.py
-*.txt
-*.md
-!README.md
 
-# Terraform
+# Local tooling and operating-system files
+.DS_Store
+.vscode/*
+!.vscode/settings.json
+
+# Terraform generated state and local variables
 .terraform/
 *.tfstate
-*.tfstate.backup
+*.tfstate.*
 *.tfvars
 *.tfvars.json
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
-.terraform.lock.hcl
