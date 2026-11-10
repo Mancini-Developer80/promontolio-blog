@@ -29,6 +29,7 @@ const {
 require("./config/passport");
 
 const app = express();
+app.set("trust proxy", true);
 
 // --- MIDDLEWARES DI SICUREZZA & PERFORMANCE ---
 app.use(generalLimiter);

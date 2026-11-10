@@ -8,7 +8,7 @@
     "build": "npm run build:sass && npx prisma generate",
     "build:sass": "sass sass:public/css --style=compressed",
     "watch:sass": "sass sass:public/css --watch --no-source-map",
-    "dev": "nodemon app.js",
+    "dev": "nodemon server.js",
     "test": "node --test tests/i18n.test.js tests/link-health.test.js tests/public-controller.test.js tests/validation.test.js tests/http-smoke.test.js",
     "dev:all": "npm run docker:up && concurrently \"npm run dev\" \"npm run watch:sass\"",
     "docker:up": "docker-compose up -d",
