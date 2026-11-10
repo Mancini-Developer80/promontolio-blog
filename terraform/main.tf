@@ -19,6 +19,35 @@ resource "google_artifact_registry_repository" "repo" {
   depends_on = [google_project_service.artifactregistry_api]
 }
 
+resource "google_iam_workload_identity_pool" "github_pool" {
+  workload_identity_pool_id = "github-pool"
+  display_name              = "GitHub Actions Pool"
+}
+
+resource "google_iam_workload_identity_pool_provider" "github_provider" {
+  workload_identity_pool_id          = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
+  workload_identity_pool_provider_id = "github-provider"
+  display_name                       = "GitHub provider"
+  
+  attribute_mapping = {
+    "google.subject"       = "assertion.sub"
+    "attribute.actor"      = "assertion.actor"
+    "attribute.repository" = "assertion.repository"
+  }
+
+  attribute_condition = "assertion.repository == 'Mancini-Developer80/promontolio-blog'"
+
+  oidc {
+    issuer_uri = "https://token.actions.githubusercontent.com"
+  }
+}
+
+resource "google_service_account_iam_member" "workload_identity_binding" {
+  service_account_id = "projects/promontolio-prod/serviceAccounts/636983103945-compute@developer.gserviceaccount.com"
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/Mancini-Developer80/promontolio-blog"
+}
+
 # 3. Configurazione del Servizio Cloud Run (Serverless)
 resource "google_cloud_run_v2_service" "app" {
   name     = var.service_name
