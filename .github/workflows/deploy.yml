@@ -23,8 +23,8 @@ jobs:
     env:
       NODE_ENV: test
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/promontolio_test
-      REGION: ${{ vars.GCP_REGION }}
-      PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      REGION: europe-west3
+      PROJECT_ID: promontolio-prod
       GAR_REPOSITORY: ${{ vars.GAR_REPOSITORY }}
       SERVICE_NAME: ${{ vars.CLOUD_RUN_SERVICE }}
 
