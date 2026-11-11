@@ -4,6 +4,7 @@ const rateLimit = require("express-rate-limit");
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minuti
   max: process.env.NODE_ENV === "production" ? 100 : 1000,
+  validate: { xForwardedForHeader: false }, // Disattiva il blocco rigido su trust proxy per Cloud Run
   message: {
     error: "Troppe richieste da questo IP. Riprova più tardi.",
   },
@@ -24,6 +25,7 @@ const generalLimiter = rateLimit({
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minuti
   max: process.env.NODE_ENV === "production" ? 5 : 30,
+  validate: { xForwardedForHeader: false }, // Disattiva il blocco rigido su trust proxy per Cloud Run
   skipSuccessfulRequests: true, // Se azzecchi la password, il counter non sale
   message: {
     error: "Troppi tentativi di accesso. Riprova tra 15 minuti.",
@@ -36,6 +38,7 @@ const loginLimiter = rateLimit({
 const apiLimiter = rateLimit({
   windowMs: 30 * 60 * 1000, // 30 minuti
   max: 10, // Evita che bot scarichino la guida PDF centinaia di volte
+  validate: { xForwardedForHeader: false }, // Disattiva il blocco rigido su trust proxy per Cloud Run
   message: {
     error:
       "Hai effettuato troppe richieste per il download della guida. Riprova più tardi.",
