@@ -19,6 +19,22 @@ const PRODUCTS = {
   },
 };
 
+function getPublicBaseUrl(req) {
+  const configuredUrl = process.env.APP_URL?.trim();
+  if (configuredUrl) {
+    try {
+      const url = new URL(configuredUrl);
+      if (url.protocol === "http:" || url.protocol === "https:") {
+        return url.origin;
+      }
+    } catch (error) {
+      console.warn("APP_URL non valida; uso l'origine della richiesta.");
+    }
+  }
+
+  return `${req.protocol}://${req.get("host")}`;
+}
+
 function getPage(req, routePath) {
   const locale = req.res && req.res.locals ? req.res.locals.locale : "de";
   return getPageByRoute(locale, routePath) || {};
@@ -224,6 +240,17 @@ module.exports = {
   createCheckoutSession: async (req, res) => {
     try {
       const { items } = req.body;
+      if (!Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({ error: "Il carrello è vuoto." });
+      }
+
+      if (!process.env.STRIPE_SECRET_KEY) {
+        console.error("STRIPE_SECRET_KEY non configurata.");
+        return res
+          .status(503)
+          .json({ error: "Il pagamento non è configurato." });
+      }
+
       const stripeInstance = require("stripe")(process.env.STRIPE_SECRET_KEY);
       const productPage = getPage(req, "/product");
       const productCopy = productPage.content || {};
@@ -233,6 +260,9 @@ module.exports = {
       const line_items = items.map((item) => {
         const storeItem = PRODUCTS[item.id];
         if (!storeItem) throw new Error(`Prodotto non valido: ${item.id}`);
+        if (!Number.isInteger(item.quantity) || item.quantity < 1) {
+          throw new Error(`Quantità non valida per il prodotto: ${item.id}`);
+        }
         const bundle = bundles[storeItem.bundleIndex];
         if (!product.title || !bundle?.name) {
           throw new Error("Localized product data is incomplete");
@@ -251,8 +281,8 @@ module.exports = {
         payment_method_types: ["card"],
         line_items,
         mode: "payment",
-        success_url: `${process.env.APP_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.APP_URL}/product`,
+        success_url: `${getPublicBaseUrl(req)}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${getPublicBaseUrl(req)}/product`,
         shipping_address_collection: {
           allowed_countries: ["DE", "IT", "AT", "CH"],
         },
@@ -269,18 +299,30 @@ module.exports = {
     if (!sessionId) return res.redirect("/");
 
     try {
+      if (!process.env.STRIPE_SECRET_KEY) {
+        throw new Error("STRIPE_SECRET_KEY non configurata.");
+      }
+
       const stripeInstance = require("stripe")(process.env.STRIPE_SECRET_KEY);
       const session =
         await stripeInstance.checkout.sessions.retrieve(sessionId);
+      const customerDetails = session.customer_details || {};
+
+      if (
+        session.payment_status !== "paid" ||
+        !Number.isFinite(session.amount_total)
+      ) {
+        throw new Error("Sessione Stripe non pagata o priva di importo.");
+      }
 
       const page = getPage(req, "/success");
 
       res.render("success", {
         title: page.title,
-        customerName: session.customer_details.name,
+        customerName: customerDetails.name || "",
         totalAmount: session.amount_total / 100,
         orderId: session.id.slice(-10).toUpperCase(),
-        customerEmail: session.customer_details.email,
+        customerEmail: customerDetails.email || "",
         pageCopy: page.content || {},
       });
     } catch (error) {

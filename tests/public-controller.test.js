@@ -85,3 +85,13 @@ test("success page redirects home when Stripe session id is missing", async () =
 
   assert.equal(res.redirectedTo, "/");
 });
+
+test("checkout rejects an empty cart before contacting Stripe", async () => {
+  const req = createRequest({ items: [] });
+  const res = createResponse();
+
+  await publicController.createCheckoutSession(req, res);
+
+  assert.equal(res.statusCode, 400);
+  assert.deepEqual(res.jsonBody, { error: "Il carrello è vuoto." });
+});

@@ -174,7 +174,10 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({ items: cart }),
         });
 
-        const session = await response.json();
+        const session = await response.json().catch(() => ({}));
+        if (!response.ok || typeof session.url !== "string") {
+          throw new Error(session.error || `Checkout failed (${response.status})`);
+        }
 
         // Reindirizziamo l'utente su Stripe
         window.location.href = session.url;
