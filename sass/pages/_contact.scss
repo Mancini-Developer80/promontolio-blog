@@ -144,6 +144,60 @@ body.contact-page {
       background-color: color.adjust($primary-color, $lightness: -10%);
       transform: translateY(-2px);
     }
+
+    &:disabled {
+      opacity: 0.65;
+      cursor: wait;
+      transform: none;
+    }
+  }
+
+  .btn-send:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid rgba($primary-color, 0.35);
+    outline-offset: 2px;
+  }
+}
+
+.form-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  input {
+    margin-top: 4px;
+    flex: 0 0 auto;
+  }
+
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+  }
+}
+
+.form-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.guide-consent {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+
+  input {
+    margin-top: 0.25rem;
+  }
+
+  a {
+    color: $primary-color;
+    text-decoration: underline;
   }
 }
 
@@ -169,6 +223,16 @@ body.contact-page {
     background-color: #fceaea; // Rosso leggero
     color: #b71c1c;
     border: 1px solid #f5c6cb;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-form .btn-send {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
   }
 }
 

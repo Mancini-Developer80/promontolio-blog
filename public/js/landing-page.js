@@ -25,7 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       return;
     }
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Senden...';
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${
+      form.dataset.sendingMessage || submitBtn.textContent
+    }`;
     submitBtn.style.pointerEvents = "none";
   });
 

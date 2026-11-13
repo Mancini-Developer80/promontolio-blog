@@ -8,6 +8,9 @@
     <% const hero = copy.hero || {}; %>
     <% const b2b = copy.b2b || {}; %>
     <% const form = copy.form || {}; %>
+    <% const messages = copy.messages || {}; %>
+    <% const feedbackStatus = typeof contactStatus !== 'undefined' ? contactStatus : ''; %>
+    <% const feedbackMessage = feedbackStatus === 'success' ? messages.success : feedbackStatus === 'invalid' ? messages.invalid : feedbackStatus === 'error' ? messages.serverError : ''; %>
     <%- include('partials/general/navbar.ejs') %>
 
     <div class="nav-spacer"></div>
@@ -26,7 +29,13 @@
         </div>
 
         <div class="contact-card">
-          <form action="/contact" method="POST" class="contact-form">
+          <form
+            action="/contact"
+            method="POST"
+            class="contact-form"
+            data-sending-message="<%= messages.sending || '' %>"
+            data-connection-error="<%= messages.connectionError || '' %>"
+          >
             <div class="form-group">
               <label for="name"><%= form.nameLabel || '' %></label>
               <input
@@ -34,6 +43,9 @@
                 id="name"
                 name="name"
                 placeholder="<%= form.namePlaceholder || '' %>"
+                autocomplete="name"
+                minlength="2"
+                maxlength="100"
                 required
               />
             </div>
@@ -45,6 +57,8 @@
                 id="email"
                 name="email"
                 placeholder="<%= form.emailPlaceholder || '' %>"
+                autocomplete="email"
+                maxlength="254"
                 required
               />
             </div>
@@ -55,11 +69,33 @@
                 id="message"
                 name="message"
                 placeholder="<%= form.messagePlaceholder || '' %>"
+                minlength="10"
+                maxlength="5000"
+                rows="8"
                 required
               ></textarea>
             </div>
 
-            <div id="form-feedback" class="form-feedback"></div>
+            <div class="form-consent">
+              <input type="checkbox" id="consent" name="consent" value="true" required />
+              <label for="consent">
+                <%= form.consentLabel || '' %>
+                <a href="/datenschutz"><%= form.privacyLink || '' %></a>
+              </label>
+            </div>
+
+            <div class="form-honeypot" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div
+              id="form-feedback"
+              class="form-feedback <%= feedbackStatus === 'success' ? 'success' : feedbackMessage ? 'error' : '' %>"
+              role="status"
+              aria-live="polite"
+              <% if (feedbackMessage) { %>style="display: block"<% } %>
+            ><%= feedbackMessage || '' %></div>
             <button class="btn-send" type="submit"><%= form.submit || '' %></button>
           </form>
         </div>

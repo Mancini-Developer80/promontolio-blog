@@ -119,6 +119,7 @@
                 type="email" 
                 name="email" 
                 placeholder="<%= guide.emailPlaceholder || '' %>" 
+                autocomplete="email"
                 required 
               />
               <button type="submit" id="submit-btn-about" class="btn-immersive"><%= guide.submit || '' %></button>
@@ -129,6 +130,10 @@
               <label for="consent-about">
                 <%= guide.consent || '' %> <a href="/datenschutz">Datenschutzbestimmungen</a>.
               </label>
+            </div>
+            <div class="form-honeypot" aria-hidden="true">
+              <label for="website-about">Website</label>
+              <input type="text" id="website-about" name="website" tabindex="-1" autocomplete="off" />
             </div>
             <p class="form-disclaimer"><%= guide.disclaimer || '' %></p>
           </form>

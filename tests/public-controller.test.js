@@ -77,6 +77,24 @@ test("subscription rejects a missing email after consent", async () => {
   );
 });
 
+test("subscription rejects malformed email without touching the database", async () => {
+  const req = createRequest({
+    email: "not-an-email",
+    consent: true,
+    source: "landing_page_guide",
+  });
+  const res = createResponse();
+
+  await publicController.postSubscribe(req, res);
+
+  assert.equal(res.statusCode, 400);
+  assert.equal(res.rendered.view, "landingPage");
+  assert.equal(
+    res.rendered.data.error,
+    "Inserisci un indirizzo email valido.",
+  );
+});
+
 test("success page redirects home when Stripe session id is missing", async () => {
   const req = createRequest();
   const res = createResponse();

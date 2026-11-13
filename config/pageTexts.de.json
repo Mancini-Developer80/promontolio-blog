@@ -109,7 +109,8 @@
           "consentText": "Ich stimme zu, den Guide und exklusive Informationen per E-Mail zu erhalten.",
           "privacyLinkText": "Datenschutz",
           "button": "Jetzt Guide kostenlos anfordern (PDF)",
-          "disclaimer": "Wir schätzen Ihre Privatsphäre. Kein Spam."
+          "sending": "Wird gesendet...",
+          "disclaimer": "Bestätigen Sie die Anfrage per E-Mail. Kein Spam: Sie können Ihre Einwilligung jederzeit widerrufen."
         },
         "trust": ["DSGVO Konform", "100% Bio-Qualität", "Direkt aus Gargano"]
       }
@@ -175,7 +176,8 @@
           "emailPlaceholder": "Ihre E-Mail-Adresse",
           "submit": "Leitfaden herunterladen",
           "consent": "Ich stimme der Datenschutzerklärung zu.",
-          "disclaimer": "Kostenloser PDF-Download. Keine Werbung, jederzeit abbestellbar."
+          "disclaimer": "Kostenloser PDF-Download. Keine Werbung, jederzeit abbestellbar.",
+          "privacyLink": "Datenschutzerklärung"
         }
       }
     },
@@ -232,7 +234,9 @@
           "title": "Das Promontolio-Kompendium",
           "text": "Von der Pflege der Olivenhaine im Gargano bis zur zeitnahen Pressung. Laden Sie den kostenlosen Ratgeber herunter und entdecken Sie den gesamten Prozess, der die Qualität und die Aromen unseres Öls bewahrt.",
           "button": "RATGEBER HERUNTERLADEN",
-          "privacy": "Mit dem Absenden stimmen Sie unserer Datenschutzerklärung zu."
+          "privacy": "Mit dem Absenden stimmen Sie unserer Datenschutzerklärung zu.",
+          "consent": "Ich stimme der Verarbeitung meiner Daten zu.",
+          "privacyLink": "Datenschutzerklärung"
         }
       }
     },
@@ -257,11 +261,17 @@
           "emailPlaceholder": "beispiel@email.de",
           "messageLabel": "Ihre Anfrage",
           "messagePlaceholder": "Wie können wir Ihnen helfen? Bitte geben Sie an, ob es sich um einen privaten Kauf oder eine gewerbliche Lieferung handelt...",
+          "consentLabel": "Ich stimme der Verarbeitung meiner Daten gemäß der",
+          "privacyLink": "Datenschutzerklärung zu",
           "submit": "Nachricht senden"
         },
         "messages": {
           "required": "Bitte füllen Sie alle Pflichtfelder aus.",
-          "success": "Vielen Dank! Wir haben Ihre Nachricht erhalten."
+          "invalid": "Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut.",
+          "success": "Vielen Dank! Wir haben Ihre Nachricht erhalten.",
+          "sending": "Wird gesendet...",
+          "connectionError": "Verbindungsfehler. Bitte versuchen Sie es später erneut.",
+          "serverError": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
         }
       }
     },
@@ -370,10 +380,16 @@
       "content": {
         "messages": {
           "consentRequired": "Die Einwilligung ist obligatorisch.",
-          "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+          "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+          "confirmationSent": "Prüfen Sie Ihr Postfach und bestätigen Sie die Anfrage innerhalb von 24 Stunden.",
+          "confirmationExpired": "Der Bestätigungslink ist ungültig oder abgelaufen.",
+          "confirmed": "Der Guide wurde versendet. Sie können ihn auch unten herunterladen.",
+          "unsubscribed": "Ihre Einwilligung wurde erfolgreich widerrufen.",
+          "unsubscribeInvalid": "Der Widerrufslink ist ungültig.",
+          "deliveryError": "Die Aktion konnte nicht abgeschlossen werden. Bitte versuchen Sie es später erneut."
         },
         "statusBadge": "ERFOLGREICH REGISTRIERT",
-        "mainMessage": "Das Promontolio-Kompendium ist auf dem Weg zu Ihrem Postfach! Sie können es auch direkt hier herunterladen.",
+        "mainMessage": "Prüfen Sie Ihr Postfach und bestätigen Sie Ihre Anfrage, um das Promontolio-Kompendium zu erhalten.",
         "downloadLabel": "Ihr PDF-Dokument ist bereit:",
         "downloadButton": "Kompendium herunterladen (PDF)",
         "confirmationHint": "Bitte überprüfen Sie Ihren Posteingang (sowie den Spam-Ordner), um den Erhalt zu bestätigen.",

@@ -1,11 +1,83 @@
 // controllers/publicController.js
 const prisma = require("../db"); // Il nostro client centralizzato
 const path = require("path");
+const crypto = require("crypto");
 const {
   sendWelcomePDF,
+  sendLeadConfirmation,
+  sendLeadNotification,
   sendContactMessage,
 } = require("../services/emailService");
 const { getPageByRoute } = require("../config/i18n");
+
+function getContactInput(body = {}) {
+  const { name, email, message, consent, website } = body;
+  if (
+    typeof name !== "string" ||
+    typeof email !== "string" ||
+    typeof message !== "string" ||
+    (consent !== true && consent !== "true") ||
+    (typeof website !== "undefined" && website !== "")
+  ) {
+    return null;
+  }
+
+  const input = {
+    name: name.trim(),
+    email: email.trim(),
+    message: message.trim(),
+  };
+
+  if (
+    input.name.length < 2 ||
+    input.name.length > 100 ||
+    input.message.length < 10 ||
+    input.message.length > 5000 ||
+    input.email.length > 254 ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email)
+  ) {
+    return null;
+  }
+
+  return input;
+}
+
+const LEAD_SOURCES = {
+  landing_page_guide: { view: "landingPage", route: "/olivenoel-guide" },
+  about_page_immersive: { view: "about", route: "/about" },
+  product_quality_focus: { view: "product", route: "/product" },
+};
+const GUIDE_FILE_NAME = "Giuseppe_Mancini_AI_Solution_Architect_2026.pdf";
+const LEAD_TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
+
+function hashToken(token) {
+  return crypto.createHash("sha256").update(token).digest("hex");
+}
+
+function createToken() {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+function getLeadInput(body = {}) {
+  const { email, consent, source, website } = body;
+  if (
+    typeof email !== "string" ||
+    (consent !== true && consent !== "true") ||
+    (typeof website !== "undefined" && website !== "")
+  ) {
+    return null;
+  }
+  const normalizedEmail = email.trim().toLowerCase();
+  if (
+    normalizedEmail.length === 0 ||
+    normalizedEmail.length > 254 ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail) ||
+    !LEAD_SOURCES[source]
+  ) {
+    return null;
+  }
+  return { email: normalizedEmail, source };
+}
 
 // Configurazione Prodotti (Single Source of Truth)
 const PRODUCTS = {
@@ -40,6 +112,17 @@ function getPage(req, routePath) {
   return getPageByRoute(locale, routePath) || {};
 }
 
+function renderThanks(req, res, status, message, downloadUrl) {
+  const thanksPage = getPage(req, "/thanks");
+  return res.status(status).render("thanks", {
+    title: thanksPage.title,
+    currentRoute: "/thanks",
+    message,
+    downloadUrl,
+    pageCopy: thanksPage.content || {},
+  });
+}
+
 function renderPage(req, res, view, routePath, fallback = {}) {
   const page = getPage(req, routePath);
   const content = page.content || {};
@@ -49,9 +132,26 @@ function renderPage(req, res, view, routePath, fallback = {}) {
     title: page.title || metaTags.title,
     metaDescription: page.metaDescription || metaTags.metaDescription,
     metaKeywords: page.metaKeywords || metaTags.metaKeywords,
-    bodyClass: fallback.bodyClass,
+    ...fallback,
     pageCopy: content,
   });
+}
+
+function respondToContactRequest(req, res, status, response) {
+  if (
+    typeof req.is !== "function" ||
+    req.is("application/json") ||
+    req.xhr
+  ) {
+    return res.status(status).json(response);
+  }
+
+  const statusKey = response.success
+    ? "success"
+    : status >= 500
+      ? "error"
+      : "invalid";
+  return res.redirect(`/contact?contact=${statusKey}`);
 }
 
 module.exports = {
@@ -65,7 +165,9 @@ module.exports = {
   },
 
   getContact: (req, res) => {
-    renderPage(req, res, "contact", "/contact");
+    renderPage(req, res, "contact", "/contact", {
+      contactStatus: req.query?.contact,
+    });
   },
 
   getProduct: (req, res) => {
@@ -91,96 +193,236 @@ module.exports = {
   // --- FORM HANDLERS ---
   handleContactForm: async (req, res) => {
     try {
-      const { name, email, message } = req.body;
       const page = getPage(req, "/contact");
       const messages = page.content?.messages || {};
-      if (!name || !email || !message) {
-        return res.status(400).json({
+      const body = req.body || {};
+      if (!body.name || !body.email || !body.message || !body.consent) {
+        const response = {
           success: false,
           message: messages.required,
-        });
+        };
+        return respondToContactRequest(req, res, 400, response);
       }
-      await sendContactMessage(name, email, message);
-      res.status(200).json({
+      const input = getContactInput(body);
+      if (!input) {
+        const response = {
+          success: false,
+          message: messages.invalid || messages.required,
+        };
+        return respondToContactRequest(req, res, 400, response);
+      }
+      const contactMessage = await prisma.contactMessage.create({
+        data: {
+          name: input.name,
+          email: input.email,
+          message: input.message,
+        },
+      });
+      try {
+        await sendContactMessage(
+          input.name,
+          input.email,
+          input.message,
+          req.res?.locals?.locale,
+        );
+        await prisma.contactMessage.update({
+          where: { id: contactMessage.id },
+          data: { status: "SENT", deliveredAt: new Date() },
+        });
+      } catch (error) {
+        await prisma.contactMessage.update({
+          where: { id: contactMessage.id },
+          data: {
+            status: "FAILED",
+            deliveryError: String(error.message || error).slice(0, 500),
+          },
+        });
+        throw error;
+      }
+      const response = {
         success: true,
         message: messages.success,
-      });
+      };
+      return respondToContactRequest(req, res, 200, response);
     } catch (error) {
       console.error("Errore nel Contact Controller:", error);
-      res
-        .status(500)
-        .json({ success: false, message: "Errore interno al server." });
+      return respondToContactRequest(req, res, 500, {
+        success: false,
+        message: messages.serverError || "Errore interno al server.",
+      });
     }
   },
 
-  // --- NEWSLETTER & LEAD CAPTURE (Prisma Refactored) ---
+  // --- NEWSLETTER & LEAD CAPTURE ---
   postSubscribe: async (req, res) => {
+    let lead;
     try {
-      const { email, consent, source } = req.body;
-      let errorView = "index";
-      let route = "/";
-
-      // Mappatura Source degli Hooks (Come da strategia 17/02)
-      if (source === "landing_page_guide") {
-        errorView = "landingPage";
-        route = "/olivenoel-guide";
-      } else if (source === "product_quality_focus") {
-        errorView = "product";
-        route = "/product";
-      }
-      const page = getPage(req, route);
+      const sourceConfig =
+        LEAD_SOURCES[req.body?.source] || { view: "index", route: "/" };
+      const page = sourceConfig
+        ? getPage(req, sourceConfig.route)
+        : getPage(req, "/olivenoel-guide");
       const pageCopy = page.content || {};
       const thanksPage = getPage(req, "/thanks");
       const messages =
         pageCopy.messages || thanksPage.content?.messages || {};
 
-      const fileName = "Giuseppe_Mancini_AI_Solution_Architect_2026.pdf";
-      const pdfPath = path.join(__dirname, "../public/download/", fileName);
-      const downloadLink = `/download/${fileName}`;
-
-      if (!consent)
-        return res.status(400).render(errorView, {
+      const input = getLeadInput(req.body);
+      if (!input) {
+        return res.status(400).render(sourceConfig.view, {
           title: page.title,
           pageCopy,
-          error: messages.consentRequired,
+          error: !req.body?.consent
+            ? messages.consentRequired
+            : messages.invalidEmail,
         });
-      if (!email)
-        return res
-          .status(400)
-          .render(errorView, {
-            title: page.title,
-            pageCopy,
-            error: messages.invalidEmail,
-          });
+      }
 
-      const normalizedEmail = email.toLowerCase().trim();
-
-      // PostgreSQL Upsert: Crea o aggiorna il lead in un'unica transazione
-      await prisma.lead.upsert({
-        where: { email: normalizedEmail },
-        update: { source: source || "guide_re-request" },
-        create: {
-          email: normalizedEmail,
+      const locale = req.res?.locals?.locale === "it" ? "it" : "de";
+      const confirmationToken = createToken();
+      const unsubscribeToken = createToken();
+      const now = new Date();
+      lead = await prisma.lead.upsert({
+        where: { email: input.email },
+        update: {
+          status: "PENDING",
           consent: true,
-          source: source || "guide_request",
-          status: "CONFIRMED",
+          consentAt: now,
+          locale,
+          source: input.source,
+          confirmationTokenHash: hashToken(confirmationToken),
+          confirmationTokenExpires: new Date(now.getTime() + LEAD_TOKEN_TTL_MS),
+          unsubscribeTokenHash: hashToken(unsubscribeToken),
+          confirmedAt: null,
+          emailLastError: null,
+        },
+        create: {
+          email: input.email,
+          status: "PENDING",
+          consent: true,
+          consentAt: now,
+          locale,
+          source: input.source,
+          confirmationTokenHash: hashToken(confirmationToken),
+          confirmationTokenExpires: new Date(now.getTime() + LEAD_TOKEN_TTL_MS),
+          unsubscribeTokenHash: hashToken(unsubscribeToken),
         },
       });
 
-      await sendWelcomePDF(normalizedEmail, pdfPath);
-
-      const thanksCopy = thanksPage.content || {};
-
-      res.render("thanks", {
-        title: thanksPage.title,
-        currentRoute: route,
-        message: thanksCopy.mainMessage,
-        downloadUrl: downloadLink,
-        pageCopy: thanksCopy,
+      const confirmationUrl = `${getPublicBaseUrl(req)}/subscribe/confirm/${confirmationToken}`;
+      await sendLeadConfirmation(input.email, confirmationUrl, locale);
+      await prisma.lead.update({
+        where: { id: lead.id },
+        data: {
+          lastEmailSentAt: new Date(),
+          emailSendAttempts: { increment: 1 },
+          emailLastError: null,
+        },
       });
-    } catch (err) {
-      console.error("❌ Errore Prisma postSubscribe:", err);
-      res.status(500).redirect("/");
+
+      return renderThanks(req, res, 200, messages.confirmationSent);
+    } catch (error) {
+      console.error("Errore nella richiesta guida:", error);
+      if (lead) {
+        await prisma.lead.update({
+          where: { id: lead.id },
+          data: {
+            emailSendAttempts: { increment: 1 },
+            emailLastError: String(error.message || error).slice(0, 500),
+          },
+        }).catch((updateError) => {
+          console.error("Errore aggiornando lo stato email del lead:", updateError);
+        });
+      }
+      res.status(500).redirect("/olivenoel-guide?subscribe=error");
+    }
+  },
+
+  confirmSubscription: async (req, res) => {
+    try {
+      const lead = await prisma.lead.findUnique({
+        where: { confirmationTokenHash: hashToken(req.params.token || "") },
+      });
+      const messages = getPage(req, "/thanks").content?.messages || {};
+      if (
+        !lead ||
+        lead.status === "UNSUBSCRIBED" ||
+        !lead.confirmationTokenExpires ||
+        lead.confirmationTokenExpires < new Date()
+      ) {
+        return renderThanks(req, res, 400, messages.confirmationExpired);
+      }
+
+      const pdfPath = path.join(__dirname, "../public/download/", GUIDE_FILE_NAME);
+      const unsubscribeToken = createToken();
+      await sendWelcomePDF(
+        lead.email,
+        pdfPath,
+        lead.locale,
+        `${getPublicBaseUrl(req)}/subscribe/unsubscribe/${unsubscribeToken}`,
+      );
+      const confirmedAt = new Date();
+      await prisma.lead.update({
+        where: { id: lead.id },
+        data: {
+          status: "CONFIRMED",
+          confirmedAt,
+          confirmationTokenHash: null,
+          confirmationTokenExpires: null,
+          unsubscribeTokenHash: hashToken(unsubscribeToken),
+          lastEmailSentAt: confirmedAt,
+          emailSendAttempts: { increment: 1 },
+          emailLastError: null,
+        },
+      });
+      await sendLeadNotification(lead.email, lead.source, lead.locale).catch((error) => {
+        console.error("Errore nella notifica interna del lead:", error);
+      });
+      return renderThanks(
+        req,
+        res,
+        200,
+        messages.confirmed,
+        `/download/${GUIDE_FILE_NAME}`,
+      );
+    } catch (error) {
+      console.error("Errore nella conferma della guida:", error);
+      return renderThanks(
+        req,
+        res,
+        500,
+        getPage(req, "/thanks").content?.messages?.deliveryError,
+      );
+    }
+  },
+
+  unsubscribe: async (req, res) => {
+    try {
+      const lead = await prisma.lead.findUnique({
+        where: { unsubscribeTokenHash: hashToken(req.params.token || "") },
+      });
+      const messages = getPage(req, "/thanks").content?.messages || {};
+      if (!lead) {
+        return renderThanks(req, res, 404, messages.unsubscribeInvalid);
+      }
+      await prisma.lead.update({
+        where: { id: lead.id },
+        data: {
+          status: "UNSUBSCRIBED",
+          consent: false,
+          confirmationTokenHash: null,
+          confirmationTokenExpires: null,
+        },
+      });
+      return renderThanks(req, res, 200, messages.unsubscribed);
+    } catch (error) {
+      console.error("Errore nella revoca del consenso:", error);
+      return renderThanks(
+        req,
+        res,
+        500,
+        getPage(req, "/thanks").content?.messages?.deliveryError,
+      );
     }
   },
 

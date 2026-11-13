@@ -7,19 +7,22 @@ document.addEventListener("DOMContentLoaded", () => {
   contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Reset classi (Sass gestisce il display: none di base)
     feedback.className = "form-feedback";
-    feedback.innerText = "";
+    feedback.textContent = "";
 
     const btn = contactForm.querySelector("button");
     const originalBtnText = btn.innerText;
-    btn.innerText = "Senden...";
+    btn.innerText =
+      contactForm.dataset.sendingMessage || originalBtnText;
     btn.disabled = true;
+    contactForm.setAttribute("aria-busy", "true");
 
     const formData = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      message: document.getElementById("message").value,
+      name: document.getElementById("name").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      message: document.getElementById("message").value.trim(),
+      consent: document.getElementById("consent").checked,
+      website: document.getElementById("website").value,
     };
 
     try {
@@ -29,27 +32,31 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(formData),
       });
 
+      const contentType = response.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) {
+        throw new Error("Invalid server response");
+      }
       const result = await response.json();
 
-      if (result.success) {
-        feedback.innerText =
-          "Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.";
+      if (response.ok && result.success) {
+        feedback.textContent = result.message || "";
         feedback.className = "form-feedback success"; // Sovrascrive e aggiunge success
         feedback.style.display = "block"; // FORZA il display
         contactForm.reset();
       } else {
-        feedback.innerText =
-          "Fehler: " + (result.message || "Ein Fehler ist aufgetreten.");
+        feedback.textContent = result.message || "";
         feedback.className = "form-feedback error"; // Sovrascrive e aggiunge error
         feedback.style.display = "block"; // FORZA il display
       }
     } catch (error) {
-      feedback.innerText =
-        "Verbindungsfehler. Bitte versuchen Sie es später erneut.";
-      feedback.classList.add("error");
+      feedback.textContent =
+        contactForm.dataset.connectionError || "";
+      feedback.className = "form-feedback error";
+      feedback.style.display = "block";
     } finally {
       btn.innerText = originalBtnText;
       btn.disabled = false;
+      contactForm.removeAttribute("aria-busy");
     }
   });
 });

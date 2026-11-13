@@ -113,7 +113,8 @@
           "consentText": "Accetto l'informativa sulla privacy per ricevere la guida e i dossier di filiera.",
           "privacyLinkText": "Informativa sulla Privacy",
           "button": "Scarica la Guida Gratuita (PDF)",
-          "disclaimer": "Download immediato. Nessuno spam: puoi cancellarti in qualsiasi momento con un solo click."
+          "sending": "Invio in corso...",
+          "disclaimer": "Conferma la richiesta dalla tua email. Nessuno spam: puoi revocare il consenso in qualsiasi momento."
         },
         "trust": [
           "🌿 100% Biologico Certificato",
@@ -241,7 +242,9 @@
           "title": "Il Compendio Promontolio",
           "text": "Dalla cura degli uliveti nel Gargano alla molitura tempestiva. Scarica la guida gratuita e scopri l'intero percorso che custodisce l'integrità e i profumi del nostro olio.",
           "button": "SCARICA LA GUIDA",
-          "privacy": "Inviando il modulo accetti la nostra informativa sulla privacy."
+          "privacy": "Inviando il modulo accetti la nostra informativa sulla privacy.",
+          "consent": "Acconsento al trattamento dei dati.",
+          "privacyLink": "Informativa privacy"
         }
       }
     },
@@ -266,11 +269,17 @@
           "emailPlaceholder": "esempio@mail.it",
           "messageLabel": "La tua richiesta",
           "messagePlaceholder": "Come possiamo aiutarti? Specifica se la richiesta è per acquisto privato o fornitura business...",
+          "consentLabel": "Acconsento al trattamento dei dati secondo l'informativa",
+          "privacyLink": "privacy",
           "submit": "Invia messaggio"
         },
         "messages": {
           "required": "Compila tutti i campi obbligatori.",
-          "success": "Grazie! Abbiamo ricevuto il tuo messaggio."
+          "invalid": "Controlla i dati inseriti e riprova.",
+          "success": "Grazie! Abbiamo ricevuto il tuo messaggio.",
+          "sending": "Invio in corso...",
+          "connectionError": "Errore di connessione. Riprova più tardi.",
+          "serverError": "Si è verificato un errore. Riprova più tardi."
         }
       }
     },
@@ -380,10 +389,16 @@
       "content": {
         "messages": {
           "consentRequired": "Il consenso al trattamento dei dati è obbligatorio.",
-          "invalidEmail": "Inserisci un indirizzo email valido."
+          "invalidEmail": "Inserisci un indirizzo email valido.",
+          "confirmationSent": "Controlla la tua casella email e conferma la richiesta entro 24 ore.",
+          "confirmationExpired": "Il link di conferma non è valido o è scaduto.",
+          "confirmed": "La guida è stata inviata. Puoi scaricarla anche qui sotto.",
+          "unsubscribed": "Il consenso è stato revocato correttamente.",
+          "unsubscribeInvalid": "Il link di revoca non è valido.",
+          "deliveryError": "Non è stato possibile completare l'operazione. Riprova più tardi."
         },
         "statusBadge": "ISCRIVITI CON SUCCESSO",
-        "mainMessage": "Il Compendio Promontolio è in arrivo nella tua posta in arrivo! Puoi anche scaricarlo subito qui sotto.",
+        "mainMessage": "Controlla la tua casella email e conferma la richiesta per ricevere il Compendio Promontolio.",
         "downloadLabel": "Il tuo documento in formato PDF è pronto:",
         "downloadButton": "Scarica il Compendio (PDF)",
         "confirmationHint": "Per completare la ricezione e rispettare le norme sulla privacy, controlla la tua casella di posta (inclusa la cartella spam).",

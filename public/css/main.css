@@ -2056,6 +2056,51 @@ body.contact-page .navbar .nav-link {
   background-color: rgb(44.515625, 55.9453125, 21.0546875);
   transform: translateY(-2px);
 }
+.contact-form .btn-send:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+.contact-form .btn-send:focus-visible,
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+  outline: 3px solid rgba(74, 93, 35, 0.35);
+  outline-offset: 2px;
+}
+.form-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.form-consent input {
+  margin-top: 4px;
+  flex: 0 0 auto;
+}
+.form-consent a {
+  color: #4a5d23;
+  text-decoration: underline;
+}
+.form-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.guide-consent {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+.guide-consent input {
+  margin-top: 0.25rem;
+}
+.guide-consent a {
+  color: #4a5d23;
+  text-decoration: underline;
+}
 
 .form-feedback {
   display: none;
@@ -2078,6 +2123,14 @@ body.contact-page .navbar .nav-link {
   background-color: #fceaea;
   color: #b71c1c;
   border: 1px solid #f5c6cb;
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact-form .btn-send {
+    transition: none;
+  }
+  .contact-form .btn-send:hover {
+    transform: none;
+  }
 }
 
 @media (max-width: 992px) {

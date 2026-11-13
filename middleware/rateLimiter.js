@@ -37,7 +37,7 @@ const loginLimiter = rateLimit({
 // Protezione Form Newsletter / Lead Magnet (Hook Guide PDF)
 const apiLimiter = rateLimit({
   windowMs: 30 * 60 * 1000, // 30 minuti
-  max: 10, // Evita che bot scarichino la guida PDF centinaia di volte
+  max: 5, // Evita invii ripetuti e abuso del servizio SMTP
   validate: { xForwardedForHeader: false }, // Disattiva il blocco rigido su trust proxy per Cloud Run
   message: {
     error:
@@ -47,8 +47,20 @@ const apiLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: process.env.NODE_ENV === "production" ? 5 : 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Troppe richieste. Riprova più tardi.",
+  },
+});
+
 module.exports = {
   generalLimiter,
   loginLimiter,
   apiLimiter,
+  contactLimiter,
 };

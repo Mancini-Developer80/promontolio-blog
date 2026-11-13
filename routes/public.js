@@ -2,6 +2,31 @@ const express = require("express");
 const router = express.Router();
 const blogController = require("../controllers/blogController");
 const publicController = require("../controllers/publicController"); // Import completo per pulizia
+const { apiLimiter, contactLimiter } = require("../middleware/rateLimiter");
+
+function requireSameOrigin(req, res, next) {
+  const origin = req.get("origin");
+  if (!origin) {
+    return next();
+  }
+
+  try {
+    const requestOrigin = `${req.protocol}://${req.get("host")}`;
+    if (new URL(origin).origin !== requestOrigin) {
+      return res.status(403).json({
+        success: false,
+        message: "Richiesta non autorizzata.",
+      });
+    }
+  } catch (error) {
+    return res.status(403).json({
+      success: false,
+      message: "Richiesta non autorizzata.",
+    });
+  }
+
+  next();
+}
 
 const {
   getHome,
@@ -28,8 +53,15 @@ router.get("/impressum", getImpressum);
 router.get("/datenschutz", getDatenschutz);
 
 // --- FORMS & NEWSLETTER ---
-router.post("/subscribe", postSubscribe);
-router.post("/contact", handleContactForm);
+router.post("/subscribe", requireSameOrigin, apiLimiter, postSubscribe);
+router.get("/subscribe/confirm/:token", publicController.confirmSubscription);
+router.get("/subscribe/unsubscribe/:token", publicController.unsubscribe);
+router.post(
+  "/contact",
+  requireSameOrigin,
+  contactLimiter,
+  handleContactForm,
+);
 
 // --- STRIPE CHECKOUT ---
 // Questa è la rotta chiamata dal fetch nel tuo cart.js

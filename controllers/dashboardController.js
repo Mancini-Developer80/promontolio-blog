@@ -20,6 +20,9 @@ exports.viewDashboard = async (req, res) => {
       recentSubscribersCount,
       recentPosts,
       recentSubscribersList,
+      recentContactMessages,
+      leadStatusCounts,
+      leadSourceCounts,
       topPosts,
       totalViewsData,
     ] = await Promise.all([
@@ -35,7 +38,26 @@ exports.viewDashboard = async (req, res) => {
       prisma.lead.findMany({
         take: 5,
         orderBy: { createdAt: "desc" },
-        select: { email: true, createdAt: true },
+        select: { email: true, createdAt: true, status: true, source: true },
+      }),
+      prisma.contactMessage.findMany({
+        take: 10,
+        orderBy: { createdAt: "desc" },
+        select: {
+          name: true,
+          email: true,
+          status: true,
+          createdAt: true,
+        },
+      }),
+      prisma.lead.groupBy({
+        by: ["status"],
+        _count: { _all: true },
+      }),
+      prisma.lead.groupBy({
+        by: ["source"],
+        _count: { _all: true },
+        orderBy: { _count: { source: "desc" } },
       }),
       prisma.article.findMany({
         take: 10,
@@ -96,6 +118,9 @@ exports.viewDashboard = async (req, res) => {
         recentSubscribers: recentSubscribersCount,
         recentPosts,
         recentSubscribersList,
+        recentContactMessages,
+        leadStatusCounts,
+        leadSourceCounts,
       },
       analytics: {
         postsPerMonth,

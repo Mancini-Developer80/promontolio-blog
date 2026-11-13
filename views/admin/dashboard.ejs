@@ -20,7 +20,8 @@
                     <span class="stat-number"><%= (stats && stats.totalPosts) || 0 %></span>
                     <span class="stat-label">Total Blog Posts</span>
                 </div>
-            </div>
+
+                    </div>
 
             <div class="admin-card">
                 <div class="card-content">
@@ -43,6 +44,36 @@
                 </div>
             </div>
         </div>
+
+        <section class="admin-section">
+            <h2 class="section-title">📬 Lead e consenso</h2>
+            <div class="admin-card">
+                <% if (stats && stats.recentSubscribersList && stats.recentSubscribersList.length > 0) { %>
+                    <ul>
+                        <% stats.recentSubscribersList.forEach((lead) => { %>
+                            <li><%= lead.email %> — <%= lead.status %> — <%= lead.source %></li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p class="no-data">Nessun lead disponibile.</p>
+                <% } %>
+            </div>
+        </section>
+
+        <section class="admin-section">
+            <h2 class="section-title">✉️ Messaggi contatto</h2>
+            <div class="admin-card">
+                <% if (stats && stats.recentContactMessages && stats.recentContactMessages.length > 0) { %>
+                    <ul>
+                        <% stats.recentContactMessages.forEach((contact) => { %>
+                            <li><%= contact.name %> — <%= contact.email %> — <%= contact.status %></li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p class="no-data">Nessun messaggio contatto disponibile.</p>
+                <% } %>
+            </div>
+        </section>
 
         <section class="analytics-grid">
             <div class="chart-box">

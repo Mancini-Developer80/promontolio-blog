@@ -41,6 +41,12 @@ enum LeadStatus {
   UNSUBSCRIBED
 }
 
+enum ContactMessageStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
 enum MediaCategory {
   IMAGE
   DOCUMENT
@@ -139,13 +145,36 @@ model Media {
 }
 
 model Lead {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  status    LeadStatus @default(PENDING)
-  consent   Boolean    @default(false)
-  source    String     @default("PDF_Guide_Organic_Oil")
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id                       Int        @id @default(autoincrement())
+  email                    String     @unique
+  status                   LeadStatus @default(PENDING)
+  consent                  Boolean    @default(false)
+  consentAt                DateTime?
+  locale                   String     @default("de") @db.VarChar(5)
+  source                   String     @default("PDF_Guide_Organic_Oil")
+  confirmationTokenHash    String?    @unique
+  confirmationTokenExpires DateTime?
+  unsubscribeTokenHash     String?    @unique
+  confirmedAt              DateTime?
+  lastEmailSentAt          DateTime?
+  emailSendAttempts        Int        @default(0)
+  emailLastError           String?    @db.VarChar(500)
+  createdAt                DateTime   @default(now())
+  updatedAt                DateTime   @updatedAt
+}
+
+model ContactMessage {
+  id              Int                   @id @default(autoincrement())
+  name            String                @db.VarChar(100)
+  email           String                @db.VarChar(254)
+  message         String                @db.Text
+  status          ContactMessageStatus  @default(PENDING)
+  deliveryError   String?               @db.VarChar(500)
+  deliveredAt     DateTime?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@index([status, createdAt])
 }
 
 model Subscriber {

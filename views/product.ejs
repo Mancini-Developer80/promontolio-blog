@@ -103,8 +103,23 @@
           <span class="guide-badge"><%= guide.badge || '' %></span>
           <h2><%= guide.title || '' %></h2>
           <p><%= guide.text || '' %></p>
-          <form class="guide-form">
-            <input type="email" placeholder="<%= guide.emailPlaceholder || '' %>" required />
+          <form class="guide-form" action="/subscribe" method="POST">
+            <input type="hidden" name="source" value="product_quality_focus" />
+            <input
+              type="email"
+              name="email"
+              placeholder="<%= guide.emailPlaceholder || '' %>"
+              autocomplete="email"
+              required
+            />
+            <label class="guide-consent">
+              <input type="checkbox" name="consent" value="true" required />
+              <span><%= guide.consent || '' %> <a href="/datenschutz"><%= guide.privacyLink || '' %></a></span>
+            </label>
+            <div class="form-honeypot" aria-hidden="true">
+              <label for="website-product">Website</label>
+              <input type="text" id="website-product" name="website" tabindex="-1" autocomplete="off" />
+            </div>
             <button type="submit" class="btn-main"><%= guide.button || 'GUIDE HERUNTERLADEN' %></button>
             <p class="privacy-note"><%= guide.privacy || '' %></p>
           </form>
