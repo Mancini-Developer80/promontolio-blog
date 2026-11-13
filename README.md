@@ -1,49 +1,210 @@
-# Promontolio: Full-Stack Blog CMS
+# Promontolio
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white)
+## Full-Stack CMS and cloud-native platform on Google Cloud
 
-**Promontolio** is a bespoke, full-stack Content Management System (CMS) developed for an Italian artisanal brand. Built with the **MVC (Model-View-Controller)** architecture, it provides a secure, role-based environment for managing high-fidelity blog content and media assets.
+Promontolio is a full-stack editorial and commerce platform for an Italian
+artisan brand. The project combines a content management system, an
+administrative dashboard, bilingual Italian/German content, lead capture,
+newsletter and guide delivery, contact forms, checkout, and media management.
 
-## Key Features
+The repository also demonstrates application architecture and cloud
+engineering practices: the Node.js application is containerized with Docker,
+published to Artifact Registry, and deployed to Cloud Run through Terraform and
+GitHub Actions.
 
-* **Role-Based Access Control (RBAC):** Secure authentication and authorization via **Passport.js**, distinguishing between Super-Admins, Content Creators, and public users.
-* **Media Management Pipeline:** Integrated **Multer** and **Cloudinary** API for automated image uploading, optimization, and CDN delivery.
-* **Custom Admin Dashboard:** A centralized UI for managing posts, categories, user roles, and comment moderation.
-* **SEO-Optimized Architecture:** Semantic HTML, clean URL slugs, and dynamic meta-tag injection for maximum search engine visibility.
-* **Responsive Styling:** A custom-built UI using **Sass (SCSS)** and EJS, ensuring a premium brand experience across all devices.
+## Highlights
 
----
+### Cloud Architecture and DevOps
 
-## Tech Stack
+- **Google Cloud Run** for serverless execution of the Node.js container.
+- **Artifact Registry** as the private Docker image registry.
+- **Terraform** for declarative provisioning of GCP APIs, Artifact Registry,
+  Cloud Run, and Workload Identity Federation.
+- **GitHub Actions CI/CD** with OIDC authentication to Google Cloud, avoiding
+  static service-account keys in the repository.
+- A delivery pipeline covering tests, Prisma client generation, database
+  migrations, Docker image build/push, and Cloud Run deployment.
+- Separate GitHub `staging` and `production` environments.
+- Application configuration and secrets supplied through environment variables
+  and Secret Manager during deployment.
 
-| Layer | Technology |
+### Full-Stack Development
+
+- MVC backend built with **Node.js**, **Express 5**, and domain-focused
+  controllers.
+- Server-side rendering with **EJS**, Italian/German localization, and
+  canonical and alternate SEO URLs.
+- Responsive frontend built with **Sass/SCSS**, vanilla JavaScript, and
+  progressive enhancement: forms also work without JavaScript.
+- Administrative CMS for articles, media, users, roles, and statistics.
+- Passport.js authentication, PostgreSQL-backed sessions, and RBAC for
+  `AUTHOR`, `EDITOR`, `ADMIN`, and `SUPER` roles.
+- Contact form with server-side validation, privacy consent, honeypot,
+  rate limiting, message persistence, and email delivery status.
+- Double Opt-In lifecycle for the newsletter and guide:
+  `PENDING`, `CONFIRMED`, `UNSUBSCRIBED`, hashed random tokens, and consent
+  withdrawal.
+- SMTP integration with Nodemailer, bilingual emails, PDF attachments, and
+  `replyTo` support for direct replies to form senders.
+- Stripe checkout and media processing with Multer, Sharp, and Cloudinary.
+
+## Application Architecture
+
+```text
+Browser
+   |
+   v
+Cloud Run
+   |
+   +-- Express / Passport / EJS
+   +-- Prisma Client
+   +-- Nodemailer / Stripe / Cloudinary
+   |
+   v
+PostgreSQL
+```
+
+The codebase follows an MVC architecture:
+
+- `routes/`: public, authentication, and administrative routing;
+- `controllers/`: application logic and use-case orchestration;
+- `services/`: external integrations, especially email;
+- `middleware/`: authentication, authorization, security, and rate limiting;
+- `views/`: server-rendered EJS templates;
+- `public/` and `sass/`: frontend assets and styles;
+- `prisma/`: PostgreSQL schema, client, and migrations;
+- `terraform/`: infrastructure as code for GCP;
+- `.github/workflows/`: CI/CD automation.
+
+## Technology Stack
+
+| Area | Technology |
 | :--- | :--- |
-| **Backend** | Node.js, Express.js |
-| **Frontend** | EJS (Embedded JavaScript), Sass |
-| **Database** | MongoDB Atlas |
-| **Authentication** | Passport.js (Local Strategy) |
-| **Media Storage** | Cloudinary (CDN) |
-| **Hosting** | Railway |
+| Runtime | Node.js 20 |
+| Backend | Express 5 |
+| Frontend | EJS, vanilla JavaScript, Sass/SCSS |
+| Database | PostgreSQL 16 |
+| ORM and migrations | Prisma |
+| Sessions | Express Session + Prisma Session Store |
+| Authentication | Passport.js, Passport Local |
+| Security | Helmet, CORS, rate limiting, input validation |
+| Email | Nodemailer with Gmail SMTP |
+| Payments | Stripe |
+| Media | Multer, Sharp, Cloudinary |
+| Containers | Docker, Docker Compose |
+| Cloud runtime | Google Cloud Run |
+| Container registry | Google Artifact Registry |
+| Infrastructure as code | Terraform |
+| CI/CD | GitHub Actions + Workload Identity Federation |
 
----
+## GCP Infrastructure
 
-## Architecture
+The configuration in `terraform/` defines:
 
-The project follows a strict **MVC pattern** to ensure scalability:
-- **Models:** Define the data schema for Users, Posts, and Comments using Mongoose.
-- **Views:** Server-rendered EJS templates styled with modular SCSS.
-- **Controllers:** Business logic handling authentication, media processing, and CRUD operations.
+- the Google Cloud provider in the `europe-west3` region;
+- the required Google Cloud APIs;
+- a Docker repository in Artifact Registry;
+- a GitHub OIDC Workload Identity Pool and provider;
+- IAM bindings that enable keyless deployment;
+- a Cloud Run service with CPU and memory limits and a versioned image;
+- an output exposing the public service URL.
 
----
+The release flow is:
 
-## Enginnering Highlights
+```text
+git push (staging/main)
+        |
+        v
+GitHub Actions
+  - npm ci
+  - prisma generate
+  - prisma migrate deploy
+  - npm test
+  - docker build
+  - docker push -> Artifact Registry
+  - deploy -> Cloud Run
+```
 
-### Secure File Handling
-To prevent server bloat, images are never stored locally. They are intercepted by Multer, uploaded directly to Cloudinary, and only the resulting secure URL is stored in the MongoDB document.
+## Docker and Local Development
 
-### Production Security
-The app utilizes express-session for persistent login states and implements security middleware to protect against common vulnerabilities like CSRF and NoSQL injection.
+The `Dockerfile` uses a multi-stage build:
 
+1. install dependencies;
+2. generate the Prisma client;
+3. remove development dependencies;
+4. run a lightweight Node.js production image.
+
+Start PostgreSQL locally with:
+
+```bash
+npm run docker:up
+```
+
+Install dependencies, apply migrations, and create the initial superuser with:
+
+```bash
+npm run setup
+```
+
+Run the development server and Sass watcher with:
+
+```bash
+npm run dev
+npm run watch:sass
+```
+
+## Configuration
+
+Copy `.env.example` to `.env` and provide the required values. Production
+secrets must never be committed to the repository: the deployment pipeline
+loads sensitive values from Google Secret Manager.
+
+Important variables include:
+
+- `DATABASE_URL`: PostgreSQL connection string;
+- `SESSION_SECRET`: long, randomly generated session secret;
+- `APP_URL`: public application URL;
+- `STRIPE_SECRET_KEY`: private Stripe key;
+- `EMAIL_USER` and `EMAIL_PASS`: SMTP credentials or an app password;
+- Cloudinary credentials for media management;
+- initial superuser credentials for bootstrap only.
+
+## Quality, Security, and Reliability
+
+- Client-side and server-side validation.
+- HTML escaping in emails to prevent injection through interpolated content.
+- Security headers provided by Helmet.
+- Global, API, and contact-form rate limiting.
+- Same-origin checks for form requests.
+- `httpOnly` session cookies with `secure` enabled in production and
+  PostgreSQL-backed session storage.
+- Versioned migrations applied through `prisma migrate deploy`.
+- Automated tests covering localization, links, HTTP smoke checks, validation,
+  contact forms, and public controllers.
+- Persistent lead and contact-message records even when email delivery fails.
+
+## Tests and Useful Commands
+
+```bash
+npm test
+npm run build
+npx prisma validate
+npx prisma migrate status
+terraform -chdir=terraform init
+terraform -chdir=terraform fmt -check
+terraform -chdir=terraform validate
+```
+
+## Architectural Notes
+
+- PostgreSQL and Prisma represent the current application data path. Some
+  legacy Mongoose models are still present and should only be removed after
+  compatibility with any external process has been verified.
+- Cloud Run is stateless: persistent application state must remain in
+  PostgreSQL or external services, not in the container filesystem.
+- Before a production release, verify database backups, SPF/DKIM/DMARC for the
+  email domain, IAM policies, and secret-management configuration.
+
+## License
+
+ISC
