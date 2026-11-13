@@ -46,6 +46,7 @@ exports.viewDashboard = async (req, res) => {
         select: {
           name: true,
           email: true,
+          message: true,
           status: true,
           createdAt: true,
         },

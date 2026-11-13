@@ -39,14 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        feedback.textContent = result.message || "";
-        feedback.className = "form-feedback success"; // Sovrascrive e aggiunge success
-        feedback.style.display = "block"; // FORZA il display
-        contactForm.reset();
+        window.location.assign("/contact?contact=success");
       } else {
         feedback.textContent = result.message || "";
-        feedback.className = "form-feedback error"; // Sovrascrive e aggiunge error
-        feedback.style.display = "block"; // FORZA il display
+        feedback.className = "form-feedback error";
+        feedback.style.display = "block";
       }
     } catch (error) {
       feedback.textContent =
