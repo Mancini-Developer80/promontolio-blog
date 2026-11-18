@@ -165,7 +165,11 @@ Important variables include:
 - `SESSION_SECRET`: long, randomly generated session secret;
 - `APP_URL`: public application URL;
 - `STRIPE_SECRET_KEY`: private Stripe key;
-- `EMAIL_USER` and `EMAIL_PASS`: SMTP credentials or an app password;
+- `EMAIL_USER` and `EMAIL_PASS`: SMTP username and password (or app password);
+- `SMTP_HOST`, `SMTP_PORT`, and `SMTP_SECURE`: SMTP server settings for the
+  mailbox provider. Use `smtp.gmail.com`, port `587`, and `false` for Gmail
+  with an app password; use the values supplied by the domain email provider
+  for a regular hosted mailbox;
 - Cloudinary credentials for media management;
 - initial superuser credentials for bootstrap only.
 

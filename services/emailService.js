@@ -82,9 +82,21 @@ function assertEmailConfiguration() {
   }
 }
 
-// 1. Configurazione unica del trasportatore
+const smtpPort = Number(process.env.SMTP_PORT || 587);
+if (!Number.isInteger(smtpPort) || smtpPort < 1 || smtpPort > 65535) {
+  throw new Error("SMTP_PORT must be a valid TCP port.");
+}
+
+const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
+const smtpSecure =
+  process.env.SMTP_SECURE === "true" || smtpPort === 465;
+
+// Configurazione unica del trasportatore, compatibile con Gmail e con gli
+// SMTP dei provider di posta del dominio.
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: smtpHost,
+  port: smtpPort,
+  secure: smtpSecure,
   connectionTimeout: 10000,
   greetingTimeout: 10000,
   socketTimeout: 15000,

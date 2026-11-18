@@ -94,6 +94,9 @@ jobs:
           env_vars: |
             NODE_ENV=production
             APP_URL=${{ vars.APP_URL }}
+            SMTP_HOST=${{ vars.SMTP_HOST }}
+            SMTP_PORT=${{ vars.SMTP_PORT }}
+            SMTP_SECURE=${{ vars.SMTP_SECURE }}
           secrets: |
             DATABASE_URL=promontolio-database-url:latest
             SESSION_SECRET=promontolio-session-secret:latest
